@@ -1,13 +1,9 @@
-import Hero from "@/components/sections/Hero"
 
 type Props = {}
 
 const page = (props: Props) => {
   return (
-    <main>
-      <Hero />
-    </main>
-
+    <div>Produit Unique</div>
   )
 }
 
