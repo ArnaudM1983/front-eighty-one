@@ -5,20 +5,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Search, ShoppingBag } from "lucide-react";
-
 import Dropdown from "../ui/Dropdown";
 import MobileMenu from "../ui/MobileMenu";
 import SearchBarOverlay from "../ui/SearchBarOverlay";
+import CartDrawer from "../cart/CartDrawer";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
   const pathname = usePathname();
   const isHome = pathname === "/";
-
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-
+  const [cartOpen, setCartOpen] = useState(false);
   const burgerColor = isHome ? "bg-white" : "bg-black";
 
   return (
@@ -102,7 +101,11 @@ const Navbar = (props: Props) => {
             </button>
 
             {/* Panier */}
-            <button aria-label="Panier" className="hover:opacity-70 relative">
+            <button
+              aria-label="Panier"
+              className="hover:opacity-70 relative"
+              onClick={() => setCartOpen(true)} 
+            >
               <ShoppingBag className="w-7 h-7 cursor-pointer" strokeWidth={1} />
               <span className="absolute -top-2 -right-2 bg-(--primary) text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 0
@@ -125,6 +128,11 @@ const Navbar = (props: Props) => {
 
       {/* Search bar intégrée avec flou derrière */}
       <SearchBarOverlay isOpen={searchOpen} isHome={isHome} />
+
+      {/* CartDrawer */}
+      <CartDrawer isOpen={cartOpen} close={() => setCartOpen(false)}>
+        {/* Liste des items du panier */}
+      </CartDrawer>
 
       {/* Mobile Menu */}
       <MobileMenu
