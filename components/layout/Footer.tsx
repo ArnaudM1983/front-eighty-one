@@ -1,3 +1,6 @@
+import { Instagram } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 
 type Props = {}
 
@@ -9,129 +12,125 @@ const Footer = (props: Props) => {
           {/* Logo et description */}
           <div>
             <div className="text-teal-600">
-              <svg
-                className="h-8"
-                viewBox="0 0 118 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Colle ici ton path SVG complet */}
-              </svg>
+              <Link href="/">
+                <Image
+                  src="/logo-81.png"
+                  alt="Logo"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+              </Link>
             </div>
 
-            <p className="mt-4 max-w-xs text-gray-500">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse
-              non cupiditate quae nam molestias.
-            </p>
+            <Link href="https://www.instagram.com/81store/?hl=fr" target="blank">
+              <div className="mt-4">
+                <Instagram className="h-6 w-6 hover:text-(--primary)" strokeWidth={1} />
+              </div>
+            </Link>
 
-            {/* Réseaux sociaux */}
-            <ul className="mt-8 flex gap-6">
-              <li>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Facebook</span>
-                  {/* Facebook SVG */}
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Instagram</span>
-                  {/* Instagram SVG */}
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Twitter</span>
-                  {/* Twitter SVG */}
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">GitHub</span>
-                  {/* GitHub SVG */}
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gray-700 transition hover:opacity-75"
-                >
-                  <span className="sr-only">Dribbble</span>
-                  {/* Dribbble SVG */}
-                </a>
-              </li>
-            </ul>
           </div>
 
-          {/* Sections statiques du footer */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
+          {/* Sections */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-2 lg:grid-cols-5">
             <div>
-              <p className="font-medium text-gray-900">Services</p>
+              <a href="/bombes-de-peinture">
+                <p className="font-medium text-gray-900">Bombes de peinture</p>
+              </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">1on1 Coaching</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Company Review</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Accounts Review</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">HR Consulting</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">SEO Optimisation</a></li>
+                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Classiques</a></li>
+                <li><a href="/bombes-de-peinture/acryliques" className="text-gray-700 transition hover:opacity-75">Acryliques</a></li>
+                <li><a href="/bombes-de-peinture/techniques" className="text-gray-700 transition hover:opacity-75">Techniques</a></li>
+                <li><a href="/bombes-de-peinture/effets" className="text-gray-700 transition hover:opacity-75">Effets</a></li>
+                <li><a href="/bombes-de-peinture/caps" className="text-gray-700 transition hover:opacity-75">Caps</a></li>
               </ul>
             </div>
 
             <div>
-              <p className="font-medium text-gray-900">Company</p>
+              <a href="/bombes-de-peinture">
+                <p className="font-medium text-gray-900">Marqueurs & encres</p>
+              </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">About</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Meet the Team</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Accounts Review</a></li>
+                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Encres</a></li>
+                <li><a href="/bombes-de-peinture/techniques" className="text-gray-700 transition hover:opacity-75">Marqueurs</a></li>
+                <li><a href="/bombes-de-peinture/techniques" className="text-gray-700 transition hover:opacity-75">Squeezers</a></li>
+                <li><a href="/bombes-de-peinture/acryliques" className="text-gray-700 transition hover:opacity-75">Marqueurs & Squeezers vides</a></li>
+                <li><a href="/bombes-de-peinture/effets" className="text-gray-700 transition hover:opacity-75">Mines de rechange</a></li>
+                <li><a href="/bombes-de-peinture/caps" className="text-gray-700 transition hover:opacity-75">Posca & Uni Paint</a></li>
               </ul>
             </div>
 
             <div>
-              <p className="font-medium text-gray-900">Helpful Links</p>
+              <a href="/bombes-de-peinture">
+                <p className="font-medium text-gray-900">Accessoires & équipements</p>
+              </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Contact</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">FAQs</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Live Chat</a></li>
+                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Protections & équipements</a></li>
+                <li><a href="/bombes-de-peinture/acryliques" className="text-gray-700 transition hover:opacity-75">Stickers & books</a></li>
               </ul>
             </div>
 
             <div>
-              <p className="font-medium text-gray-900">Legal</p>
+              <a href="/bombes-de-peinture">
+                <p className="font-medium text-gray-900">Urban wear</p>
+              </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Accessibility</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Returns Policy</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Refund Policy</a></li>
-                <li><a href="#" className="text-gray-700 transition hover:opacity-75">Hiring-3 Statistics</a></li>
+                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Eighty One</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <a href="/bombes-de-peinture">
+                <p className="font-medium text-gray-900">Eighty One Store</p>
+              </a>
+              <ul className="mt-6 space-y-4 text-sm">
+                <li>
+                  <a
+                    href="https://www.google.com/maps?q=21+Rue+des+Capucins+69001+LYON"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-gray-700 hover:opacity-75 transition"
+                  >
+                    21 Rue des Capucins, 69001 LYON
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="tel:+33478911852"
+                    className="text-gray-700 hover:opacity-75 transition"
+                  >
+                    04 78 91 18 52
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:eightyone@hotmail.fr"
+                    className="text-gray-700 hover:opacity-75 transition"
+                  >
+                    eightyone@hotmail.fr
+                  </a>
+                </li>
+                <li className="text-gray-700">
+                  Lundi : 14h-19h
+                  <br />
+                  Mardi au Samedi : 11h-19h non stop
+                </li>
               </ul>
             </div>
           </div>
         </div>
 
-        <p className="text-xs text-gray-500">© 2022. Company Name. All rights reserved.</p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+          <div>
+            <p className="text-xs text-gray-500">Copyright © 2025. Eightyone Store</p>
+          </div>
+          <div>
+            <a href="" className="text-xs text-gray-500 hover:text-black">Mentions légales -</a>
+            <a href="" className="text-xs text-gray-500 hover:text-black"> CGV -</a>
+            <a href="" className="text-xs text-gray-500 hover:text-black"> Politiques de confidentialité</a>
+          </div>
+        </div>
+
       </div>
     </footer>
   )

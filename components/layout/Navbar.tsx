@@ -65,7 +65,7 @@ const Navbar = (props: Props) => {
               { label: "Encres", href: "/marqueurs-encres/encres" },
               { label: "Marqueurs", href: "/marqueurs-encres/marqueurs" },
               { label: "Squeezers", href: "/marqueurs-encres/squeezers" },
-              { label: "Vides", href: "/marqueurs-encres/marqueurs-squeezers-vides" },
+              { label: "Marqueurs & squeezers vides", href: "/marqueurs-encres/marqueurs-squeezers-vides" },
               { label: "Mines de rechange", href: "/marqueurs-encres/mines-de-rechange" },
               { label: "Posca & Uni Paint", href: "/marqueurs-encres/posca-uni-paint" },
             ]}
