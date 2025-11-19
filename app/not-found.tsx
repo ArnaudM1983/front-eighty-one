@@ -1,5 +1,6 @@
 "use client";
 
+import ButtonLink from "@/components/ui/ButtonLink";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -7,9 +8,9 @@ export default function NotFound() {
     <div className="flex flex-col items-center justify-center h-screen text-center">
       <h1 className="text-6xl font-bold mb-4">404</h1>
       <p className="text-xl mb-6">Oups ! Cette page n'existe pas.</p>
-      <Link href="/" className="text-blue-600 underline">
+      <ButtonLink href="/">
         Retour à l’accueil
-      </Link>
+      </ButtonLink>
     </div>
   );
 }
