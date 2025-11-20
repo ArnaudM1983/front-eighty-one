@@ -1,5 +1,6 @@
 import BestSellers from "@/components/sections/BestSellers"
 import { Categories } from "@/components/sections/Categories"
+import GoogleReviews from "@/components/sections/GoogleReviews"
 import Hero from "@/components/sections/Hero"
 import InstagramFeed from "@/components/sections/InstagramFeed"
 
@@ -12,6 +13,7 @@ const page = (props: Props) => {
       <Categories />
       <BestSellers />
       <InstagramFeed />
+      <GoogleReviews />
     </main>
 
   )

@@ -60,7 +60,7 @@ export default function InstagramFeed() {
   return (
     <section className="px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <h4 className="text-xl font-semibold mb-12">Suivez-nous sur Instagram</h4>
+        <h2 className="text-xl font-semibold mb-12">Suivez-nous sur Instagram</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {posts.map((post) => (
             <a

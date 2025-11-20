@@ -1,4 +1,10 @@
 import ProductCard from "../product/ProductCard";
+import SliderWrapper from "../ui/SliderWrapper";
+import { EmblaOptionsType } from 'embla-carousel'
+
+const OPTIONS: EmblaOptionsType = { containScroll: false }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 type Product = {
     id: number;
@@ -36,11 +42,15 @@ export default async function BestSellers() {
 
   return (
     <section className="px-4 py-16 bg-(--background-secondary)">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <h4>Nos Best-sellers</h4>
-        {featuredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-xl font-semibold mb-12">Nos Best-sellers</h2>
+        <SliderWrapper slidesToShow={4} autoplay={true}>
+          {featuredProducts.map((product) => (
+            <div key={product.id} className="px-2">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </SliderWrapper>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { CategoryCard } from "./CategoryCard"
+import { CategoryCard } from "../ui/CategoryCard"
 
 const categories = [
   { name: "Bombes de peinture", href: "/bombes-de-peinture", image: "/home-spray.webp" },
