@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className={`${roboto.variable} font-sans min-h-screen flex flex-col antialiased`}>
         <Navbar />
         <Main>{children}</Main>

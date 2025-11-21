@@ -12,7 +12,16 @@ type Product = {
 type Props = {
   product: Product;
 };
+
 export default function ProductCard({ product }: Props) {
+  const words = product.name.split(" ");
+  let brand = words[0];
+
+  // Cas particulier pour "Double A"
+  if (words[0] === "Double" && words[1]) {
+    brand = `${words[0]} ${words[1]}`;
+  }
+
   return (
     <Link href={`/produit/${product.slug}`}>
       <div className="h-112 block bg-white overflow-hidden shadow transition rounded-2xl">
@@ -24,11 +33,11 @@ export default function ProductCard({ product }: Props) {
           />
         </div>
         <div className="px-8 flex flex-col justify-between">
-          <h5>{product.name}</h5>
+          <p className="uppercase font-bold text-(--text-secondary)">{brand}</p>
+          <p className="text-(--text-secondary)">{product.name}</p>
           <p className="mt-2 font-bold text-xl">{product.price} €</p>
         </div>
       </div>
     </Link>
-
   );
 }

@@ -24,25 +24,24 @@ const Navbar = (props: Props) => {
     <header
       className={`
         fixed top-0 left-0 w-full z-50 transition-all duration-500
-        ${isHome ? "bg-black text-white" : "bg-white text-black shadow-sm"}
+        ${isHome ? "bg-black text-white" : "bg-white text-black"}
       `}
     >
       {/* Top banner */}
-      <div className="w-full h-5 flex items-center justify-center text-xs text-black font-medium bg-(--secondary)">
+      <div
+        role="status"
+        aria-live="polite"
+        className="w-full h-5 flex items-center justify-center text-xs font-medium bg-(--secondary) text-black"
+      >
         Disponible en Livraison et Click & Collect
       </div>
+
 
       {/* Navbar */}
       <div className="w-full px-6 lg:px-16 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/">
-          <Image
-            src="/logo-81.png"
-            alt="Logo"
-            width={30}
-            height={30}
-            className="object-contain"
-          />
+        <Link href="/" aria-label="Retour à la page d'accueil - Eightyone Store">
+          <Image src="/logo-81.png" alt="Logo Eightyone Store" width={30} height={30} className="object-contain" />
         </Link>
 
         {/* Menu Desktop */}
@@ -93,7 +92,7 @@ const Navbar = (props: Props) => {
           <div className="flex items-center gap-4">
             {/* Recherche */}
             <button
-              aria-label="Recherche"
+              aria-label="Rechercher"
               className="hover:opacity-70"
               onClick={() => setSearchOpen(!searchOpen)}
             >
@@ -102,9 +101,9 @@ const Navbar = (props: Props) => {
 
             {/* Panier */}
             <button
-              aria-label="Panier"
+              aria-label="Ouvrir le panier"
               className="hover:opacity-70 relative"
-              onClick={() => setCartOpen(true)} 
+              onClick={() => setCartOpen(true)}
             >
               <ShoppingBag className="w-7 h-7 cursor-pointer" strokeWidth={1} />
               <span className="absolute -top-2 -right-2 bg-(--primary) text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
@@ -118,6 +117,8 @@ const Navbar = (props: Props) => {
             className="lg:hidden relative w-10 h-10 focus:outline-none z-50 flex items-center justify-center"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             <span className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-transform duration-300 ease-in-out ${isOpen ? "rotate-45" : "translate-y-[-6px]"}`}></span>
             <span className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-0" : ""}`}></span>

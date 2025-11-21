@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ButtonLink from "../ui/ButtonLink";
 
 type InstagramPost = {
   id: string;
@@ -80,6 +81,16 @@ export default function InstagramFeed() {
               )}
             </a>
           ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <ButtonLink
+            href="https://www.instagram.com/81store/?hl=fr"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Suivre sur Instagram
+          </ButtonLink>
         </div>
       </div>
     </section>

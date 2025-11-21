@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Accueil - Eightyone Store",
+  description:
+    "Découvrez notre matériel de graffiti, bombes, marqueurs, et fournitures d’art à Lyon.",
+};
+
 import BestSellers from "@/components/sections/BestSellers"
 import { Categories } from "@/components/sections/Categories"
 import GoogleReviews from "@/components/sections/GoogleReviews"
@@ -15,7 +23,6 @@ const page = (props: Props) => {
       <InstagramFeed />
       <GoogleReviews />
     </main>
-
   )
 }
 
