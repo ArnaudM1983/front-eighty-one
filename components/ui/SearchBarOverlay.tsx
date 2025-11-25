@@ -10,6 +10,7 @@ type Product = {
   name: string;
   slug: string;
   price: string;
+  main_image: string;
 };
 
 type Props = {
@@ -98,8 +99,7 @@ export default function SearchBarOverlay({ isOpen, isHome, onClose }: Props) {
         className="absolute left-0 top-full w-full h-[calc(100vh-5rem)] backdrop-blur-sm bg-black/20 z-10"
         style={{ pointerEvents: "none" }}
       />
-
-      {/* 🔥 ref posée sur le container */}
+      
       <div ref={overlayRef} className="relative z-20 px-6 lg:px-16 py-4">
 
         {/* Champ de recherche */}
@@ -148,21 +148,21 @@ export default function SearchBarOverlay({ isOpen, isHome, onClose }: Props) {
                 onClick={onClose}
               >
                 <Link href={`/produit/${product.slug}`} className="flex-1 flex items-center gap-3">
-          {/* Image produit */}
-          {product.main_image && (
-            <img
-              src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${product.main_image}`}
-              alt={product.name}
-              className="w-12 h-12 object-cover rounded"
-            />
-          )}
+                  {/* Image produit */}
+                  {product.main_image && (
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${product.main_image}`}
+                      alt={product.name}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                  )}
 
-          {/* Nom et prix */}
-          <div className="flex justify-between flex-1">
-            <span>{product.name}</span>
-            <span className="font-semibold">{product.price} €</span>
-          </div>
-        </Link>
+                  {/* Nom et prix */}
+                  <div className="flex justify-between flex-1">
+                    <span>{product.name}</span>
+                    <span className="font-semibold">{product.price} €</span>
+                  </div>
+                </Link>
               </li>
             ))}
 

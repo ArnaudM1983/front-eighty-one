@@ -57,7 +57,7 @@ function MobileMenuItem({
 }) {
     const [open, setOpen] = useState(false);
 
-    // 🔹 Lien simple
+    // Lien simple
     if (!items) {
         return (
             <Link
