@@ -3,12 +3,12 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "acryliques" category.
+ * Fetch products from the Symfony API for the "squeezers" category.
  * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/acryliques`,
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/squeezers`,
         {
             method: "GET",
             cache: "no-store",
@@ -24,15 +24,15 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Acryliques - Eightyone Store",
-    description: "Découvrez notre large sélection de bombes de peinture acryliques"
+    title: "Squeezers - Eightyone Store",
+    description: "Découvrez notre large sélection de squeezers"
 };
 
-export default async function Acryliques() {
+export default async function Squeezers() {
     const crumbs = [
         { label: "Accueil", href: "/" },
-        { label: "Bombes de peinture", href: "/bombes-de-peinture" },
-        { label: "Les acryliques" }
+        { label: "Marqueurs & encres", href: "/marqueurs-encres" },
+        { label: "Les squeezers" }
     ];
 
     // Fetch products from the API before rendering
@@ -45,13 +45,13 @@ export default async function Acryliques() {
             </div>
 
             <CategoryHero
-                title="Acryliques"
-                description="Bombes de peinture sans solvant et à base d’eau, les bombes de peinture acryliques sont idéales pour un usage intérieur ou ludique, du fait de son absence d’odeur. Sa couvrance et sa résistance sont équivalentes aux bombes de peinture classiques."
-                backgroundImage="/acryliques.webp"
+                title="Squeezers"
+                description="Cette sélection de marqueurs déjà remplis vous permettra de tracer, écrire ou dessiner sur tout types de surfaces, quels que soient vos besoins."
+                backgroundImage="/squeezers.webp"
                 scrollTargetId="productGrid"
             />
 
-            <ProductGrid products={products} title="Les Acryliques" />
+            <ProductGrid products={products} title="Les Squeezers" />
 
         </div>
     );

@@ -78,7 +78,7 @@ const Navbar = (props: Props) => {
             title="Accessoires & équipements"
             href="/accessoires-equipements"
             items={[
-              { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipement" },
+              { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
               { label: "Stickers & Books", href: "/accessoires-equipements/stickers-books" },
             ]}
           />
@@ -128,7 +128,12 @@ const Navbar = (props: Props) => {
       </div>
 
       {/* Search bar intégrée avec flou derrière */}
-      <SearchBarOverlay isOpen={searchOpen} isHome={isHome} />
+      <SearchBarOverlay
+        isOpen={searchOpen}
+        isHome={isHome}
+        onClose={() => setSearchOpen(false)}
+      />
+
 
       {/* CartDrawer */}
       <CartDrawer isOpen={cartOpen} close={() => setCartOpen(false)}>
@@ -169,7 +174,7 @@ const Navbar = (props: Props) => {
           {
             title: "Accessoires & équipements",
             items: [
-              { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipement" },
+              { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
               { label: "Stickers & Books", href: "/accessoires-equipements/stickers-books" },
             ],
           },
