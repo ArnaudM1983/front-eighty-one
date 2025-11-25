@@ -80,5 +80,9 @@ h5 {
   color: var(--text-secondary);
 }
 
+.focus-primary:focus {
+  --tw-ring-color: var(--primary);
+}
+
 
 

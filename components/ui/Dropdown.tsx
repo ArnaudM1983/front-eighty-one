@@ -28,15 +28,18 @@ export default function Dropdown({ title, href, items }: Props) {
                 {title} <ChevronDown className="w-3 h-3" />
             </Link>
 
-            {/* Dropdown background */}
-            <div className={`
-                absolute left-0 top-full mt-0 w-48 pt-4
-                opacity-0 invisible -translate-y-2.5
-                group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                transition-all duration-300 ease-out
-                ${isHome ? "bg-black text-white" : "bg-white text-black"}
-            `}>
-                {/* Dropdown items en effet accordéon */}
+            {/* Dropdown container */}
+            <div
+                className={`
+                    absolute left-0 top-full mt-0 w-48 pt-4
+                    opacity-0 invisible -translate-y-2.5
+                    group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                    transition-all duration-300 ease-out
+                    z-50                   /*  ⬅️ Le plus important */
+                    ${isHome ? "bg-black text-white" : "bg-white text-black"}
+                `}
+            >
+                {/* Dropdown items */}
                 {items.map((item, index) => (
                     <Link
                         key={item.href}
