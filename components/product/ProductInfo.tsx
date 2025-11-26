@@ -43,16 +43,19 @@ type Props = {
 const ProductInfo = ({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
 
-  // Récupération de la marque
+  // Récupération marque
   const words = product.name.split(" ");
-  let brand = words[0];
-  if (words[0] === "Double" && words[1]) {
-    brand = `${words[0]} ${words[1]}`;
-  }
+  const brand =
+    words[0] === "Double" && words[1]
+      ? `${words[0]} ${words[1]}`
+      : words[0];
 
   const handleAddToCart = () => {
     console.log(`Ajouter ${quantity} produit(s) au panier`);
   };
+
+  const isParentProduct = product.variants.length > 0;
+  const outOfStock = product.stock <= 0;
 
   return (
     <div className="flex flex-col gap-8">
@@ -63,15 +66,14 @@ const ProductInfo = ({ product }: Props) => {
         <p className="text-gray-600">{product.excerpt}</p>
       )}
 
-      <p className="text-4xl text-gray-800 font-bold">{product.price} €</p>
+      <p className="text-4xl text-gray-800 font-bold">
+        {product.price} €
+      </p>
 
-      {/* Quantité + bouton ou Voir le nuancier */}
+      {/* Quantité + Button */}
       <div className="flex items-center gap-4 mt-4">
-        {product.variants.length > 0 ? (
-          <ButtonLink
-            href="#colorchart" // ou action scroll vers ColorChart
-            className="w-full text-center"
-          >
+        {isParentProduct ? (
+          <ButtonLink href="#colorchart" className="w-full text-center">
             Voir le nuancier
           </ButtonLink>
         ) : (
@@ -81,13 +83,14 @@ const ProductInfo = ({ product }: Props) => {
               quantity={quantity}
               onChange={(qty) => setQuantity(qty)}
             />
-
-            <AddToCartButton
-              productId={product.id}
-              quantity={quantity}
-              stock={product.stock}
-              onAdd={handleAddToCart}
-            />
+            {!outOfStock && (
+              <AddToCartButton
+                productId={product.id}
+                quantity={quantity}
+                stock={product.stock}
+                onAdd={handleAddToCart}
+              />
+            )}
           </>
         )}
       </div>
