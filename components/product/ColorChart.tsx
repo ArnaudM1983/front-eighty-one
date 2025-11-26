@@ -73,9 +73,10 @@ const ColorChart = ({ variants }: Props) => {
 
             return (
               <div
-                key={variant.id}
-                className="col-span-12 md:col-span-1 flex flex-col items-center"
-              >
+  key={variant.id}
+  className="col-span-12 md:col-span-1 flex flex-col items-center justify-between h-40"
+>
+
                 {variant.image && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
