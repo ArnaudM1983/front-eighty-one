@@ -38,9 +38,10 @@ const ProductGallery = ({ mainImage, images, alt }: Props) => {
             key={img.id}
             src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${img.url}`}
             alt={img.alt ?? alt}
-            className={`w-20 h-20 object-cover rounded cursor-pointer border-2 ${
-              currentIndex === idx ? "border-blue-600" : "border-gray-300"
-            }`}
+            className={`w-20 h-20 object-cover rounded cursor-pointer border-2`}
+style={{
+  borderColor: currentIndex === idx ? "var(--primary)" : "var(--text-secondary)"
+}}
             onClick={() => setCurrentIndex(idx)}
           />
         ))}
