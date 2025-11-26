@@ -22,7 +22,7 @@ const QuantityStepper = ({ quantity = 1, stock, onChange }: Props) => {
     if (stock <= 0) {
         return (
             <div className="px-6 py-2 bg-red-400 text-white rounded-3xl text-md font-semibold">
-                Rupture de stock
+                Rupture temporaire
             </div>
         );
     }
