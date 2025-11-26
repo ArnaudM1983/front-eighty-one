@@ -74,7 +74,7 @@ export default async function ProductPage({ params }: Props) {
     crumbs.push({ label: product.name });
 
     return (
-        <div className="max-w-6xl mx-auto pt-8 px-6">
+        <div className="max-w-6xl mx-auto pt-8 pb-16 px-6">
 
             {/* Breadcrumb */}
             <Breadcrumbs crumbs={crumbs} />

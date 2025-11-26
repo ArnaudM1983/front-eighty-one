@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Search } from "lucide-react"; // Assure-toi d'avoir installé lucide-react
 
 type Props = {
     placeholder?: string;
@@ -17,13 +18,18 @@ export default function SearchBar({ placeholder = "Rechercher un produit...", on
     };
 
     return (
-        <div className="w-full max-w-md">
+        <div className="relative">
+            {/* Icône loupe */}
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                <Search size={24} />
+            </div>
+
             <input
                 type="text"
                 value={query}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus-primary"
+                className="w-full pl-12 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none caret-black text-md"
             />
         </div>
     );

@@ -19,14 +19,6 @@ const QuantityStepper = ({ quantity = 1, stock, onChange }: Props) => {
         }
     }, [stock, onChange]);
 
-    if (stock <= 0) {
-        return (
-            <div className="mt-2 px-2 py-1 bg-red-400 text-white text-center rounded-3xl text-xs font-semibold">
-                Rupture de stock
-            </div>
-        );
-    }
-
     const decrement = () => {
         const newQty = Math.max(1, currentQty - 1);
         setCurrentQty(newQty);
@@ -39,15 +31,37 @@ const QuantityStepper = ({ quantity = 1, stock, onChange }: Props) => {
         onChange?.(newQty);
     };
 
-    return (
-        <div className="flex items-center border rounded-3xl px-4 mt-2  border-gray-400 bg-white">
-            <button type="button" onClick={decrement} className="cursor-pointer text-sm">
+    // Style commun pour badge et stepper
+    const commonClasses =
+        "mt-2 rounded-3xl text-center text-sm font-medium flex items-center justify-center";
+    const height = "32px"; 
+    const minWidth = "76px"; 
+
+    return stock <= 0 ? (
+        <div
+            className={`${commonClasses} bg-red-400 text-white text-[10px] px-2`}
+            style={{ height, minWidth }}
+        >
+            Rupture de stock
+        </div>
+    ) : (
+        <div
+            className={`${commonClasses} border border-gray-400 bg-white`}
+            style={{ height, minWidth }}
+        >
+            <button
+                type="button"
+                onClick={decrement}
+                className="cursor-pointer text-sm px-2"
+            >
                 -
             </button>
-            <span className="py-2 text-center px-2 text-sm font-medium">
-                {currentQty}
-            </span>
-            <button type="button" onClick={increment} className="cursor-pointer text-sm">
+            <span className="px-2">{currentQty}</span>
+            <button
+                type="button"
+                onClick={increment}
+                className="cursor-pointer text-sm px-2"
+            >
                 +
             </button>
         </div>

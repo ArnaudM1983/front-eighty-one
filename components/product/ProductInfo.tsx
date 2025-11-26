@@ -54,6 +54,13 @@ const ProductInfo = ({ product }: Props) => {
     console.log(`Ajouter ${quantity} produit(s) au panier`);
   };
 
+  const scrollToColorChart = () => {
+    const element = document.getElementById("ColorChart");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const isParentProduct = product.variants.length > 0;
   const outOfStock = product.stock <= 0;
 
@@ -73,9 +80,20 @@ const ProductInfo = ({ product }: Props) => {
       {/* Quantité + Button */}
       <div className="flex items-center gap-4 mt-4">
         {isParentProduct ? (
-          <ButtonLink href="#colorchart" className="w-full text-center">
+          <ButtonLink
+            onClick={() => {
+              const element = document.getElementById("ColorChart");
+              if (element) {
+                const offset = 120; 
+                const top = element.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior: "smooth" });
+              }
+            }}
+            className="w-full text-center"
+          >
             Voir le nuancier
           </ButtonLink>
+
         ) : (
           <>
             <QuantityStepper

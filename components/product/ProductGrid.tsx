@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import SortFilter from "../ui/SortFilter";
@@ -52,27 +52,32 @@ export default function ProductGrid({ products, title }: Props) {
     }, [searchQuery, sortValue, products]);
 
     if (!products || products.length === 0) {
-        return <p>Aucun produit trouvé.</p>;
+        return <p className="text-center text-gray-500 mt-4">Aucun produit trouvé.</p>;
     }
 
     return (
         <section id="productGrid" className="bg-(--background-secondary) px-8 pt-16 pb-16">
             <div className="max-w-6xl mx-auto">
-                {/* Header avec titre, filtre et recherche */}
+                {/* Header avec titre, filtre et recherche en space-between */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-16 gap-4">
                     <h2 className="text-2xl font-semibold">{title}</h2>
+
                     <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                         <SortFilter defaultValue={sortValue} onChange={setSortValue} disabled={false} />
-                        <SearchBar onSearch={setSearchQuery} />
+                        <SearchBar onSearch={setSearchQuery} placeholder="Rechercher un produit..." />
                     </div>
                 </div>
 
-                {/* Grid des produits */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {filteredProducts.map(product => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
+                {/* Message si aucun produit */}
+                {filteredProducts.length === 0 ? (
+                    <p className="text-center text-gray-500 mt-4">Aucun produit trouvé</p>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {filteredProducts.map(product => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );
