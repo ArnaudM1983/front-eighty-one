@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "@/components/ui/SearchBar";
 import QuantityStepperChart from "./QuantityStepperChart";
 import AddToCartButton from "./AddToCartButton";
@@ -21,6 +21,9 @@ type Props = {
 
 const ColorChart = ({ variants }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>(
+    () => Object.fromEntries(variants.map(v => [v.id, 0])) 
+  );
 
   if (!variants || variants.length === 0) return null;
 
@@ -29,18 +32,18 @@ const ColorChart = ({ variants }: Props) => {
   );
 
   const handleAddAllToCart = () => {
-    filteredVariants.forEach((variant) => {
-      if (variant.stock > 0) {
-        console.log(`Ajouter 1x ${variant.name} au panier`);
+    Object.entries(quantities).forEach(([id, qty]) => {
+      if (qty > 0) {
+        const variant = variants.find(v => v.id === Number(id));
+        console.log(`Ajouter ${qty}x ${variant?.name} au panier`);
       }
     });
   };
 
   return (
     <div className="mt-24" id="ColorChart">
-
       {/* Titre et SearchBar */}
-      <div className="flex items-center justify-between mb-16">
+      <div className="md:flex items-center justify-between mb-16">
         <h4 className="text-lg font-semibold">Nuancier</h4>
         <SearchBar
           placeholder="Rechercher une couleur..."
@@ -52,7 +55,7 @@ const ColorChart = ({ variants }: Props) => {
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mb-12">
           <AddToCartButton
-            productId={0} 
+            productId={0}
             quantity={1}
             stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
             onAdd={handleAddAllToCart}
@@ -63,7 +66,7 @@ const ColorChart = ({ variants }: Props) => {
       {filteredVariants.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">Aucun résultat trouvé</p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-8 lg:grid-cols-12">
           {filteredVariants.map((variant) => {
             const words = variant.name.split(" ");
             const lastWord = words[words.length - 1];
@@ -77,18 +80,18 @@ const ColorChart = ({ variants }: Props) => {
                   <img
                     src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
                     alt={variant.name}
-                    className="w-full object-cover rounded"
+                    className="w-full max-w-[100px] max-h-[100px] object-cover rounded"
                   />
                 )}
-                <p className="text-xs text-center mt-2 lowercase break-words whitespace-normal">
+                <p className="text-xs text-center mt-2 break-words whitespace-normal w-full">
                   {lastWord}
                 </p>
 
                 <QuantityStepperChart
                   stock={variant.stock}
-                  quantity={1}
+                  quantity={quantities[variant.id] ?? 0} 
                   onChange={(qty) =>
-                    console.log(`Variant ${variant.id} qty:`, qty)
+                    setQuantities(prev => ({ ...prev, [variant.id]: qty }))
                   }
                 />
               </div>
@@ -97,7 +100,6 @@ const ColorChart = ({ variants }: Props) => {
         </div>
       )}
 
-      {/* Bouton Ajouter au panier */}
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mt-8">
           <AddToCartButton

@@ -20,7 +20,7 @@ const AddToCartButton = ({ productId, quantity, stock, onAdd }: Props) => {
     // Appel contexte panier ou API
     onAdd?.(productId, quantity);
 
-    setTimeout(() => setLoading(false), 300); // juste pour démo
+    setTimeout(() => setLoading(false), 300); 
   };
 
   return (

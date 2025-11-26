@@ -20,7 +20,7 @@ export default function SearchBar({ placeholder = "Rechercher un produit...", on
     return (
         <div className="relative">
             {/* Icône loupe */}
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                 <Search size={24} />
             </div>
 
@@ -29,7 +29,7 @@ export default function SearchBar({ placeholder = "Rechercher un produit...", on
                 value={query}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className="w-full pl-12 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none caret-black text-md"
+                className="w-full pl-8 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none caret-black text-md"
             />
         </div>
     );

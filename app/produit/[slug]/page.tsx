@@ -79,7 +79,7 @@ export default async function ProductPage({ params }: Props) {
             {/* Breadcrumb */}
             <Breadcrumbs crumbs={crumbs} />
 
-            <div className="flex flex-col md:flex-row md:items-start gap-10 pt-12">
+            <div className="flex flex-col md:flex-row md:items-start gap-10 md:pt-12">
                 {/* Galerie Images */}
                 <div className="md:w-3/5">
                     <ProductGallery

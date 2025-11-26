@@ -51,7 +51,7 @@ const ProductInfo = ({ product }: Props) => {
       : words[0];
 
   const handleAddToCart = () => {
-    console.log(`Ajouter ${quantity} produit(s) au panier`);
+    console.log(`Ajouter ${quantity} ${product.id} produit(s) au panier`);
   };
 
   const scrollToColorChart = () => {
@@ -99,7 +99,7 @@ const ProductInfo = ({ product }: Props) => {
             <QuantityStepper
               stock={product.stock}
               quantity={quantity}
-              onChange={(qty) => setQuantity(qty)}
+              onChange={(qty) => setQuantity(qty)} 
             />
             {!outOfStock && (
               <AddToCartButton

@@ -38,23 +38,23 @@ export default function InstagramFeed() {
   const [posts, setPosts] = useState<InstagramPost[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchInstagram() {
-      try {
-        const res = await fetch("/api/instagram");
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        const data: InstagramPost[] = await res.json();
-        setPosts(data.length > 0 ? data : fallbackPosts);
-      } catch (err) {
-        console.error(err);
-        setPosts(fallbackPosts);
-      } finally {
-        setLoading(false);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchInstagram() {
+  //     try {
+  //       const res = await fetch("/api/instagram");
+  //       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  //       const data: InstagramPost[] = await res.json();
+  //       setPosts(data.length > 0 ? data : fallbackPosts);
+  //     } catch (err) {
+  //       console.error(err);
+  //       setPosts(fallbackPosts);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    fetchInstagram();
-  }, []);
+  //   fetchInstagram();
+  // }, []);
 
   if (loading) return <p>Chargement des publications Instagram...</p>;
 
