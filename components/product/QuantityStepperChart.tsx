@@ -21,7 +21,7 @@ const QuantityStepper = ({ quantity = 1, stock, onChange }: Props) => {
 
     if (stock <= 0) {
         return (
-            <div className="px-6 py-2 bg-red-400 text-white rounded-3xl text-md font-semibold">
+            <div className="mt-2 px-2 py-1 bg-red-400 text-white text-center rounded-3xl text-xs font-semibold">
                 Rupture de stock
             </div>
         );
@@ -40,14 +40,14 @@ const QuantityStepper = ({ quantity = 1, stock, onChange }: Props) => {
     };
 
     return (
-        <div className="flex items-center border rounded-3xl px-4  border-gray-400 bg-white">
-            <button type="button" onClick={decrement} className="cursor-pointer px-2 text-lg">
+        <div className="flex items-center border rounded-3xl px-4 mt-2  border-gray-400 bg-white">
+            <button type="button" onClick={decrement} className="cursor-pointer text-sm">
                 -
             </button>
-            <span className="py-2 text-center w-10 text-md font-medium">
+            <span className="py-2 text-center px-2 text-sm font-medium">
                 {currentQty}
             </span>
-            <button type="button" onClick={increment} className="cursor-pointer px-2 text-lg">
+            <button type="button" onClick={increment} className="cursor-pointer text-sm">
                 +
             </button>
         </div>

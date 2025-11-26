@@ -17,6 +17,7 @@ type Props = {
 };
 
 import SearchBar from "@/components/ui/SearchBar";
+import QuantityStepperChart from "./QuantityStepperChart";
 
 const ColorChart = ({ variants }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,9 +56,16 @@ const ColorChart = ({ variants }: Props) => {
                   className="w-full object-cover rounded"
                 />
               )}
-              <p className="text-xs text-center mt-2 lowercase break-words whitespace-normal">
+              <p className="text-xs text-center mt-2 lowercase wrap-break-word whitespace-normal">
                 {lastWord}
               </p>
+
+              {/* QuantityStepper avec stock */}
+              <QuantityStepperChart
+                stock={variant.stock}
+                quantity={1}
+                onChange={(qty) => console.log(`Variant ${variant.id} qty:`, qty)}
+              />
             </div>
           );
         })}
