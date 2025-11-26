@@ -1,5 +1,6 @@
 import ColorChart from "@/components/product/ColorChart";
 import ProductGallery from "@/components/product/ProductGallery";
+import ProductInfo from "@/components/product/ProductInfo";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 import { notFound } from "next/navigation";
 
@@ -40,31 +41,37 @@ type Props = {
 };
 
 async function fetchProduct(slug: string): Promise<Product> {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/slug/${slug}`,
-        { cache: "no-store" }
-    );
-
-    if (!res.ok) {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/slug/${slug}`, { cache: "no-store" });
         if (res.status === 404) notFound();
-        throw new Error(`Failed to fetch product: ${res.status}`);
+        if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+        return res.json();
+    } catch (error) {
+        console.error("Error fetching product:", error);
+        throw error;
     }
-
-    return res.json();
 }
+
 
 export default async function ProductPage({ params }: Props) {
     const { slug } = await params;
     const product = await fetchProduct(slug);
 
-    const crumbs = [
-        { label: "Accueil", href: "/" },
-        ...product.categories.map(cat => ({
-            label: cat.name,
-            href: `/products/category/${cat.name.toLowerCase().replace(/\s+/g, '-')}`
-        })),
-        { label: product.name }
+    const crumbs: { label: string; href?: string }[] = [
+        { label: "Accueil", href: "/" }
     ];
+
+    let path = "";
+    product.categories.forEach((cat) => {
+        path += `/${cat.slug ?? cat.name.toLowerCase().replace(/\s+/g, '-')}`;
+        crumbs.push({
+            label: cat.name,
+            href: path
+        });
+    });
+
+    // Ajouter le produit à la fin (non cliquable)
+    crumbs.push({ label: product.name });
 
     return (
         <div className="max-w-6xl mx-auto pt-8 px-6">
@@ -74,18 +81,17 @@ export default async function ProductPage({ params }: Props) {
 
             <div className="flex flex-col md:flex-row md:items-start gap-10 pt-12">
                 {/* Galerie Images */}
-                <ProductGallery
-                    mainImage={product.main_image}
-                    images={product.images}
-                    alt={product.name}
-                />
+                <div className="md:w-3/5">
+                    <ProductGallery
+                        mainImage={product.main_image}
+                        images={product.images}
+                        alt={product.name}
+                    />
+                </div>
 
                 {/* Infos produit */}
-                <div className="md:w-1/2">
-                    <h1 className="text-3xl font-bold">{product.name}</h1>
-                    <p className="text-xl text-gray-800 mt-2">{product.price} €</p>
-                    <p className="mt-4">{product.description}</p>
-                    <p className="mt-2 font-medium">Stock: {product.stock}</p>
+                <div className="md:w-2/5">
+                    <ProductInfo product={product} />
                 </div>
             </div>
 

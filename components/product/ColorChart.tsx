@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 type ProductVariant = {
   id: number;
   name: string;
@@ -12,26 +16,51 @@ type Props = {
   variants: ProductVariant[];
 };
 
+import SearchBar from "@/components/ui/SearchBar";
+
 const ColorChart = ({ variants }: Props) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   if (!variants || variants.length === 0) return null;
+
+  // Filtrage en fonction de la recherche
+  const filteredVariants = variants.filter((variant) =>
+    variant.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="mt-8">
-      <h2 className="text-xl font-semibold mb-2">Variantes</h2>
+      <h4 className="mb-4 text-lg font-semibold">Nuancier</h4>
 
-      <div className="flex gap-4">
-        {variants.map((variant) => (
-          <div key={variant.id} className="w-32">
-            {variant.image && (
-              <img
-                src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
-                alt={variant.name}
-                className="w-full h-32 object-cover rounded"
-              />
-            )}
-            <p className="text-sm text-center mt-1">{variant.name}</p>
-          </div>
-        ))}
+      {/* Search bar */}
+      <SearchBar
+        placeholder="Rechercher une variante..."
+        onSearch={(query) => setSearchQuery(query)}
+      />
+
+      <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-12">
+        {filteredVariants.map((variant) => {
+          const words = variant.name.split(" ");
+          const lastWord = words[words.length - 1];
+
+          return (
+            <div
+              key={variant.id}
+              className="col-span-12 md:col-span-1 flex flex-col items-center"
+            >
+              {variant.image && (
+                <img
+                  src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
+                  alt={variant.name}
+                  className="w-full object-cover rounded"
+                />
+              )}
+              <p className="text-xs text-center mt-2 lowercase break-words whitespace-normal">
+                {lastWord}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
