@@ -38,7 +38,7 @@ const QuantityStepperChart = ({ quantity = 0, stock, onChange }: Props) => {
 
   return stock <= 0 ? (
     <div className={`${commonClasses} bg-red-400 text-white text-[10px] px-2`} style={{ height, minWidth }}>
-      Rupture de stock
+      Rupture temporaire
     </div>
   ) : (
     <div className={`${commonClasses} border border-gray-400 bg-white`} style={{ height, minWidth }}>
