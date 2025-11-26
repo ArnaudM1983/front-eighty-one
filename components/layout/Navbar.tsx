@@ -59,14 +59,14 @@ const Navbar = (props: Props) => {
           />
           <Dropdown
             title="Marqueurs & encres"
-            href="/marqueurs-encres"
+            href="/marqueurs-et-encres"
             items={[
-              { label: "Encres", href: "/marqueurs-encres/encres" },
-              { label: "Marqueurs", href: "/marqueurs-encres/marqueurs" },
-              { label: "Squeezers", href: "/marqueurs-encres/squeezers" },
-              { label: "Marqueurs & squeezers vides", href: "/marqueurs-encres/marqueurs-squeezers-vides" },
-              { label: "Mines de rechange", href: "/marqueurs-encres/mines-de-rechange" },
-              { label: "Posca & Uni Paint", href: "/marqueurs-encres/posca-uni-paint" },
+              { label: "Encres", href: "/marqueurs-et-encres/encres" },
+              { label: "Marqueurs", href: "/marqueurs-et-encres/marqueurs" },
+              { label: "Squeezers", href: "/marqueurs-et-encres/squeezers" },
+              { label: "Marqueurs & squeezers vides", href: "/marqueurs-et-encres/marqueurs-squeezers-vides" },
+              { label: "Mines de rechange", href: "/marqueurs-et-encres/mines-de-rechange" },
+              { label: "Posca & Uni Paint", href: "/marqueurs-et-encres/posca-uni-paint" },
             ]}
           />
           <Dropdown
@@ -159,12 +159,12 @@ const Navbar = (props: Props) => {
           {
             title: "Marqueurs & encres",
             items: [
-              { label: "Encres", href: "/marqueurs-encres/encres" },
-              { label: "Marqueurs", href: "/marqueurs-encres/marqueurs" },
-              { label: "Squeezers", href: "/marqueurs-encres/squeezers" },
-              { label: "Vides", href: "/marqueurs-encres/marqueurs-squeezers-vides" },
-              { label: "Mines de rechange", href: "/marqueurs-encres/mines-de-rechange" },
-              { label: "Posca & Uni Paint", href: "/marqueurs-encres/posca-uni-paint" },
+              { label: "Encres", href: "/marqueurs-et-encres/encres" },
+              { label: "Marqueurs", href: "/marqueurs-et-encres/marqueurs" },
+              { label: "Squeezers", href: "/marqueurs-et-encres/squeezers" },
+              { label: "Vides", href: "/marqueurs-et-encres/marqueurs-squeezers-vides" },
+              { label: "Mines de rechange", href: "/marqueurs-et-encres/mines-de-rechange" },
+              { label: "Posca & Uni Paint", href: "/marqueurs-et-encres/posca-uni-paint" },
             ],
           },
           {
