@@ -50,16 +50,20 @@ export default function SliderWrapper({
       <div className="flex gap-3 mt-4 justify-end">
         <button
           onClick={() => sliderRef.current?.slickPrev()}
-          className="w-10 h-10 flex items-center justify-center rounded-full border-gray-300 hover:opacity-60 transition cursor-pointer"
+          aria-label="Voir les éléments précédents du carrousel"
+          aria-controls="carousel"
+          className="w-10 h-10 flex items-center justify-center rounded-full border-gray-300 hover:opacity-80 transition cursor-pointer"
         >
-          <CircleArrowLeft size={40} color="#555555" strokeWidth={1} />
+          <CircleArrowLeft size={40} color="#333333" strokeWidth={1} />
         </button>
 
         <button
           onClick={() => sliderRef.current?.slickNext()}
-          className="w-10 h-10 flex items-center justify-center rounded-full border-gray-300 hover:opacity-60 transition cursor-pointer"
+          aria-label="Voir les éléments suivants du carrousel"
+          aria-controls="carousel"
+          className="w-10 h-10 flex items-center justify-center rounded-full border-gray-300 hover:opacity-80 transition cursor-pointer"
         >
-          <CircleArrowRight size={40} color="#555555" strokeWidth={1} />
+          <CircleArrowRight size={40} color="#333333" strokeWidth={1} />
         </button>
       </div>
     </div>
