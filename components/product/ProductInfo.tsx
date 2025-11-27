@@ -4,6 +4,7 @@ import { useState } from "react";
 import AddToCartButton from "./AddToCartButton";
 import QuantityStepper from "./QuantityStepper";
 import ButtonLink from "@/components/ui/ButtonLink";
+import { addToCart } from "@/lib/cartApi";
 
 type ProductVariant = {
   id: number;
@@ -50,8 +51,9 @@ const ProductInfo = ({ product }: Props) => {
       ? `${words[0]} ${words[1]}`
       : words[0];
 
-  const handleAddToCart = () => {
-    console.log(`Ajouter ${quantity} ${product.id} produit(s) au panier`);
+  const handleAddToCart = async () => {
+    const result = await addToCart(product.id, null, quantity);
+    console.log("Panier mis à jour :", result);
   };
 
   const scrollToColorChart = () => {
@@ -84,7 +86,7 @@ const ProductInfo = ({ product }: Props) => {
             onClick={() => {
               const element = document.getElementById("ColorChart");
               if (element) {
-                const offset = 120; 
+                const offset = 120;
                 const top = element.getBoundingClientRect().top + window.scrollY - offset;
                 window.scrollTo({ top, behavior: "smooth" });
               }
@@ -99,7 +101,7 @@ const ProductInfo = ({ product }: Props) => {
             <QuantityStepper
               stock={product.stock}
               quantity={quantity}
-              onChange={(qty) => setQuantity(qty)} 
+              onChange={(qty) => setQuantity(qty)}
             />
             {!outOfStock && (
               <AddToCartButton

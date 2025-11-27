@@ -62,7 +62,7 @@ export async function generateMetadata({
 }: {
     params: { slug: string } | Promise<{ slug: string }>
 }): Promise<Metadata> {
-    const { slug } = await params; 
+    const { slug } = await params;
 
     try {
         const res = await fetch(
@@ -134,7 +134,7 @@ export default async function ProductPage({ params }: Props) {
 
             </div>
             <BuyTogether />
-            <YouMayAlsoLike/>
+            <YouMayAlsoLike />
         </div>
     );
 }
