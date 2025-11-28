@@ -1,16 +1,97 @@
 "use client";
+
+import { useState, useEffect, useCallback } from "react";
 import { X, ShoppingCart } from "lucide-react";
 import ButtonLink from "../ui/ButtonLink";
+import CartItem from "./CartItem";
+
+type CartItemType = {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+};
 
 type Props = {
   isOpen: boolean;
   close: () => void;
-  itemCount?: number;
-  children?: React.ReactNode;
 };
 
-export default function CartDrawer({ isOpen, close, itemCount = 0, children }: Props) {
+export default function CartDrawer({ isOpen, close }: Props) {
+  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const hasItems = itemCount > 0;
+
+  const fetchCart = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+
+      if (data.items && Array.isArray(data.items)) {
+        setCartItems(
+          data.items.map((item: any) => ({
+            id: item.productId,
+            name: item.name,
+            price: parseFloat(item.price),
+            quantity: item.quantity,
+            image: item.image || undefined,
+          }))
+        );
+      } else {
+        setCartItems([]);
+      }
+    } catch (err) {
+      console.error("Erreur récupération panier:", err);
+      setError("Impossible de récupérer le panier.");
+    } finally {
+      setLoading(false);
+    }
+
+
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) fetchCart();
+  }, [isOpen, fetchCart]);
+
+  const updateQuantity = async (itemId: number, newQty: number) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/${itemId}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: newQty }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await fetchCart();
+    } catch (err) {
+      console.error("Erreur mise à jour quantité:", err);
+    }
+  };
+
+  const removeItem = async (itemId: number) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/${itemId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await fetchCart();
+    } catch (err) {
+      console.error("Erreur suppression item:", err);
+    }
+  };
 
   return (
     <>
@@ -21,39 +102,59 @@ export default function CartDrawer({ isOpen, close, itemCount = 0, children }: P
         onClick={close}
       />
 
+
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 w-full md:w-96 h-screen bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out
-          ${isOpen ? "translate-x-0" : "translate-x-full"}
-        `}
+        className={`fixed top-0 right-0 w-full md:w-96 h-screen bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Close button */}
         <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-red-700 cursor-pointer
-          transform transition-transform duration-300 hover:rotate-90"
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-700 cursor-pointer transform transition-transform duration-300 hover:rotate-90"
           onClick={close}
         >
           <X className="w-6 h-6" strokeWidth={1} />
         </button>
 
-        {/* Content */}
         <div className="p-6 h-full flex flex-col">
           <div className="flex items-center gap-2 mb-4">
             <p className="font-regular text-lg">Panier d'achat</p>
             {hasItems && (
-              <span className="inline-flex items-center justify-center bg-(--primary) text-white text-xs font-bold w-5 h-5 rounded-full">
+              <span className="inline-flex items-center justify-center bg-primary text-white text-xs font-bold w-5 h-5 rounded-full">
                 {itemCount}
               </span>
             )}
           </div>
 
-          {hasItems ? (
+          {loading ? (
+            <p className="text-center text-gray-500">Chargement du panier...</p>
+          ) : error ? (
+            <p className="text-center text-red-500">{error}</p>
+          ) : hasItems ? (
             <>
-              <div className="flex-1 overflow-y-auto">{children}</div>
-              {/* Sous-total affiché uniquement si il y a des produits */}
+              <div className="flex-1 overflow-y-auto space-y-4">
+                {cartItems.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    price={item.price}
+                    quantity={item.quantity}
+                    image={item.image ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}` : undefined}
+                    updateQuantity={updateQuantity}
+                    removeItem={removeItem}
+                  />
+                ))}
+              </div>
+
               <div className="mt-auto flex justify-between items-center font-semibold uppercase text-lg pt-4 border-t border-gray-200">
                 <p>Sous-total :</p>
-                <p>00,00 €</p>
+                <p>
+                  {cartItems
+                    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                    .toFixed(2)}{" "}
+                  €
+                </p>
               </div>
             </>
           ) : (
@@ -66,5 +167,7 @@ export default function CartDrawer({ isOpen, close, itemCount = 0, children }: P
         </div>
       </div>
     </>
+
+
   );
 }

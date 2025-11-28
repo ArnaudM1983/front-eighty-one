@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, ShoppingBag } from "lucide-react";
-import { useCart } from "@/context/CartContext";
 import Dropdown from "../ui/Dropdown";
 import MobileMenu from "../ui/MobileMenu";
 import SearchBarOverlay from "../ui/SearchBarOverlay";
@@ -19,8 +18,30 @@ const Navbar = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const burgerColor = isHome ? "bg-white" : "bg-black";
-  const { cartCount } = useCart();
+
+  // Récupérer le panier via l'API et le cookie cart_token
+  useEffect(() => {
+    const cartToken = document.cookie
+      .split("; ")
+      .find(row => row.startsWith("cart_token="))
+      ?.split("=")[1];
+
+    if (!cartToken) return;
+
+    fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
+      credentials: "include", // pour envoyer le cookie automatiquement
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && typeof data.totalItems === "number") {
+          setCartCount(data.totalItems); 
+        }
+      })
+      .catch(err => console.error("Erreur récupération panier:", err));
+  }, []);
+
 
   return (
     <header
@@ -38,12 +59,17 @@ const Navbar = (props: Props) => {
         Disponible en Livraison et Click & Collect
       </div>
 
-
       {/* Navbar */}
       <div className="w-full px-6 lg:px-16 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" aria-label="Retour à la page d'accueil - Eightyone Store">
-          <Image src="/logo-81.png" alt="Logo Eightyone Store" width={30} height={30} className="object-contain" />
+          <Image
+            src="/logo-81.png"
+            alt="Logo Eightyone Store"
+            width={30}
+            height={30}
+            className="object-contain"
+          />
         </Link>
 
         {/* Menu Desktop */}
@@ -108,14 +134,12 @@ const Navbar = (props: Props) => {
               onClick={() => setCartOpen(true)}
             >
               <ShoppingBag className="w-7 h-7 cursor-pointer" strokeWidth={1} />
-
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-(--primary) text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
             </button>
-
           </div>
 
           {/* Burger mobile */}
@@ -126,25 +150,27 @@ const Navbar = (props: Props) => {
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
           >
-            <span className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-transform duration-300 ease-in-out ${isOpen ? "rotate-45" : "translate-y-[-6px]"}`}></span>
-            <span className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-0" : ""}`}></span>
-            <span className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-transform duration-300 ease-in-out ${isOpen ? "-rotate-45" : "translate-y-1.5"}`}></span>
+            <span
+              className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-transform duration-300 ease-in-out ${isOpen ? "rotate-45" : "translate-y-[-6px]"
+                }`}
+            ></span>
+            <span
+              className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-0" : ""
+                }`}
+            ></span>
+            <span
+              className={`absolute block h-0.5 w-8 ${burgerColor} rounded-full transition-transform duration-300 ease-in-out ${isOpen ? "-rotate-45" : "translate-y-1.5"
+                }`}
+            ></span>
           </button>
         </div>
       </div>
 
-      {/* Search bar intégrée avec flou derrière */}
-      <SearchBarOverlay
-        isOpen={searchOpen}
-        isHome={isHome}
-        onClose={() => setSearchOpen(false)}
-      />
+      {/* Search bar */}
+      <SearchBarOverlay isOpen={searchOpen} isHome={isHome} onClose={() => setSearchOpen(false)} />
 
-
-      {/* CartDrawer */}
-      <CartDrawer isOpen={cartOpen} close={() => setCartOpen(false)}>
-        {/* Liste des items du panier */}
-      </CartDrawer>
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={cartOpen} close={() => setCartOpen(false)} />
 
       {/* Mobile Menu */}
       <MobileMenu
@@ -187,6 +213,7 @@ const Navbar = (props: Props) => {
           { title: "Le shop", href: "/shop" },
         ]}
       />
+
     </header>
   );
 };

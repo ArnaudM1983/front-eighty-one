@@ -2,27 +2,23 @@
 
 import { useState } from "react";
 import ButtonLink from "@/components/ui/ButtonLink";
-import { useCart } from "@/context/CartContext";
 
 type Props = {
   productId: number;
   quantity: number;
   stock: number;
-  onAdd?: (productId: number, quantity: number) => void;
+  onAdd?: () => void;
 };
 
 const AddToCartButton = ({ productId, quantity, stock, onAdd }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { addToCart } = useCart(); // Connexion au contexte panier
 
   const handleClick = () => {
     if (stock === 0) return;
 
     setLoading(true);
 
-    addToCart({ id: productId, quantity }); // Panier mis à jour 
-
-    onAdd?.(productId, quantity);
+    onAdd?.();
 
     setTimeout(() => setLoading(false), 300);
   };

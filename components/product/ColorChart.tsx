@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SearchBar from "@/components/ui/SearchBar";
 import QuantityStepperChart from "./QuantityStepperChart";
 import AddToCartButton from "./AddToCartButton";
+import { addToCart } from "@/lib/cartApi";
 
 type ProductVariant = {
   id: number;
@@ -16,13 +17,14 @@ type ProductVariant = {
 };
 
 type Props = {
+  productId: number;
   variants: ProductVariant[];
 };
 
-const ColorChart = ({ variants }: Props) => {
+const ColorChart = ({ productId, variants }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
-    () => Object.fromEntries(variants.map(v => [v.id, 0])) 
+    () => Object.fromEntries(variants.map((v) => [v.id, 0]))
   );
 
   if (!variants || variants.length === 0) return null;
@@ -31,18 +33,19 @@ const ColorChart = ({ variants }: Props) => {
     variant.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleAddAllToCart = () => {
-    Object.entries(quantities).forEach(([id, qty]) => {
+  const handleAddAllToCart = async () => {
+    for (const [id, qty] of Object.entries(quantities)) {
       if (qty > 0) {
-        const variant = variants.find(v => v.id === Number(id));
-        console.log(`Ajouter ${qty}x ${variant?.name} au panier`);
+        const variant = variants.find((v) => v.id === Number(id));
+        if (!variant) continue;
+
+        await addToCart(productId, variant.id, qty);
       }
-    });
+    }
   };
 
   return (
     <div className="mt-24" id="ColorChart">
-      {/* Titre et SearchBar */}
       <div className="md:flex items-center justify-between mb-16">
         <h4 className="text-lg font-semibold">Nuancier</h4>
         <SearchBar
@@ -51,13 +54,12 @@ const ColorChart = ({ variants }: Props) => {
         />
       </div>
 
-      {/* Bouton Ajouter au panier */}
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mb-12">
           <AddToCartButton
-            productId={0}
+            productId={productId}
             quantity={1}
-            stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
+            stock={filteredVariants.some((v) => v.stock > 0) ? 1 : 0}
             onAdd={handleAddAllToCart}
           />
         </div>
@@ -73,10 +75,9 @@ const ColorChart = ({ variants }: Props) => {
 
             return (
               <div
-  key={variant.id}
-  className="col-span-12 md:col-span-1 flex flex-col items-center justify-between h-40"
->
-
+                key={variant.id}
+                className="col-span-12 md:col-span-1 flex flex-col items-center justify-between h-40"
+              >
                 {variant.image && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
@@ -90,9 +91,9 @@ const ColorChart = ({ variants }: Props) => {
 
                 <QuantityStepperChart
                   stock={variant.stock}
-                  quantity={quantities[variant.id] ?? 0} 
+                  quantity={quantities[variant.id] ?? 0}
                   onChange={(qty) =>
-                    setQuantities(prev => ({ ...prev, [variant.id]: qty }))
+                    setQuantities((prev) => ({ ...prev, [variant.id]: qty }))
                   }
                 />
               </div>
@@ -104,9 +105,9 @@ const ColorChart = ({ variants }: Props) => {
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mt-8">
           <AddToCartButton
-            productId={0}
+            productId={productId}
             quantity={1}
-            stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
+            stock={filteredVariants.some((v) => v.stock > 0) ? 1 : 0}
             onAdd={handleAddAllToCart}
           />
         </div>

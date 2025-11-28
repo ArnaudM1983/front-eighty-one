@@ -1,10 +1,61 @@
+"use client";
 
-type Props = {}
+import { Trash2 } from "lucide-react";
+import QuantityStepperChart from "../product/QuantityStepperChart";
 
-const CartItem = (props: Props) => {
-  return (
-    <div>CartItem</div>
-  )
+type Props = {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+  updateQuantity: (id: number, newQty: number) => void;
+  removeItem: (id: number) => void;
+};
+
+export default function CartItem({
+  id,
+  name,
+  price,
+  quantity,
+  image,
+  updateQuantity,
+  removeItem,
+}: Props) {
+  return (<div className="flex justify-between items-center border-b border-gray-200 pb-2">
+    {/* Image produit */}
+    {image && (<div className="w-16 h-16 flex-shrink-0"> <img
+      src={image}
+      alt={name}
+      className="w-full h-full object-cover rounded"
+    /> </div>
+    )}
+
+
+    {/* Nom et quantité */}
+    <div className="flex-1 px-4 flex flex-col justify-center max-w-[200px]">
+      <p className="font-medium">{name}</p>
+      <div className="mt-1">
+        <QuantityStepperChart
+          stock={999}
+          quantity={quantity}
+          onChange={(qty) => updateQuantity(id, qty)}
+        />
+      </div>
+    </div>
+
+    {/* Supprimer et prix */}
+    <div className="flex flex-col items-end justify-between h-full">
+      <button
+        onClick={() => removeItem(id)}
+        className="text-red-500 hover:text-red-700 mb-2"
+      >
+        <Trash2 className="w-5 h-5 cursor-pointer" strokeWidth={1}/>
+      </button>
+      <p className="font-semibold">{(price * quantity).toFixed(2)} €</p>
+    </div>
+  </div>
+
+
+  );
 }
-
-export default CartItem

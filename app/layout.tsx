@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Main from "@/components/layout/Main"; 
-import { CartProvider } from "@/context/CartContext";
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -29,11 +28,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${roboto.variable} font-sans min-h-screen flex flex-col antialiased`}>
-        <CartProvider>
         <Navbar />
         <Main>{children}</Main>
         <Footer />
-        </CartProvider>
       </body>
     </html>
   );
