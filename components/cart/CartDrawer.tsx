@@ -41,7 +41,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
       if (data.items && Array.isArray(data.items)) {
         setCartItems(
           data.items.map((item: any) => ({
-            id: item.productId,
+            id: item.itemId,
             name: item.name,
             price: parseFloat(item.price),
             quantity: item.quantity,
@@ -66,23 +66,36 @@ export default function CartDrawer({ isOpen, close }: Props) {
   }, [isOpen, fetchCart]);
 
   const updateQuantity = async (itemId: number, newQty: number) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId ? { ...item, quantity: newQty } : item
+      )
+    );
+
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/${itemId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity: newQty }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ quantity: newQty }),
+        }
+      );
+
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      await fetchCart();
+
     } catch (err) {
       console.error("Erreur mise à jour quantité:", err);
+
+      fetchCart();
     }
   };
 
+
   const removeItem = async (itemId: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/${itemId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -117,8 +130,8 @@ export default function CartDrawer({ isOpen, close }: Props) {
         </button>
 
         <div className="p-6 h-full flex flex-col">
-          <div className="flex items-center gap-2 mb-4">
-            <p className="font-regular text-lg">Panier d'achat</p>
+          <div className="flex items-center gap-2 mb-8">
+            <p className="font-regular text-lg ">Panier d'achat</p>
             {hasItems && (
               <span className="inline-flex items-center justify-center bg-primary text-white text-xs font-bold w-5 h-5 rounded-full">
                 {itemCount}
@@ -147,8 +160,8 @@ export default function CartDrawer({ isOpen, close }: Props) {
                 ))}
               </div>
 
-              <div className="mt-auto flex justify-between items-center font-semibold uppercase text-lg pt-4 border-t border-gray-200">
-                <p>Sous-total :</p>
+              <div className="mt-auto flex justify-between items-center uppercase pt-4 border-t border-gray-200">
+                <p className="">Sous-total :</p>
                 <p>
                   {cartItems
                     .reduce((sum, item) => sum + item.price * item.quantity, 0)

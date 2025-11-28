@@ -29,6 +29,7 @@ export default function ProductCard({ product }: Props) {
           <img
             src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${product.main_image}`}
             alt={product.name}
+            loading="lazy"
             className="object-contain w-full h-full transition-transform duration-300 ease-in-out hover:scale-110"
           />
         </div>
