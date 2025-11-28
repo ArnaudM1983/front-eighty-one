@@ -39,10 +39,12 @@ const ColorChart = ({ productId, variants }: Props) => {
         const variant = variants.find((v) => v.id === Number(id));
         if (!variant) continue;
 
+        console.log({ productId, variantId: variant.id, quantity: qty }); // debug
         await addToCart(productId, variant.id, qty);
       }
     }
   };
+
 
   return (
     <div className="mt-24" id="ColorChart">
@@ -57,9 +59,7 @@ const ColorChart = ({ productId, variants }: Props) => {
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mb-12">
           <AddToCartButton
-            productId={productId}
-            quantity={1}
-            stock={filteredVariants.some((v) => v.stock > 0) ? 1 : 0}
+            stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
             onAdd={handleAddAllToCart}
           />
         </div>
@@ -105,9 +105,7 @@ const ColorChart = ({ productId, variants }: Props) => {
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mt-8">
           <AddToCartButton
-            productId={productId}
-            quantity={1}
-            stock={filteredVariants.some((v) => v.stock > 0) ? 1 : 0}
+            stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
             onAdd={handleAddAllToCart}
           />
         </div>

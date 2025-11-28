@@ -130,7 +130,7 @@ export default async function ProductPage({ params }: Props) {
                 </div>
 
                 {/* Nuancier */}
-                <ColorChart variants={product.variants} />
+                <ColorChart productId={product.id} variants={product.variants} />
 
             </div>
             <BuyTogether />
