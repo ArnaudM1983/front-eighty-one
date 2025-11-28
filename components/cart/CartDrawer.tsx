@@ -94,17 +94,27 @@ export default function CartDrawer({ isOpen, close }: Props) {
 
 
   const removeItem = async (itemId: number) => {
+    // Mise à jour locale immédiate
+    setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      await fetchCart();
     } catch (err) {
       console.error("Erreur suppression item:", err);
+
+      // Revert si erreur
+      fetchCart();
     }
   };
+
 
   return (
     <>
