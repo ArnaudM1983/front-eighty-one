@@ -4,8 +4,8 @@ import { useState } from "react";
 import ButtonLink from "@/components/ui/ButtonLink";
 
 type Props = {
-  productId: number;
-  quantity: number;
+  productId?: number;
+  quantity?: number;
   stock: number;
   onAdd?: () => void;
 };
@@ -18,7 +18,7 @@ const AddToCartButton = ({ productId, quantity, stock, onAdd }: Props) => {
 
     setLoading(true);
 
-    onAdd?.();
+    onAdd?.(); // utilise handleAddAllToCart qui contient déjà productId et qty
 
     setTimeout(() => setLoading(false), 300);
   };
@@ -31,8 +31,8 @@ const AddToCartButton = ({ productId, quantity, stock, onAdd }: Props) => {
       {loading
         ? "Ajout en cours..."
         : stock === 0
-        ? "Rupture de stock"
-        : "Ajouter au panier"}
+          ? "Rupture de stock"
+          : "Ajouter au panier"}
     </ButtonLink>
   );
 };
