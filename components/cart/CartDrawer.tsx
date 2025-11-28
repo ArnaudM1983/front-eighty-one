@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { X, ShoppingCart, Trash2 } from "lucide-react";
+import { X, ShoppingCart } from "lucide-react";
 import ButtonLink from "../ui/ButtonLink";
+import CartItem from "./CartItem";
 
-type CartItem = {
+type CartItemType = {
   id: number;
   name: string;
   price: number;
   quantity: number;
+  image?: string;
 };
 
 type Props = {
@@ -17,32 +19,24 @@ type Props = {
 };
 
 export default function CartDrawer({ isOpen, close }: Props) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const hasItems = itemCount > 0;
 
-  // Fonction pour récupérer le panier
   const fetchCart = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      console.log("Cookies actuels :", document.cookie);
-
-
       const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
       });
-
-      console.log("Réponse API fetchCart :", res);
-
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
       const data = await res.json();
-      console.log("Données reçues du panier :", data);
+
 
       if (data.items && Array.isArray(data.items)) {
         setCartItems(
@@ -51,6 +45,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
             name: item.name,
             price: parseFloat(item.price),
             quantity: item.quantity,
+            image: item.image || undefined,
           }))
         );
       } else {
@@ -66,14 +61,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
 
   }, []);
 
-  // Refresh panier quand le drawer s'ouvre
   useEffect(() => {
     if (isOpen) fetchCart();
   }, [isOpen, fetchCart]);
 
-  // Mettre à jour la quantité d'un item
   const updateQuantity = async (itemId: number, newQty: number) => {
-    console.log(`Update quantité item ${itemId} → ${newQty}`);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/${itemId}`, {
         method: "PUT",
@@ -88,9 +80,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
     }
   };
 
-  // Supprimer un item du panier
   const removeItem = async (itemId: number) => {
-    console.log(`Suppression item ${itemId}`);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/${itemId}`, {
         method: "DELETE",
@@ -144,31 +134,26 @@ export default function CartDrawer({ isOpen, close }: Props) {
             <>
               <div className="flex-1 overflow-y-auto space-y-4">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center border-b border-gray-200 pb-2">
-                    <div>
-                      <p className="font-medium">{item.name}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <input
-                          type="number"
-                          min={1}
-                          value={item.quantity}
-                          className="w-16 border rounded p-1 text-center"
-                          onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                        />
-                        <button onClick={() => removeItem(item.id)} className="text-red-500 hover:text-red-700">
-                          <Trash2 className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                    <p className="font-semibold">{(item.price * item.quantity).toFixed(2)} €</p>
-                  </div>
+                  <CartItem
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    price={item.price}
+                    quantity={item.quantity}
+                    image={item.image ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}` : undefined}
+                    updateQuantity={updateQuantity}
+                    removeItem={removeItem}
+                  />
                 ))}
               </div>
 
               <div className="mt-auto flex justify-between items-center font-semibold uppercase text-lg pt-4 border-t border-gray-200">
                 <p>Sous-total :</p>
                 <p>
-                  {cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} €
+                  {cartItems
+                    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                    .toFixed(2)}{" "}
+                  €
                 </p>
               </div>
             </>
