@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { X, ShoppingCart } from "lucide-react";
 import ButtonLink from "../ui/ButtonLink";
 import CartItem from "./CartItem";
+import { useRouter } from "next/navigation";
 
 type CartItemType = {
   id: number;
@@ -19,6 +20,8 @@ type Props = {
 };
 
 export default function CartDrawer({ isOpen, close }: Props) {
+  const router = useRouter();
+
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -141,7 +144,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
 
         <div className="p-6 h-full flex flex-col">
           <div className="flex items-center gap-2 mb-8">
-            <p className="font-regular text-lg ">Panier d'achat</p>
+            <p className="font-regular text-lg text-black">Panier d'achat</p>
             {hasItems && (
               <span className="inline-flex items-center justify-center bg-primary text-white text-xs font-bold w-5 h-5 rounded-full">
                 {itemCount}
@@ -171,14 +174,26 @@ export default function CartDrawer({ isOpen, close }: Props) {
               </div>
 
               <div className="mt-auto flex justify-between items-center uppercase pt-4 border-t border-gray-200">
-                <p className="">Sous-total :</p>
-                <p>
+                <p className="text-black">Sous-total :</p>
+                <p className="text-black">
                   {cartItems
                     .reduce((sum, item) => sum + item.price * item.quantity, 0)
                     .toFixed(2)}{" "}
                   €
                 </p>
               </div>
+              <ButtonLink
+                onClick={() => {
+                  close(); 
+                  router.push("/panier"); 
+                }}
+                className="my-4 w-full text-center"
+              >
+                Voir le panier
+              </ButtonLink>
+              <ButtonLink href="/cart-summary" className="w-full text-center">
+                Commander
+              </ButtonLink>
             </>
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center text-center gap-4">
