@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ButtonLink from "@/components/ui/ButtonLink";
+import { toast } from "react-toastify";
 
 type Props = {
   productId?: number;
@@ -20,6 +21,8 @@ const AddToCartButton = ({ productId, quantity, stock, onAdd }: Props) => {
 
     onAdd?.(); // utilise handleAddAllToCart qui contient déjà productId et qty
 
+    toast.success("Produit ajouté au panier !");
+    
     setTimeout(() => setLoading(false), 300);
   };
 

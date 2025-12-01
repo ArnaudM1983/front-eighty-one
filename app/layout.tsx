@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Main from "@/components/layout/Main"; 
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -31,6 +33,17 @@ export default function RootLayout({
         <Navbar />
         <Main>{children}</Main>
         <Footer />
+        {/* Toasts */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
       </body>
     </html>
   );

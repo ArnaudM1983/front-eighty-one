@@ -2,6 +2,8 @@
 
 import { Trash2 } from "lucide-react";
 import QuantityStepperChart from "../product/QuantityStepperChart";
+import { toast, ToastContentProps } from "react-toastify";
+import { showConfirmToast } from "../ui/ConfirmToast";
 
 type Props = {
   id: number;
@@ -22,6 +24,13 @@ export default function CartItem({
   updateQuantity,
   removeItem,
 }: Props) {
+  const handleRemove = () => {
+    showConfirmToast({
+      message: `Voulez-vous vraiment supprimer ${name} du panier ?`,
+      onConfirm: () => removeItem(id),
+    });
+  };
+
   return (
     <div className="flex justify-between items-center border-b border-gray-200 py-4 px-4">
       {/* Partie gauche : image + nom + quantité */}
@@ -51,7 +60,7 @@ export default function CartItem({
       {/* Partie droite : bouton supprimer + prix */}
       <div className="flex flex-col items-end justify-between h-full">
         <button
-          onClick={() => removeItem(id)}
+          onClick={handleRemove}
           className="text-red-500 hover:text-red-700 mb-2"
         >
           <Trash2 className="w-5 h-5 cursor-pointer" strokeWidth={1} />
