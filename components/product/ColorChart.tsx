@@ -5,6 +5,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import QuantityStepperChart from "./QuantityStepperChart";
 import AddToCartButton from "./AddToCartButton";
 import { addToCart } from "@/lib/cartApi";
+import { useCart } from "@/context/CartContext"; // ← ajout
 
 type ProductVariant = {
   id: number;
@@ -27,6 +28,8 @@ const ColorChart = ({ productId, variants }: Props) => {
     () => Object.fromEntries(variants.map((v) => [v.id, 0]))
   );
 
+  const { refreshCart } = useCart(); // ← ajout
+
   if (!variants || variants.length === 0) return null;
 
   const filteredVariants = variants.filter((variant) =>
@@ -39,12 +42,13 @@ const ColorChart = ({ productId, variants }: Props) => {
         const variant = variants.find((v) => v.id === Number(id));
         if (!variant) continue;
 
-        console.log({ productId, variantId: variant.id, quantity: qty }); // debug
         await addToCart(productId, variant.id, qty);
       }
     }
-  };
 
+    await refreshCart(); // ← ajout
+    setQuantities(Object.fromEntries(variants.map((v) => [v.id, 0]))); // reset
+  };
 
   return (
     <div className="mt-24" id="ColorChart">
