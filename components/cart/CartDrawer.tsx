@@ -43,8 +43,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
         }))
         : [];
 
+      // Délai minimal pour le loader pour éviter le flash
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       setCartItems(items);
-      refreshCart(); // mise à jour du compteur global
+      refreshCart();
     } catch (err) {
       console.error("Erreur récupération panier:", err);
       setError("Impossible de récupérer le panier.");
@@ -58,8 +61,19 @@ export default function CartDrawer({ isOpen, close }: Props) {
   }, [isOpen]);
 
   const updateQuantity = async (itemId: number, newQty: number) => {
+    // Trouver l'article dans le panier
+    const item = cartItems.find((i) => i.id === itemId);
+    if (!item) return;
+
+    // Vérifier le stock disponible
+    if (newQty > item.stock) {
+      setError(`Stock disponible : ${item.stock}`);
+      return; // On stoppe la requête
+    }
+
+    // Mettre à jour localement pour effet immédiat
     setCartItems((prev) =>
-      prev.map((item) => (item.id === itemId ? { ...item, quantity: newQty } : item))
+      prev.map((i) => (i.id === itemId ? { ...i, quantity: newQty } : i))
     );
 
     try {
@@ -70,19 +84,27 @@ export default function CartDrawer({ isOpen, close }: Props) {
         body: JSON.stringify({ quantity: newQty }),
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      if (!res.ok) {
+        console.error("Erreur backend mise à jour quantité:", res.status);
+        fetchCartItems(); // Recharger le panier mais sans afficher l'erreur
+        return;
+      }
 
       await refreshCart();
+      setError(null); // Réinitialiser l'erreur si tout est OK
+
+
     } catch (err) {
-      console.error("Erreur mise à jour quantité:", err);
-      fetchCartItems();
+      console.error("Erreur réseau mise à jour quantité:", err);
+      fetchCartItems(); // Recharger le panier
     }
   };
 
 
   const removeItem = async (itemId: number) => {
-    // MAJ locale immédiate pour réactivité
     setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`, {
@@ -95,10 +117,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
       await refreshCart();
     } catch (err) {
       console.error("Erreur suppression item:", err);
-      fetchCartItems(); // revert si erreur serveur
+      fetchCartItems();
     }
-  };
 
+
+  };
 
   return (
     <>
@@ -133,12 +156,24 @@ export default function CartDrawer({ isOpen, close }: Props) {
           </div>
 
           {loading ? (
-            <p className="text-center text-gray-500">Chargement du panier...</p>
+            // Skeleton loader
+            <div className="flex flex-col space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center gap-4 animate-pulse">
+                  <div className="w-16 h-16 bg-gray-200 rounded" />
+                  <div className="flex-1 space-y-2 py-1">
+                    <div className="h-4 bg-gray-200 rounded w-3/4" />
+                    <div className="h-4 bg-gray-200 rounded w-1/2" />
+                  </div>
+                  <div className="h-4 bg-gray-200 rounded w-10" />
+                </div>
+              ))}
+            </div>
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
           ) : hasItems ? (
             <>
-              <div className="flex-1 overflow-y-auto space-y-4">
+              <div className="flex-1 overflow-y-auto space-y-4 transition-opacity duration-300">
                 {cartItems.map((item) => (
                   <CartItem
                     key={item.id}
@@ -190,5 +225,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
         </div>
       </div>
     </>
+
+
   );
 }
