@@ -11,7 +11,12 @@ type Props = {
 const QuantityStepperChart = ({ quantity = 0, stock, onChange }: Props) => {
   const [currentQty, setCurrentQty] = useState(quantity);
 
-  // Mettre à jour le stepper si le stock change
+  // Sync le set du parent
+  useEffect(() => {
+    setCurrentQty(quantity);
+  }, [quantity]);
+
+  // Reset si rupture
   useEffect(() => {
     if (stock <= 0) {
       setCurrentQty(0);
@@ -20,7 +25,7 @@ const QuantityStepperChart = ({ quantity = 0, stock, onChange }: Props) => {
   }, [stock]);
 
   const decrement = () => {
-    const newQty = Math.max(0, currentQty - 1);
+    const newQty = Math.max(1, currentQty - 1);
     setCurrentQty(newQty);
     onChange?.(newQty);
   };
@@ -36,15 +41,33 @@ const QuantityStepperChart = ({ quantity = 0, stock, onChange }: Props) => {
   const height = "32px";
   const minWidth = "76px";
 
-  return stock <= 0 ? (
-    <div className={`${commonClasses} bg-red-400 text-white text-[10px] px-2`} style={{ height, minWidth }}>
-      Rupture temporaire
-    </div>
-  ) : (
+  if (stock <= 0) {
+    return (
+      <div className={`${commonClasses} bg-red-400 text-white text-[10px] px-2`} style={{ height, minWidth }}>
+        Rupture temporaire
+      </div>
+    );
+  }
+
+  return (
     <div className={`${commonClasses} border border-gray-400 bg-white`} style={{ height, minWidth }}>
-      <button type="button" onClick={decrement} className="cursor-pointer text-sm px-2">-</button>
+      <button
+        type="button"
+        disabled={currentQty <= 1}
+        onClick={decrement}
+        className="cursor-pointer text-sm px-2 disabled:opacity-40"
+      >
+        -
+      </button>
       <span className="px-2">{currentQty}</span>
-      <button type="button" onClick={increment} className="cursor-pointer text-sm px-2">+</button>
+      <button
+        type="button"
+        disabled={currentQty >= stock}
+        onClick={increment}
+        className="cursor-pointer text-sm px-2 disabled:opacity-40"
+      >
+        +
+      </button>
     </div>
   );
 };
