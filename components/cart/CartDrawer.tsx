@@ -1,18 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { X, ShoppingCart } from "lucide-react";
 import ButtonLink from "../ui/ButtonLink";
 import CartItem from "./CartItem";
 import { useRouter } from "next/navigation";
-
-type CartItemType = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image?: string;
-};
+import { useCart } from "@/context/CartContext";
 
 type Props = {
   isOpen: boolean;
@@ -21,15 +14,15 @@ type Props = {
 
 export default function CartDrawer({ isOpen, close }: Props) {
   const router = useRouter();
+  const { cartCount, refreshCart } = useCart();
 
-  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const hasItems = itemCount > 0;
+  const hasItems = cartCount > 0;
 
-  const fetchCart = useCallback(async () => {
+  const fetchCartItems = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -40,81 +33,69 @@ export default function CartDrawer({ isOpen, close }: Props) {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
+      const items = Array.isArray(data.items)
+        ? data.items.map((item: any) => ({
+          id: item.itemId,
+          name: item.name,
+          price: parseFloat(item.price),
+          quantity: item.quantity,
+          image: item.image || undefined,
+        }))
+        : [];
 
-      if (data.items && Array.isArray(data.items)) {
-        setCartItems(
-          data.items.map((item: any) => ({
-            id: item.itemId,
-            name: item.name,
-            price: parseFloat(item.price),
-            quantity: item.quantity,
-            image: item.image || undefined,
-          }))
-        );
-      } else {
-        setCartItems([]);
-      }
+      setCartItems(items);
+      refreshCart(); // mise à jour du compteur global
     } catch (err) {
       console.error("Erreur récupération panier:", err);
       setError("Impossible de récupérer le panier.");
     } finally {
       setLoading(false);
     }
-
-
-  }, []);
+  };
 
   useEffect(() => {
-    if (isOpen) fetchCart();
-  }, [isOpen, fetchCart]);
+    if (isOpen) fetchCartItems();
+  }, [isOpen]);
 
   const updateQuantity = async (itemId: number, newQty: number) => {
     setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQty } : item
-      )
+      prev.map((item) => (item.id === itemId ? { ...item, quantity: newQty } : item))
     );
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ quantity: newQty }),
-        }
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: newQty }),
+      });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+      await refreshCart();
     } catch (err) {
       console.error("Erreur mise à jour quantité:", err);
-
-      fetchCart();
+      fetchCartItems();
     }
   };
 
 
   const removeItem = async (itemId: number) => {
-    // Mise à jour locale immédiate
+    // MAJ locale immédiate pour réactivité
     setCartItems((prev) => prev.filter((item) => item.id !== itemId));
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      await refreshCart();
     } catch (err) {
       console.error("Erreur suppression item:", err);
-
-      // Revert si erreur
-      fetchCart();
+      fetchCartItems(); // revert si erreur serveur
     }
   };
 
@@ -127,7 +108,6 @@ export default function CartDrawer({ isOpen, close }: Props) {
           }`}
         onClick={close}
       />
-
 
       {/* Drawer */}
       <div
@@ -147,7 +127,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
             <p className="font-regular text-lg text-black">Panier d'achat</p>
             {hasItems && (
               <span className="inline-flex items-center justify-center bg-primary text-white text-xs font-bold w-5 h-5 rounded-full">
-                {itemCount}
+                {cartCount}
               </span>
             )}
           </div>
@@ -166,7 +146,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
                     name={item.name}
                     price={item.price}
                     quantity={item.quantity}
-                    image={item.image ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}` : undefined}
+                    image={
+                      item.image
+                        ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}`
+                        : undefined
+                    }
                     updateQuantity={updateQuantity}
                     removeItem={removeItem}
                   />
@@ -182,10 +166,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
                   €
                 </p>
               </div>
+
               <ButtonLink
                 onClick={() => {
-                  close(); 
-                  router.push("/panier"); 
+                  close();
+                  router.push("/panier");
                 }}
                 className="my-4 w-full text-center"
               >
@@ -205,7 +190,5 @@ export default function CartDrawer({ isOpen, close }: Props) {
         </div>
       </div>
     </>
-
-
   );
 }

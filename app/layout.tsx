@@ -3,9 +3,10 @@ import { Roboto, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Main from "@/components/layout/Main"; 
+import Main from "@/components/layout/Main";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { CartProvider } from "@/context/CartContext";
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -30,20 +31,22 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${roboto.variable} font-sans min-h-screen flex flex-col antialiased`}>
-        <Navbar />
-        <Main>{children}</Main>
-        <Footer />
-        {/* Toasts */}
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          pauseOnHover
-          draggable
-          theme="light"
-        />
+        <CartProvider>
+          <Navbar />
+          <Main>{children}</Main>
+          <Footer />
+          {/* Toasts */}
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
+            theme="light"
+          />
+        </CartProvider>
       </body>
     </html>
   );

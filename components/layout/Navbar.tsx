@@ -9,6 +9,7 @@ import Dropdown from "../ui/Dropdown";
 import MobileMenu from "../ui/MobileMenu";
 import SearchBarOverlay from "../ui/SearchBarOverlay";
 import CartDrawer from "../cart/CartDrawer";
+import { useCart } from "@/context/CartContext";
 
 type Props = {};
 
@@ -18,30 +19,24 @@ const Navbar = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const { cartCount, refreshCart } = useCart();
   const burgerColor = isHome ? "bg-white" : "bg-black";
 
   // Récupérer le panier via l'API et le cookie cart_token
+  // useEffect(() => {
+  //   const cartToken = document.cookie
+  //     .split("; ")
+  //     .find(row => row.startsWith("cart_token="))
+  //     ?.split("=")[1];
+
+  //   if (!cartToken) return;
+
+  //   refreshCart();
+  // }, [refreshCart]);
+
   useEffect(() => {
-    const cartToken = document.cookie
-      .split("; ")
-      .find(row => row.startsWith("cart_token="))
-      ?.split("=")[1];
-
-    if (!cartToken) return;
-
-    fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
-      credentials: "include", // pour envoyer le cookie automatiquement
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && typeof data.totalItems === "number") {
-          setCartCount(data.totalItems); 
-        }
-      })
-      .catch(err => console.error("Erreur récupération panier:", err));
-  }, []);
-
+    refreshCart();
+  }, [pathname, refreshCart]);
 
   return (
     <header

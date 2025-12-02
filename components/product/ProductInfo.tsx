@@ -5,6 +5,7 @@ import AddToCartButton from "./AddToCartButton";
 import QuantityStepper from "./QuantityStepper";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { addToCart } from "@/lib/cartApi";
+import { useCart } from "@/context/CartContext";
 
 type ProductVariant = {
   id: number;
@@ -43,23 +44,19 @@ type Props = {
 
 const ProductInfo = ({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
+  const { refreshCart } = useCart(); // accès au contexte pour mettre à jour cartCount
 
-  // Récupération marque
   const words = product.name.split(" ");
-  const brand =
-    words[0] === "Double" && words[1]
-      ? `${words[0]} ${words[1]}`
-      : words[0];
+  const brand = words[0] === "Double" && words[1] ? `${words[0]} ${words[1]}` : words[0];
 
   const handleAddToCart = async () => {
-    const result = await addToCart(product.id, null, quantity);
-    console.log("Panier mis à jour :", result);
-  };
-
-  const scrollToColorChart = () => {
-    const element = document.getElementById("ColorChart");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    try {
+      // Optimistic UI : on pourrait ici ajouter un toast si on veut
+      await addToCart(product.id, null, quantity);
+      refreshCart(); // met à jour le compteur global immédiatement
+      console.log("Panier mis à jour !");
+    } catch (err) {
+      console.error("Erreur lors de l'ajout au panier :", err);
     }
   };
 
@@ -71,15 +68,11 @@ const ProductInfo = ({ product }: Props) => {
       <p className="uppercase text-gray-700">{brand}</p>
       <h2>{product.name}</h2>
 
-      {product.excerpt && (
-        <p className="text-gray-600">{product.excerpt}</p>
-      )}
+      {product.excerpt && <p className="text-gray-600">{product.excerpt}</p>}
 
-      <p className="text-4xl text-gray-800 font-bold">
-        {product.price} €
-      </p>
+      <p className="text-4xl text-gray-800 font-bold">{product.price} €</p>
 
-      {/* Quantité + Button */}
+      {/* Quantité + Bouton */}
       <div className="flex items-center gap-4 mt-4">
         {isParentProduct ? (
           <ButtonLink
@@ -95,7 +88,6 @@ const ProductInfo = ({ product }: Props) => {
           >
             Voir le nuancier
           </ButtonLink>
-
         ) : (
           <>
             <QuantityStepper
@@ -108,7 +100,7 @@ const ProductInfo = ({ product }: Props) => {
                 productId={product.id}
                 quantity={quantity}
                 stock={product.stock}
-                onAdd={handleAddToCart}
+                onAdd={handleAddToCart} // mise à jour immédiate du cartCount
               />
             )}
           </>
