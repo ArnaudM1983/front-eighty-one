@@ -4,90 +4,69 @@ import { useState, useEffect } from "react";
 
 type Props = {
     productId: number;
-    quantity?: number;
-    stock?: number;
-    onChange?: (qty: number) => void;
-    isCart?: boolean; // différencie panier / page produit
+    quantity: number;
+    onChange: (newQty: number) => void;
+    isCart?: boolean;
 };
 
-const QuantityStepper = ({
+export default function QuantityStepper({
     productId,
-    quantity = 1,
+    quantity,
     onChange,
-    isCart = false,
-}: Props) => {
-    const [currentQty, setCurrentQty] = useState(quantity);
+    isCart = false
+}: Props) {
     const [stock, setStock] = useState<number | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    // Fetch stock une seule fois au montage ou changement de produit
+    const commonClasses =
+        "mt-2 rounded-3xl text-center text-sm font-medium flex items-center justify-center";
+    const height = "32px";
+    const minWidth = "76px";
+
     useEffect(() => {
-        const fetchStock = async () => {
-            try {
-                const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${productId}/stock`
-                );
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const data = await res.json();
-                setStock(data.stock);
+        if (!isCart) {
+            fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${productId}/stock`)
+                .then(res => res.json())
+                .then(data => setStock(data.stock))
+                .catch(() => setStock(null));
+        }
+    }, [productId, isCart]);
 
+    const disableIncrement =
+        (!isCart && stock !== null && quantity >= stock) ||
+        (!isCart && stock === 0);
 
-                // Ajuste qty si elle dépasse le stock
-                if (quantity > data.stock) {
-                    setCurrentQty(data.stock);
-                    onChange?.(data.stock);
-                } else {
-                    setCurrentQty(quantity);
-                    onChange?.(quantity);
-                }
-            } catch (err) {
-                console.error("Erreur récupération stock :", err);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const disableDecrement = quantity <= 1;
 
-        fetchStock();
-
-
-    }, [productId]);
-
-    // Décrémenter la quantité
-    const decrement = () => {
-        const newQty = Math.max(1, currentQty - 1);
-        setCurrentQty(newQty);
-        onChange?.(newQty);
+    const update = (newQty: number) => {
+        if (!isCart && stock !== null && newQty > stock) {
+            newQty = stock;
+        }
+        onChange(newQty);
     };
 
-    // Incrémenter la quantité avec vérification du stock
-    const increment = () => {
-        if (stock === null) return;
-        if (currentQty >= stock) return;
-        const newQty = currentQty + 1;
-        setCurrentQty(newQty);
-        onChange?.(newQty);
-    };
-
-    if (loading) return <div>Chargement...</div>;
-
-    // Mode page produit : rupture si stock nul
-    if (!isCart && (!stock || stock <= 0)) {
-        return (<div className="px-6 py-2 bg-red-400 text-white rounded-3xl text-md font-semibold">
-            Rupture temporaire </div>
-        );
-    }
-
-    return (<div className="flex items-center border rounded-3xl px-4 border-gray-400 bg-white"> <button type="button" onClick={decrement} className="cursor-pointer px-2 text-lg">
-        - </button> <span className="py-2 text-center w-10 text-md font-medium">{currentQty}</span>
-        <button
-            type="button"
-            onClick={increment}
-            className={`cursor-pointer px-2 text-lg ${currentQty >= (stock ?? 0) ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-            disabled={currentQty >= (stock ?? 0)}
+    return (
+        <div
+            className={`${commonClasses} border border-gray-400 bg-white`}
+            style={{ height, minWidth }}
         >
-            + </button> </div>
-    );
-};
+            <button
+                className="cursor-pointer text-sm px-2 disabled:opacity-40"
+                onClick={() => update(quantity - 1)}
+                disabled={disableDecrement}
+            >
+                -
+            </button>
 
-export default QuantityStepper;
+            <span className="px-2">{quantity}</span>
+
+            <button
+                className="cursor-pointer text-sm px-2 disabled:opacity-40"
+                onClick={() => update(quantity + 1)}
+                disabled={disableIncrement}
+            >
+                +
+            </button>
+        </div>
+    );
+}

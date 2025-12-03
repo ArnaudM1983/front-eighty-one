@@ -4,6 +4,7 @@ import { Trash2 } from "lucide-react";
 import QuantityStepperChart from "../product/QuantityStepperChart";
 import { toast, ToastContentProps } from "react-toastify";
 import { showConfirmToast } from "../ui/ConfirmToast";
+import QuantityStepper from "../product/QuantityStepper";
 
 type Props = {
   id: number;
@@ -13,7 +14,9 @@ type Props = {
   image?: string;
   updateQuantity: (id: number, newQty: number) => void;
   removeItem: (id: number) => void;
+  stock?: number; // <-- nouveau
 };
+
 
 export default function CartItem({
   id,
@@ -48,11 +51,13 @@ export default function CartItem({
         <div className="flex flex-col justify-center max-w-[200px]">
           <p className="font-regular text-sm text-black">{name}</p>
           <div className="w-[60px] text-black">
-            <QuantityStepperChart
-              stock={999}
+            <QuantityStepper
+              productId={id}
               quantity={quantity}
-              onChange={(qty) => updateQuantity(id, qty)}
+              isCart={true}
+              onChange={(newQty) => updateQuantity(id, newQty)}
             />
+
           </div>
         </div>
       </div>
