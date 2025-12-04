@@ -94,7 +94,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
               >
                 Voir le panier
               </ButtonLink>
-              <ButtonLink href="/cart-summary" className="w-full text-center">
+              <ButtonLink onClick={() => {
+                  close();
+                  router.push("/paiement");
+                }}
+                className="my-4 w-full text-center">
                 Commander
               </ButtonLink>
             </>
