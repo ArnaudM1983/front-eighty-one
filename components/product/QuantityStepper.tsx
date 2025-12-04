@@ -5,18 +5,16 @@ import { useState, useEffect } from "react";
 type Props = {
     productId: number;
     quantity: number;
+    stock?: number;
     onChange: (newQty: number) => void;
-    isCart?: boolean;
 };
 
 export default function QuantityStepper({
     productId,
     quantity,
     onChange,
-    isCart = false
 }: Props) {
     const [stock, setStock] = useState<number | null>(null);
-    const [loading, setLoading] = useState(false);
 
     const commonClasses =
         "mt-2 rounded-3xl text-center text-sm font-medium flex items-center justify-center";
@@ -24,24 +22,19 @@ export default function QuantityStepper({
     const minWidth = "76px";
 
     useEffect(() => {
-        if (!isCart) {
-            fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${productId}/stock`)
-                .then(res => res.json())
-                .then(data => setStock(data.stock))
-                .catch(() => setStock(null));
-        }
-    }, [productId, isCart]);
+        // Fetch le stock depuis l'API pour ce produit
+        fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${productId}/stock`)
+            .then(res => res.json())
+            .then(data => setStock(data.stock))
+            .catch(() => setStock(null));
+    }, [productId]);
 
-    const disableIncrement =
-        (!isCart && stock !== null && quantity >= stock) ||
-        (!isCart && stock === 0);
-
+    const disableIncrement = stock !== null && quantity >= stock;
     const disableDecrement = quantity <= 1;
 
-    const update = (newQty: number) => {
-        if (!isCart && stock !== null && newQty > stock) {
-            newQty = stock;
-        }
+    const handleUpdate = (newQty: number) => {
+        if (stock !== null && newQty > stock) newQty = stock; // jamais dépasser le stock
+        if (newQty < 1) newQty = 1; // minimum 1
         onChange(newQty);
     };
 
@@ -52,21 +45,23 @@ export default function QuantityStepper({
         >
             <button
                 className="cursor-pointer text-sm px-2 disabled:opacity-40"
-                onClick={() => update(quantity - 1)}
+                onClick={() => handleUpdate(quantity - 1)}
                 disabled={disableDecrement}
             >
-                -
-            </button>
+                - </button>
+
 
             <span className="px-2">{quantity}</span>
 
             <button
                 className="cursor-pointer text-sm px-2 disabled:opacity-40"
-                onClick={() => update(quantity + 1)}
+                onClick={() => handleUpdate(quantity + 1)}
                 disabled={disableIncrement}
             >
                 +
             </button>
         </div>
+
+
     );
 }

@@ -19,7 +19,7 @@ const Navbar = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const { cartCount, refreshCart } = useCart();
+  const { cartCount } = useCart();
   const burgerColor = isHome ? "bg-white" : "bg-black";
 
   // Récupérer le panier via l'API et le cookie cart_token
@@ -33,10 +33,6 @@ const Navbar = (props: Props) => {
 
   //   refreshCart();
   // }, [refreshCart]);
-
-  useEffect(() => {
-    refreshCart();
-  }, [pathname, refreshCart]);
 
   return (
     <header
