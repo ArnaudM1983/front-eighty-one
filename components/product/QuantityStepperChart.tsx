@@ -8,7 +8,10 @@ type Props = {
   onChange?: (qty: number) => void;
 };
 
-const QuantityStepperChart = ({ quantity = 0, stock, onChange }: Props) => {
+const QuantityStepperChart = ({ 
+  quantity = 0, 
+  stock, 
+  onChange }: Props) => {
   const [currentQty, setCurrentQty] = useState(quantity);
 
   // Sync le set du parent

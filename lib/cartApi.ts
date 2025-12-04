@@ -30,3 +30,24 @@ export async function getCart() {
   });
   return res.json();
 }
+
+/**
+ * Met à jour la quantité d'un article dans le panier
+ * Vérifie le stock côté serveur
+ */
+export async function updateCartQuantity(itemId: number, quantity: number) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ quantity }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    const msg = data?.message || `Erreur serveur (${res.status})`;
+    throw new Error(msg);
+  }
+
+  return res.json();
+}
