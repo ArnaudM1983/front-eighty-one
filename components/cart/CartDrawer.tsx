@@ -23,7 +23,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
   const hasItems = cartCount > 0;
 
   const fetchCartItems = async () => {
-    setLoading(true);
+    // setLoading(true);
     setError(null);
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
@@ -61,50 +61,48 @@ export default function CartDrawer({ isOpen, close }: Props) {
   }, [isOpen]);
 
   const updateQuantity = async (itemId: number, newQty: number) => {
-    // Trouver l'article dans le panier
     const item = cartItems.find((i) => i.id === itemId);
     if (!item) return;
 
-    // Vérifier le stock disponible
-    if (newQty > item.stock) {
+    // Vérification stock AVANT update local
+    if (item.stock && newQty > item.stock) {
       setError(`Stock disponible : ${item.stock}`);
-      return; // On stoppe la requête
+      return; 
     }
 
-    // Mettre à jour localement pour effet immédiat
-    setCartItems((prev) =>
-      prev.map((i) => (i.id === itemId ? { ...i, quantity: newQty } : i))
-    );
-
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity: newQty }),
-      });
-
+      // Update côté serveur
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ quantity: newQty }),
+        }
+      );
 
       if (!res.ok) {
-        console.error("Erreur backend mise à jour quantité:", res.status);
-        fetchCartItems(); // Recharger le panier mais sans afficher l'erreur
+        fetchCartItems(); 
         return;
       }
 
+      const updated = await res.json();
+
+      setCartItems(prev =>
+        prev.map(i => (i.id === itemId ? { ...i, quantity: updated.quantity } : i))
+      );
+
       await refreshCart();
-      setError(null); // Réinitialiser l'erreur si tout est OK
-
-
+      setError(null);
     } catch (err) {
-      console.error("Erreur réseau mise à jour quantité:", err);
-      fetchCartItems(); // Recharger le panier
+      console.error(err);
+      fetchCartItems();
     }
   };
 
-
   const removeItem = async (itemId: number) => {
     setCartItems((prev) => prev.filter((item) => item.id !== itemId));
-
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`, {
@@ -119,8 +117,6 @@ export default function CartDrawer({ isOpen, close }: Props) {
       console.error("Erreur suppression item:", err);
       fetchCartItems();
     }
-
-
   };
 
   return (

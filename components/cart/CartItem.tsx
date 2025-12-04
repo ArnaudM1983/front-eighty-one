@@ -14,7 +14,7 @@ type Props = {
   image?: string;
   updateQuantity: (id: number, newQty: number) => void;
   removeItem: (id: number) => void;
-  stock?: number; // <-- nouveau
+  stock?: number; 
 };
 
 
