@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import ButtonLink from "../ui/ButtonLink";
 import Image from "next/image";
 
@@ -12,10 +14,47 @@ type CartItemType = {
 
 type Props = {
     cartItems: CartItemType[];
+    cartToken: string; // Token du panier à envoyer à l'API
 };
 
-export default function CartSummary({ cartItems }: Props) {
+export default function CartSummary({ cartItems, cartToken }: Props) {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
     const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    const handleCreateOrder = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/create`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ cartToken }),
+                }
+            );
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                // Redirection vers la page checkout avec l'ID de la commande
+                router.push(`/paiement/${data.orderId}`);
+            } else {
+                setError(data.error || "Impossible de créer la commande");
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Erreur serveur lors de la création de la commande");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="w-full lg:w-1/3 rounded-md h-fit flex flex-col gap-4">
@@ -36,9 +75,15 @@ export default function CartSummary({ cartItems }: Props) {
             </div>
 
             {/* Bouton Commander */}
-            <ButtonLink href="/cart-summary" className="mt-6 w-full text-center">
-                Commander
-            </ButtonLink>
+            <button
+                onClick={handleCreateOrder}
+                disabled={loading || cartItems.length === 0}
+                className="mt-6 w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md disabled:opacity-50"
+            >
+                {loading ? "Création de la commande..." : "Commander"}
+            </button>
+
+            {error && <p className="text-red-500 mt-2">{error}</p>}
 
             {/* Boutons paiement direct avec images */}
             <a
@@ -60,7 +105,6 @@ export default function CartSummary({ cartItems }: Props) {
                     <Image src="/google-pay.png" alt="Google Pay" width={42} height={42} />
                 </span>
             </a>
-
         </div>
     );
 }
