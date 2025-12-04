@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { X, ShoppingCart } from "lucide-react";
 import ButtonLink from "../ui/ButtonLink";
 import CartItem from "./CartItem";
@@ -14,128 +13,29 @@ type Props = {
 
 export default function CartDrawer({ isOpen, close }: Props) {
   const router = useRouter();
-  const { cartCount, refreshCart } = useCart();
-
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { cartItems, cartCount, error, updateQuantity, removeItem } = useCart();
 
   const hasItems = cartCount > 0;
-
-  const fetchCartItems = async () => {
-    // setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-
-      const items = Array.isArray(data.items)
-        ? data.items.map((item: any) => ({
-          id: item.itemId,
-          name: item.name,
-          price: parseFloat(item.price),
-          quantity: item.quantity,
-          image: item.image || undefined,
-        }))
-        : [];
-
-      // Délai minimal pour le loader pour éviter le flash
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      setCartItems(items);
-      refreshCart();
-    } catch (err) {
-      console.error("Erreur récupération panier:", err);
-      setError("Impossible de récupérer le panier.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) fetchCartItems();
-  }, [isOpen]);
-
-  const updateQuantity = async (itemId: number, newQty: number) => {
-    const item = cartItems.find((i) => i.id === itemId);
-    if (!item) return;
-
-    // Vérification stock AVANT update local
-    if (item.stock && newQty > item.stock) {
-      setError(`Stock disponible : ${item.stock}`);
-      return; 
-    }
-
-    try {
-      // Update côté serveur
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${itemId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ quantity: newQty }),
-        }
-      );
-
-      if (!res.ok) {
-        fetchCartItems(); 
-        return;
-      }
-
-      const updated = await res.json();
-
-      setCartItems(prev =>
-        prev.map(i => (i.id === itemId ? { ...i, quantity: updated.quantity } : i))
-      );
-
-      await refreshCart();
-      setError(null);
-    } catch (err) {
-      console.error(err);
-      fetchCartItems();
-    }
-  };
-
-  const removeItem = async (itemId: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== itemId));
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${itemId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      await refreshCart();
-    } catch (err) {
-      console.error("Erreur suppression item:", err);
-      fetchCartItems();
-    }
-  };
 
   return (
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
+        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
         onClick={close}
       />
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 w-full md:w-96 h-screen bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 w-full md:w-96 h-screen bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         {/* Close button */}
         <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-red-700 cursor-pointer transform transition-transform duration-300 hover:rotate-90"
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-700 cursor-pointer"
           onClick={close}
         >
           <X className="w-6 h-6" strokeWidth={1} />
@@ -151,25 +51,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
             )}
           </div>
 
-          {loading ? (
-            // Skeleton loader
-            <div className="flex flex-col space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center gap-4 animate-pulse">
-                  <div className="w-16 h-16 bg-gray-200 rounded" />
-                  <div className="flex-1 space-y-2 py-1">
-                    <div className="h-4 bg-gray-200 rounded w-3/4" />
-                    <div className="h-4 bg-gray-200 rounded w-1/2" />
-                  </div>
-                  <div className="h-4 bg-gray-200 rounded w-10" />
-                </div>
-              ))}
-            </div>
-          ) : error ? (
-            <p className="text-center text-red-500">{error}</p>
-          ) : hasItems ? (
+          {error && <p className="text-center text-red-500">{error}</p>}
+
+          {hasItems ? (
             <>
-              <div className="flex-1 overflow-y-auto space-y-4 transition-opacity duration-300">
+              <div className="flex-1 overflow-y-auto space-y-4">
                 {cartItems.map((item) => (
                   <CartItem
                     key={item.id}
@@ -182,6 +68,7 @@ export default function CartDrawer({ isOpen, close }: Props) {
                         ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}`
                         : undefined
                     }
+                    stock={item.stock}
                     updateQuantity={updateQuantity}
                     removeItem={removeItem}
                   />
@@ -221,7 +108,5 @@ export default function CartDrawer({ isOpen, close }: Props) {
         </div>
       </div>
     </>
-
-
   );
 }
