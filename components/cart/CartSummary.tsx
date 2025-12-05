@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import ButtonLink from "../ui/ButtonLink";
 
 type CartItemType = {
   id: number;
@@ -74,13 +75,13 @@ export default function CartSummary({ cartItems, cartToken }: Props) {
         <span>{subtotal.toFixed(2)} €</span>
       </div>
 
-      <button
-        onClick={handleCreateOrder}
-        disabled={loading || cartItems.length === 0}
-        className="mt-6 w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md disabled:opacity-50"
-      >
-        {loading ? "Création de la commande..." : "Commander"}
-      </button>
+      <ButtonLink
+  onClick={handleCreateOrder}
+  className="w-full text-center mt-6"
+>
+  {loading ? "Création de la commande..." : "Commander"}
+</ButtonLink>
+
 
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
