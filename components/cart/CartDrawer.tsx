@@ -94,13 +94,13 @@ export default function CartDrawer({ isOpen, close }: Props) {
               >
                 Voir le panier
               </ButtonLink>
-              <ButtonLink onClick={() => {
+              {/* <ButtonLink onClick={() => {
                   close();
                   router.push("/paiement");
                 }}
                 className="my-4 w-full text-center">
                 Commander
-              </ButtonLink>
+              </ButtonLink> */}
             </>
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center text-center gap-4">

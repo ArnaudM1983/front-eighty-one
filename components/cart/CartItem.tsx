@@ -62,7 +62,7 @@ export default function CartItem({
       >
         <Trash2 className="w-5 h-5 cursor-pointer" strokeWidth={1} />
       </button>
-      <p className="font-regular text-sm text-black">{(price * quantity).toFixed(2)} €</p>
+      <p className="font-regular text-sm text-black">{(price * quantity).toFixed(2)}&nbsp;€</p>
     </div>
   </div>
 
