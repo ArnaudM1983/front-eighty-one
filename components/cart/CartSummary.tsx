@@ -76,11 +76,11 @@ export default function CartSummary({ cartItems, cartToken }: Props) {
       </div>
 
       <ButtonLink
-  onClick={handleCreateOrder}
-  className="w-full text-center mt-6"
->
-  {loading ? "Création de la commande..." : "Commander"}
-</ButtonLink>
+        onClick={handleCreateOrder}
+        className="w-full text-center mt-6"
+      >
+        {loading ? "Création de la commande..." : "Commander"}
+      </ButtonLink>
 
 
       {error && <p className="text-red-500 mt-2">{error}</p>}

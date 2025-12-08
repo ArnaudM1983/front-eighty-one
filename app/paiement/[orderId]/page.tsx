@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ShippingAddressForm from "@/components/checkout/ShippingAddressForm";
+import CheckoutSummary from "@/components/checkout/CheckoutSummary";
 
 export default function PaiementPage() {
     const params = useParams();
@@ -31,7 +32,7 @@ export default function PaiementPage() {
     if (!order) return <p>Commande introuvable</p>;
 
     return (
-        <div className="max-w-6xl mx-auto p-6 mt-8">
+        <div className="max-w-6xl mx-auto p-6 pb-24 mt-8">
 
             {/* Titre centré */}
             <h2 className="text-3xl font-bold text-center mb-10">
@@ -48,7 +49,7 @@ export default function PaiementPage() {
 
                 {/* Colonne droite = Résumé panier (1/3) */}
                 <div className="w-full lg:w-1/3">
-                    Panier
+                    <CheckoutSummary />
                 </div>
 
             </div>
