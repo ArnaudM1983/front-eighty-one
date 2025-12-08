@@ -89,7 +89,7 @@ const ColorChart = ({ productId, variants }: Props) => {
                     className="w-full max-w-[100px] max-h-[100px] object-cover rounded"
                   />
                 )}
-                <p className="text-xs text-center mt-2 break-words whitespace-normal w-full">
+                <p className="text-xs text-center mt-2 wrap-break-word whitespace-normal w-full">
                   {lastWord}
                 </p>
 
