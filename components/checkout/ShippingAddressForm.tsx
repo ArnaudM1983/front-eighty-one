@@ -200,4 +200,6 @@ const ShippingAddressForm: React.FC = forwardRef<ShippingFormRef, {}>(({ }, ref)
     );
 });
 
-export default ShippingAddressForm;
+export default ShippingAddressForm as React.ForwardRefExoticComponent<
+    React.PropsWithoutRef<{}> & React.RefAttributes<ShippingFormRef>
+>;

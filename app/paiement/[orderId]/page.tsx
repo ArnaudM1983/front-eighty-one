@@ -17,7 +17,7 @@ export default function PaiementPage() {
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     
-    // ⚠️ RÉFÉRENCE POUR SOUMETTRE ShippingAddressForm À DISTANCE
+    // RÉFÉRENCE POUR SOUMETTRE ShippingAddressForm À DISTANCE
     const shippingFormRef = useRef<ShippingFormRef>(null); 
     const [isSaving, setIsSaving] = useState(false); // État de sauvegarde de l'adresse
     // const [clientSecret, setClientSecret] = useState<string | null>(null); // Décommenter pour Stripe
@@ -27,12 +27,12 @@ export default function PaiementPage() {
             if (!orderId) return;
 
             try {
-                // 1. Récupération des données de la commande
+                // Récupération des données de la commande
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}`);
                 const data = await res.json();
                 setOrder(data);
 
-                // 2. Décommenter pour l'étape Stripe
+                // Décommenter pour l'étape Stripe
                 // const clientSecretRes = await fetch(/* ... votre endpoint clientSecret ... */);
                 // setClientSecret(clientSecretRes.clientSecret);
 
@@ -46,7 +46,7 @@ export default function PaiementPage() {
         fetchOrder();
     }, [orderId]);
 
-    // ⚠️ FONCTION D'ORCHESTRATION AU CLIC SUR "PAYER"
+    // FONCTION D'ORCHESTRATION AU CLIC SUR "PAYER"
     const handleFullCheckout = async () => {
         if (!shippingFormRef.current) return false;
 
