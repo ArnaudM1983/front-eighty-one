@@ -1,13 +1,10 @@
+// src/app/paiement/[orderId]/page.tsx
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-<<<<<<< Updated upstream
-// Assurez-vous que PUDOInfo est correctement importé
-import ShippingAddressForm, { ShippingFormRef, PUDOInfo } from "@/components/checkout/ShippingAddressForm"; 
-=======
 import ShippingAddressForm, { ShippingFormRef, PUDOInfo } from "@/components/checkout/ShippingAddressForm";
->>>>>>> Stashed changes
 import CheckoutSummary from "@/components/checkout/CheckoutSummary";
 
 export default function PaiementPage() {
@@ -16,22 +13,16 @@ export default function PaiementPage() {
 
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    
-<<<<<<< Updated upstream
-    // --- ÉTATS MAÎTRES DE LIVRAISON (Nécessaires pour CheckoutSummary) ---
-    const [shippingCost, setShippingCost] = useState<number>(0);
-    const [shippingMethod, setShippingMethod] = useState<string>('pickup'); // 'pickup' par défaut
-    const [selectedPudo, setSelectedPudo] = useState<PUDOInfo>(null); 
-    // --------------------------------------------------------------------
-=======
-    // --- ÉTATS MAÎTRES DE LIVRAISON ---
-    const [shippingCost, setShippingCost] = useState<number>(0);
-    const [shippingMethod, setShippingMethod] = useState<string>('pickup'); // 'pickup' par défaut
-    const [selectedPudo, setSelectedPudo] = useState<PUDOInfo>(null);
-    // ----------------------------------------
->>>>>>> Stashed changes
 
-    const shippingFormRef = useRef<ShippingFormRef>(null); 
+    // --- ÉTATS MAÎTRES DE LIVRAISON & COÛTS ---
+    const [shippingCost, setShippingCost] = useState<number>(0);
+    // Initialiser avec 'pickup' ou la valeur par défaut si elle existe dans l'API
+    const [shippingMethod, setShippingMethod] = useState<string>('pickup');
+    const [selectedPudo, setSelectedPudo] = useState<PUDOInfo>(null);
+    const [orderSubtotalState, setOrderSubtotalState] = useState<number>(0); // Gérer le subtotal ici
+    // ------------------------------------------
+
+    const shippingFormRef = useRef<ShippingFormRef>(null);
     const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
@@ -40,24 +31,18 @@ export default function PaiementPage() {
 
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}`);
+                if (!res.ok) throw new Error("Erreur de récupération de la commande.");
+                
                 const data = await res.json();
                 
-<<<<<<< Updated upstream
-                // Le champ 'total' contient maintenant le sous-total réel après la correction Symfony
-                setOrder(data); 
+                setOrder(data);
+                
+                // Initialise le subtotal une fois l'ordre chargé
+                const initialSubtotal = data?.total ? parseFloat(data.total) : 0;
+                setOrderSubtotalState(initialSubtotal);
 
-=======
-                // IMPORTANT: Symfony a besoin que le subTotal soit calculé au chargement 
-                // pour que le total initial ne soit pas zéro.
-                if (data.total) {
-                     // Utiliser le total initial enregistré (qui devrait être le subTotal)
-                    setOrder(data);
-                } else {
-                    throw new Error("Erreur de récupération des données de commande.");
-                }
->>>>>>> Stashed changes
             } catch (err) {
-                console.error(err);
+                console.error("Erreur lors du chargement de la commande:", err);
                 setOrder(null);
             } finally {
                 setLoading(false);
@@ -70,14 +55,8 @@ export default function PaiementPage() {
     // FONCTION D'ORCHESTRATION AU CLIC SUR "PAYER"
     const handleFullCheckout = async () => {
         if (!shippingFormRef.current) return false;
-        
-        // Sécurité de base
-        if (shippingMethod !== 'pickup' && shippingCost <= 0) {
-             alert("Veuillez patienter pendant le calcul des frais de port.");
-             return false;
-        }
 
-        // Validation de sécurité (vérification que le coût a été calculé)
+        // Validation de sécurité: Si ce n'est pas 'pickup', le coût doit être positif.
         if (shippingMethod !== 'pickup' && shippingCost <= 0) {
              alert("Veuillez patienter pendant le calcul des frais de port.");
              return false;
@@ -87,15 +66,12 @@ export default function PaiementPage() {
         console.log("Étape 1: Sauvegarde des infos de livraison...");
 
         const success = await shippingFormRef.current.submitForm();
-        
+
         setIsSaving(false);
 
         if (success) {
             console.log("Étape 2: Adresse et frais enregistrés. Procéder au paiement...");
-<<<<<<< Updated upstream
-=======
             // TODO: Déclencher la logique de confirmation Stripe ici
->>>>>>> Stashed changes
             return true;
         } else {
             console.error("Échec de la validation de l'adresse ou des frais.");
@@ -105,24 +81,12 @@ export default function PaiementPage() {
 
     if (loading) return <p>Chargement de la commande...</p>;
     if (!order) return <p>Commande introuvable</p>;
-<<<<<<< Updated upstream
 
-    // --- PRÉPARATION DES PROPS POUR CHECKOUTSUMMARY (Résolution de l'erreur 2740) ---
-    const orderIdString = orderId as string;
-    const orderSubtotal = order?.total ? parseFloat(order.total) : 0; // Utilise 'total' comme sous-total initial
-    const orderTotalWeight = order?.totalWeight || 0; 
-    const orderItems = order?.items || [];
-    // ----------------------------------------------------------------------------------
-=======
-    
     // --- PRÉPARATION DES PROPS DE COMMANDE ---
     const orderIdString = orderId as string;
-    // Utiliser le 'total' de l'API comme sous-total initial (car il a été fixé à getSubTotal() lors de la création)
-    const orderSubtotal = order?.total ? parseFloat(order.total) : 0; 
-    const orderTotalWeight = order?.totalWeight || 0; 
+    const orderTotalWeight = order?.totalWeight || 0; // Cette valeur est supposée être en GRAMMES (ex: 1780)
     const orderItems = order?.items || [];
     // -----------------------------------------
->>>>>>> Stashed changes
 
     return (
         <div className="max-w-6xl mx-auto p-6 pb-24 mt-8">
@@ -133,39 +97,29 @@ export default function PaiementPage() {
 
                 {/* Colonne gauche : Formulaire d'adresse / Expédition */}
                 <div className="w-full lg:w-2/3">
-                    <ShippingAddressForm 
+                    <ShippingAddressForm
                         ref={shippingFormRef}
                         orderId={orderIdString}
-                        // PASSAGE DES INFOS DE LIVRAISON AU FORMULAIRE
+                        // PASSAGE DES INFOS DE LIVRAISON AU FORMULAIRE POUR SAUVEGARDE
                         selectedPudo={selectedPudo}
                         shippingMethod={shippingMethod}
-                        shippingCost={shippingCost} 
-                    /> 
+                        shippingCost={shippingCost}
+                    />
                 </div>
 
                 {/* Colonne droite : Résumé, Options de Livraison et Paiement */}
                 <div className="w-full lg:w-1/3">
-                    <CheckoutSummary 
-                        onFinalize={handleFullCheckout} 
+                    <CheckoutSummary
+                        onFinalize={handleFullCheckout}
                         isSavingAddress={isSaving}
-                        
-<<<<<<< Updated upstream
-                        // --- PROPS DE COMMANDE (CORRIGÉES) ---
-                        totalWeight={orderTotalWeight}
-                        orderId={orderIdString}
-                        subtotal={orderSubtotal}
-                        orderItems={orderItems} 
 
-                        // --- PROPS D'ÉTAT (SETTERS) ---
-=======
                         // DONNÉES DE COMMANDE ESSENTIELLES
-                        totalWeight={orderTotalWeight}
+                        totalWeight={orderTotalWeight} // Valeur en GRAMMES (sera convertie dans CheckoutSummary)
                         orderId={orderIdString}
-                        subtotal={orderSubtotal}
-                        orderItems={orderItems} // <-- NOUVEAU: Liste des articles
+                        subtotal={orderSubtotalState} // Subtotal est un état maître
+                        orderItems={orderItems}
 
                         // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT
->>>>>>> Stashed changes
                         setShippingCost={setShippingCost}
                         setShippingMethod={setShippingMethod}
                         setSelectedPudo={setSelectedPudo}
