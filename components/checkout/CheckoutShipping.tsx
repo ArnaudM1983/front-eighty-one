@@ -202,15 +202,6 @@ const CheckoutShipping = ({
                 </div>
             )}
 
-            {/* Affichage du prix de l'option sélectionnée */}
-            {selectedOption && (
-                <p className="mt-4 text-sm text-right text-gray-600">
-                    Frais de port :
-                    <span className="font-semibold ml-1">
-                        {currentPrice.toFixed(2)} €
-                    </span>
-                </p>
-            )}
         </div>
     );
 };
