@@ -1,14 +1,11 @@
+// src/app/paiement/[orderId]/page.tsx
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-import ShippingAddressForm, { ShippingFormRef } from "@/components/checkout/ShippingAddressForm";
+import ShippingAddressForm, { ShippingFormRef, PUDOInfo } from "@/components/checkout/ShippingAddressForm";
 import CheckoutSummary from "@/components/checkout/CheckoutSummary";
-
-// Note: Les imports Stripe sont commentés car le test initial ne les utilise pas.
-// import { Elements } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_votre_cle_publique');
 
 export default function PaiementPage() {
     const params = useParams();
@@ -16,28 +13,37 @@ export default function PaiementPage() {
 
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    
-    // RÉFÉRENCE POUR SOUMETTRE ShippingAddressForm À DISTANCE
-    const shippingFormRef = useRef<ShippingFormRef>(null); 
-    const [isSaving, setIsSaving] = useState(false); // État de sauvegarde de l'adresse
-    // const [clientSecret, setClientSecret] = useState<string | null>(null); // Décommenter pour Stripe
+
+    // --- ÉTATS MAÎTRES DE LIVRAISON & COÛTS ---
+    const [shippingCost, setShippingCost] = useState<number>(0);
+    // Initialiser avec 'pickup' ou la valeur par défaut si elle existe dans l'API
+    const [shippingMethod, setShippingMethod] = useState<string>('pickup');
+    const [selectedPudo, setSelectedPudo] = useState<PUDOInfo>(null);
+    const [orderSubtotalState, setOrderSubtotalState] = useState<number>(0); // Gérer le subtotal ici
+    // ------------------------------------------
+
+    const shippingFormRef = useRef<ShippingFormRef>(null);
+    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         const fetchOrder = async () => {
             if (!orderId) return;
 
             try {
-                // Récupération des données de la commande
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}`);
+                if (!res.ok) throw new Error("Erreur de récupération de la commande.");
+                
                 const data = await res.json();
+                
                 setOrder(data);
-
-                // Décommenter pour l'étape Stripe
-                // const clientSecretRes = await fetch(/* ... votre endpoint clientSecret ... */);
-                // setClientSecret(clientSecretRes.clientSecret);
+                
+                // Initialise le subtotal une fois l'ordre chargé
+                const initialSubtotal = data?.total ? parseFloat(data.total) : 0;
+                setOrderSubtotalState(initialSubtotal);
 
             } catch (err) {
-                console.error(err);
+                console.error("Erreur lors du chargement de la commande:", err);
+                setOrder(null);
             } finally {
                 setLoading(false);
             }
@@ -50,21 +56,25 @@ export default function PaiementPage() {
     const handleFullCheckout = async () => {
         if (!shippingFormRef.current) return false;
 
+        // Validation de sécurité: Si ce n'est pas 'pickup', le coût doit être positif.
+        if (shippingMethod !== 'pickup' && shippingCost <= 0) {
+             alert("Veuillez patienter pendant le calcul des frais de port.");
+             return false;
+        }
+
         setIsSaving(true);
         console.log("Étape 1: Sauvegarde des infos de livraison...");
 
-        // Appeler la fonction de soumission exposée par ShippingAddressForm
         const success = await shippingFormRef.current.submitForm();
-        
+
         setIsSaving(false);
 
         if (success) {
-            console.log("Étape 2: Adresse enregistrée. Procéder au paiement...");
-            // TODO: Déclencher la logique de confirmation Stripe ici (si le bouton était externe)
-            // Comme le bouton est dans CheckoutSummary, nous supposons que la suite s'y fera.
+            console.log("Étape 2: Adresse et frais enregistrés. Procéder au paiement...");
+            // TODO: Déclencher la logique de confirmation Stripe ici
             return true;
         } else {
-            console.error("Échec de la validation de l'adresse.");
+            console.error("Échec de la validation de l'adresse ou des frais.");
             return false;
         }
     };
@@ -72,7 +82,11 @@ export default function PaiementPage() {
     if (loading) return <p>Chargement de la commande...</p>;
     if (!order) return <p>Commande introuvable</p>;
 
-    // const stripeOptions = clientSecret ? { clientSecret, locale: 'fr' as const } : undefined; // Décommenter pour Stripe
+    // --- PRÉPARATION DES PROPS DE COMMANDE ---
+    const orderIdString = orderId as string;
+    const orderTotalWeight = order?.totalWeight || 0; // Cette valeur est supposée être en GRAMMES (ex: 1780)
+    const orderItems = order?.items || [];
+    // -----------------------------------------
 
     return (
         <div className="max-w-6xl mx-auto p-6 pb-24 mt-8">
@@ -81,24 +95,36 @@ export default function PaiementPage() {
 
             <div className="flex flex-col lg:flex-row gap-12">
 
-                {/* Colonne gauche : Rendre le formulaire avec la ref */}
+                {/* Colonne gauche : Formulaire d'adresse / Expédition */}
                 <div className="w-full lg:w-2/3">
-                    <ShippingAddressForm ref={shippingFormRef} /> 
+                    <ShippingAddressForm
+                        ref={shippingFormRef}
+                        orderId={orderIdString}
+                        // PASSAGE DES INFOS DE LIVRAISON AU FORMULAIRE POUR SAUVEGARDE
+                        selectedPudo={selectedPudo}
+                        shippingMethod={shippingMethod}
+                        shippingCost={shippingCost}
+                    />
                 </div>
 
-                {/* Colonne droite : Rendre le résumé et passer la fonction de finalisation */}
+                {/* Colonne droite : Résumé, Options de Livraison et Paiement */}
                 <div className="w-full lg:w-1/3">
-                    {/* ENVELOPPEMENT STRIPE À DÉCOMMENTER LORS DE L'INTÉGRATION FINALE */}
-                    {/* {clientSecret && stripeOptions ? (
-                        <Elements stripe={stripePromise} options={stripeOptions}>
-                            <CheckoutSummary onFinalize={handleFullCheckout} isSavingAddress={isSaving} />
-                        </Elements>
-                    ) : (
-                        <div className="p-4 bg-gray-100 rounded">Préparation du module de paiement...</div>
-                    )} */}
-                    
-                    {/* Version de test (sans Stripe) */}
-                    <CheckoutSummary onFinalize={handleFullCheckout} isSavingAddress={isSaving} />
+                    <CheckoutSummary
+                        onFinalize={handleFullCheckout}
+                        isSavingAddress={isSaving}
+
+                        // DONNÉES DE COMMANDE ESSENTIELLES
+                        totalWeight={orderTotalWeight} // Valeur en GRAMMES (sera convertie dans CheckoutSummary)
+                        orderId={orderIdString}
+                        subtotal={orderSubtotalState} // Subtotal est un état maître
+                        orderItems={orderItems}
+
+                        // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT
+                        setShippingCost={setShippingCost}
+                        setShippingMethod={setShippingMethod}
+                        setSelectedPudo={setSelectedPudo}
+                        shippingCost={shippingCost}
+                    />
                 </div>
             </div>
         </div>
