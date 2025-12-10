@@ -1,86 +1,211 @@
-import React, { useState, useEffect } from 'react';
+// src/components/checkout/CheckoutShipping.tsx
 
-// Définition du type pour une option de livraison
+"use client";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+// Définition du type pour l'information du Point Relais (PUDO)
+type PUDOInfo = { id: string, name: string, address: string, postalCode: string, city: string, country: string } | null;
+
+// Définition de la structure de l'option de livraison (sans prix statique)
 type ShippingOption = {
-  id: string;
-  label: string;
-  price: number; // Stockage du prix
+    id: string; // Utilisé pour les radios (ex: 'mondial_relay_pr')
+    label: string;
+    modeCode: string; // Code pour le TariffCalculator (ex: 'pr', 'standard_colissimo')
+    requiresPUDO: boolean; // Nécessite l'ouverture du widget
+    price: number; // Prix calculé dynamiquement
 };
 
-// Liste des options de livraison
-const SHIPPING_OPTIONS: ShippingOption[] = [
-  { id: 'pickup', label: 'Commande à venir retirer en boutique (Gratuit)', price: 0.00 },
-  { id: 'mondial_relay', label: 'Mondial Relay (5.90 €)', price: 5.90 },
-  { id: 'colissimo_standard', label: 'Colissimo sans signature (7.50 €)', price: 7.50 },
-  { id: 'colissimo_relais', label: 'Colissimo relais (6.90 €)', price: 6.90 },
+// Liste des options de base
+const INITIAL_SHIPPING_OPTIONS: ShippingOption[] = [
+    { id: 'pickup', label: 'Commande à venir retirer en boutique', modeCode: 'pickup', requiresPUDO: false, price: 0.00 },
+    { id: 'mondial_relay_pr', label: 'Mondial Relay Point Relais', modeCode: 'pr', requiresPUDO: true, price: 0.00 },
 ];
 
-// Définition des Props pour remonter le prix de la livraison au parent
 type CheckoutShippingProps = {
-  setShippingPrice: (price: number) => void;
+    setShippingPrice: (price: number) => void;
+    setSelectedOptionId: (method: string) => void;
+    setSelectedPudo: (pudo: PUDOInfo) => void;
+    totalWeight: number; // Poids total en KG (pour le calcul)
+    orderId: string;
+    currentPrice: number; // Prix actuel pour l'affichage
 }
 
-const CheckoutShipping = ({ setShippingPrice }: CheckoutShippingProps) => {
-  const defaultOption = SHIPPING_OPTIONS[0];
-  // État local pour stocker l'ID de l'option de livraison sélectionnée
-  const [selectedOptionId, setSelectedOptionId] = useState<string>(defaultOption.id);
+const CheckoutShipping = ({
+    setShippingPrice,
+    setSelectedOptionId,
+    setSelectedPudo,
+    totalWeight,
+    currentPrice
+}: CheckoutShippingProps) => {
 
-  // Mettre à jour l'état des frais de port dans le composant parent
-  useEffect(() => {
-    const selected = SHIPPING_OPTIONS.find(opt => opt.id === selectedOptionId);
-    if (selected) {
-      setShippingPrice(selected.price);
-    }
-  }, [selectedOptionId, setShippingPrice]); // Se déclenche quand l'option change ou à l'initialisation
+    const defaultOption = INITIAL_SHIPPING_OPTIONS[0];
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOptionId(event.target.value);
-  };
-  
-  const selectedOption = SHIPPING_OPTIONS.find(opt => opt.id === selectedOptionId);
+    const [options, setOptions] = useState<ShippingOption[]>(INITIAL_SHIPPING_OPTIONS);
+    const [selectedId, setSelectedId] = useState<string>(defaultOption.id);
+    const [loadingPrice, setLoadingPrice] = useState(false);
 
-  return (
-    <div className='checkout-shipping mt-8'>
-      <p className='font-semibold mb-4'>Options de livraison</p>
-      
-      <div className='space-y-3'>
-        {SHIPPING_OPTIONS.map((option) => (
-          <label 
-            key={option.id} 
-            htmlFor={option.id} 
-            className={`flex items-center p-3 border rounded-md cursor-pointer transition-colors ${
-              selectedOptionId === option.id 
-                ? 'border-blue-500 bg-blue-50' // Style pour sélectionné
-                : 'border-gray-200 hover:border-gray-400' // Style par défaut
-            }`}
-          >
-            <input
-              type="radio"
-              id={option.id}
-              name="shippingOption"
-              value={option.id}
-              checked={selectedOptionId === option.id}
-              onChange={handleOptionChange}
-              className='form-radio h-4 w-4 text-blue-500 focus:ring-blue-500' // Simuler le style Tailwind pour radio
-            />
-            <span className='ml-3 text-sm font-medium text-gray-700 flex-1'>
-              {option.label}
-            </span>
-          </label>
-        ))}
-      </div>
+    // État local du PUDO pour l'affichage
+    const [localPudo, setLocalPudo] = useState<PUDOInfo>(null);
 
-      {/* Affichage du prix de l'option sélectionnée */}
-      {selectedOption && (
-        <p className="mt-4 text-sm text-right text-gray-600">
-            Frais de port : 
-            <span className="font-semibold ml-1">
-                {selectedOption.price.toFixed(2)} €
-            </span>
-        </p>
-      )}
-    </div>
-  );
+    // --- LOGIQUE D'APPEL API POUR CALCULER LE PRIX ---
+    useEffect(() => {
+        const selectedOption = options.find(opt => opt.id === selectedId);
+        if (!selectedOption || totalWeight <= 0) return;
+
+        const calculatePrice = async () => {
+            if (selectedOption.modeCode === 'pickup') {
+                setShippingPrice(0);
+                setSelectedOptionId(selectedId);
+                return;
+            }
+
+            setLoadingPrice(true);
+            try {
+                // Appel à l'API Symfony pour obtenir le coût TTC
+                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/shipping/calculate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        totalWeight: totalWeight,
+                        modeCode: selectedOption.modeCode,
+                        countryCode: 'FR', // Utiliser le pays de l'adresse utilisateur à terme
+                    }),
+                });
+
+                const data = await res.json();
+                const newPrice = res.ok && data.shippingCost ? parseFloat(data.shippingCost) : 0;
+
+                // 1. Mise à jour de l'état des options pour afficher le prix
+                setOptions(prev => prev.map(opt =>
+                    opt.id === selectedOption.id ? { ...opt, price: newPrice } : opt
+                ));
+
+                // 2. Mise à jour des états remontés au parent
+                setShippingPrice(newPrice);
+                setSelectedOptionId(selectedOption.id);
+
+            } catch (error) {
+                console.error("API Error during tariff calculation:", error);
+                setShippingPrice(0);
+            } finally {
+                setLoadingPrice(false);
+            }
+        };
+
+        calculatePrice();
+
+    }, [selectedId, totalWeight, setShippingPrice, setSelectedOptionId, options]);
+    // totalWeight dans les dépendances permet de recalculer si le client change le panier ou l'adresse (et donc le poids)
+
+
+    const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newOptionId = event.target.value;
+        setSelectedId(newOptionId);
+
+        // Réinitialiser le PUDO si l'on quitte un mode Relais
+        const oldOption = options.find(opt => opt.id === selectedId);
+        if (oldOption?.requiresPUDO) {
+            setSelectedPudo(null);
+            setLocalPudo(null);
+        }
+    };
+
+    const selectedOption = options.find(opt => opt.id === selectedId);
+    const requiresPudo = selectedOption?.requiresPUDO;
+    const isPudoSelected = requiresPudo && localPudo;
+
+    // --- LOGIQUE DU WIDGET MONDIAL RELAY (pour le callback JQuery) ---
+    const handlePudoSelection = (pudoData: any) => {
+        // Cette fonction DOIT être appelée par le widget JQuery Mondial Relay
+        const pudoInfo: PUDOInfo = {
+            id: pudoData.ID,
+            name: pudoData.Nom.trim(),
+            address: (pudoData.Adresse1 + ' ' + pudoData.Adresse2).trim(),
+            postalCode: pudoData.CP,
+            city: pudoData.Ville.trim(),
+            country: pudoData.Pays,
+        };
+
+        setLocalPudo(pudoInfo);
+        setSelectedPudo(pudoInfo);
+    };
+
+    // Exposer la fonction handlePudoSelection globalement (pour que le script JQuery externe puisse y accéder)
+    useEffect(() => {
+        (window as any).handlePudoSelection = handlePudoSelection;
+
+        // Nettoyage
+        return () => {
+            delete (window as any).handlePudoSelection;
+        };
+    }, []);
+    // ------------------------------------------------------------------
+
+    // --- RENDU ---
+    return (
+        <div className='checkout-shipping mt-8'>
+            <p className='font-semibold mb-4'>Options de livraison</p>
+
+            <div className='space-y-3'>
+                {options.map((option) => (
+                    <label
+                        key={option.id}
+                        htmlFor={option.id}
+                        className={`flex items-center p-3 border rounded-md cursor-pointer transition-colors ${selectedId === option.id
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-gray-200 hover:border-gray-400'
+                            }`}
+                    >
+                        <input
+                            type="radio"
+                            id={option.id}
+                            name="shippingOption"
+                            value={option.id}
+                            checked={selectedId === option.id}
+                            onChange={handleOptionChange}
+                            className='form-radio h-4 w-4 text-blue-500 focus:ring-blue-500'
+                        />
+                        <span className='ml-3 text-sm font-medium text-gray-700 flex-1'>
+                            {option.label}
+                            {loadingPrice && selectedId === option.id ? ' (calcul...)' : ` (${option.price.toFixed(2)} €)`}
+                        </span>
+                    </label>
+                ))}
+            </div>
+
+            {/* --- ZONE D'AFFICHAGE DU POINT RELAIS --- */}
+            {requiresPudo && (
+                <div className="mt-4 p-4 border border-dashed rounded bg-yellow-50">
+                    {isPudoSelected ? (
+                        <p className="text-sm font-medium text-green-700 mb-2">
+                            ✅ Point Relais sélectionné : {localPudo?.name} ({localPudo?.postalCode})
+                        </p>
+                    ) : (
+                        <p className="text-sm text-gray-700 mb-2">
+                            Veuillez sélectionner votre point de retrait.
+                        </p>
+                    )}
+
+                    {/* Conteneur pour le widget Mondial Relay */}
+                    <div id="Zone_Widget" className="mt-2 h-96 border border-gray-300">
+                        <p className="text-gray-400 text-center pt-8">Chargement du widget de sélection de point relais...</p>
+                    </div>
+
+                </div>
+            )}
+
+            {/* Affichage du prix de l'option sélectionnée */}
+            {selectedOption && (
+                <p className="mt-4 text-sm text-right text-gray-600">
+                    Frais de port :
+                    <span className="font-semibold ml-1">
+                        {currentPrice.toFixed(2)} €
+                    </span>
+                </p>
+            )}
+        </div>
+    );
 };
 
 export default CheckoutShipping;

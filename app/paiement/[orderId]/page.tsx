@@ -2,13 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
-import ShippingAddressForm, { ShippingFormRef } from "@/components/checkout/ShippingAddressForm";
+// Assurez-vous que PUDOInfo est correctement importé
+import ShippingAddressForm, { ShippingFormRef, PUDOInfo } from "@/components/checkout/ShippingAddressForm"; 
 import CheckoutSummary from "@/components/checkout/CheckoutSummary";
-
-// Note: Les imports Stripe sont commentés car le test initial ne les utilise pas.
-// import { Elements } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_votre_cle_publique');
 
 export default function PaiementPage() {
     const params = useParams();
@@ -17,10 +13,14 @@ export default function PaiementPage() {
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     
-    // RÉFÉRENCE POUR SOUMETTRE ShippingAddressForm À DISTANCE
+    // --- ÉTATS MAÎTRES DE LIVRAISON (Nécessaires pour CheckoutSummary) ---
+    const [shippingCost, setShippingCost] = useState<number>(0);
+    const [shippingMethod, setShippingMethod] = useState<string>('pickup'); // 'pickup' par défaut
+    const [selectedPudo, setSelectedPudo] = useState<PUDOInfo>(null); 
+    // --------------------------------------------------------------------
+
     const shippingFormRef = useRef<ShippingFormRef>(null); 
-    const [isSaving, setIsSaving] = useState(false); // État de sauvegarde de l'adresse
-    // const [clientSecret, setClientSecret] = useState<string | null>(null); // Décommenter pour Stripe
+    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         const fetchOrder = async () => {
@@ -30,11 +30,9 @@ export default function PaiementPage() {
                 // Récupération des données de la commande
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}`);
                 const data = await res.json();
-                setOrder(data);
-
-                // Décommenter pour l'étape Stripe
-                // const clientSecretRes = await fetch(/* ... votre endpoint clientSecret ... */);
-                // setClientSecret(clientSecretRes.clientSecret);
+                
+                // Le champ 'total' contient maintenant le sous-total réel après la correction Symfony
+                setOrder(data); 
 
             } catch (err) {
                 console.error(err);
@@ -50,21 +48,24 @@ export default function PaiementPage() {
     const handleFullCheckout = async () => {
         if (!shippingFormRef.current) return false;
 
+        // Validation de sécurité (vérification que le coût a été calculé)
+        if (shippingMethod !== 'pickup' && shippingCost <= 0) {
+             alert("Veuillez patienter pendant le calcul des frais de port.");
+             return false;
+        }
+
         setIsSaving(true);
         console.log("Étape 1: Sauvegarde des infos de livraison...");
 
-        // Appeler la fonction de soumission exposée par ShippingAddressForm
         const success = await shippingFormRef.current.submitForm();
         
         setIsSaving(false);
 
         if (success) {
-            console.log("Étape 2: Adresse enregistrée. Procéder au paiement...");
-            // TODO: Déclencher la logique de confirmation Stripe ici (si le bouton était externe)
-            // Comme le bouton est dans CheckoutSummary, nous supposons que la suite s'y fera.
+            console.log("Étape 2: Adresse et frais enregistrés. Procéder au paiement...");
             return true;
         } else {
-            console.error("Échec de la validation de l'adresse.");
+            console.error("Échec de la validation de l'adresse ou des frais.");
             return false;
         }
     };
@@ -72,7 +73,12 @@ export default function PaiementPage() {
     if (loading) return <p>Chargement de la commande...</p>;
     if (!order) return <p>Commande introuvable</p>;
 
-    // const stripeOptions = clientSecret ? { clientSecret, locale: 'fr' as const } : undefined; // Décommenter pour Stripe
+    // --- PRÉPARATION DES PROPS POUR CHECKOUTSUMMARY (Résolution de l'erreur 2740) ---
+    const orderIdString = orderId as string;
+    const orderSubtotal = order?.total ? parseFloat(order.total) : 0; // Utilise 'total' comme sous-total initial
+    const orderTotalWeight = order?.totalWeight || 0; 
+    const orderItems = order?.items || [];
+    // ----------------------------------------------------------------------------------
 
     return (
         <div className="max-w-6xl mx-auto p-6 pb-24 mt-8">
@@ -81,24 +87,36 @@ export default function PaiementPage() {
 
             <div className="flex flex-col lg:flex-row gap-12">
 
-                {/* Colonne gauche : Rendre le formulaire avec la ref */}
+                {/* Colonne gauche : Formulaire d'adresse / Expédition */}
                 <div className="w-full lg:w-2/3">
-                    <ShippingAddressForm ref={shippingFormRef} /> 
+                    <ShippingAddressForm 
+                        ref={shippingFormRef}
+                        orderId={orderIdString}
+                        // PASSAGE DES INFOS DE LIVRAISON AU FORMULAIRE
+                        selectedPudo={selectedPudo}
+                        shippingMethod={shippingMethod}
+                        shippingCost={shippingCost} 
+                    /> 
                 </div>
 
                 {/* Colonne droite : Rendre le résumé et passer la fonction de finalisation */}
                 <div className="w-full lg:w-1/3">
-                    {/* ENVELOPPEMENT STRIPE À DÉCOMMENTER LORS DE L'INTÉGRATION FINALE */}
-                    {/* {clientSecret && stripeOptions ? (
-                        <Elements stripe={stripePromise} options={stripeOptions}>
-                            <CheckoutSummary onFinalize={handleFullCheckout} isSavingAddress={isSaving} />
-                        </Elements>
-                    ) : (
-                        <div className="p-4 bg-gray-100 rounded">Préparation du module de paiement...</div>
-                    )} */}
-                    
-                    {/* Version de test (sans Stripe) */}
-                    <CheckoutSummary onFinalize={handleFullCheckout} isSavingAddress={isSaving} />
+                    <CheckoutSummary 
+                        onFinalize={handleFullCheckout} 
+                        isSavingAddress={isSaving}
+                        
+                        // --- PROPS DE COMMANDE (CORRIGÉES) ---
+                        totalWeight={orderTotalWeight}
+                        orderId={orderIdString}
+                        subtotal={orderSubtotal}
+                        orderItems={orderItems} 
+
+                        // --- PROPS D'ÉTAT (SETTERS) ---
+                        setShippingCost={setShippingCost}
+                        setShippingMethod={setShippingMethod}
+                        setSelectedPudo={setSelectedPudo}
+                        shippingCost={shippingCost}
+                    />
                 </div>
             </div>
         </div>
