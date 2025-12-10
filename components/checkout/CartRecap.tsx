@@ -1,44 +1,34 @@
-import { CartItemType, useCart } from '@/context/CartContext';
 import React, { useEffect } from 'react';
 
-// Définition des Props pour remonter le sous-total au parent
-type CartRecapProps = {
-  setSubtotal: (price: number) => void;
+// NOTE: Le type OrderItemType est basé sur la réponse JSON de votre API getOrder
+type OrderItemType = {
+    orderItemId: number;
+    name: string;
+    quantity: number;
+    price: string; // La prop price est une string dans le JSON
+    total: string; // La prop total est une string dans le JSON
 };
 
-const CartRecap = ({ setSubtotal }: CartRecapProps) => {
-  const { cartItems, loading, error } = useCart();
+// Définition des Props pour remonter le sous-total et recevoir les articles
+type CartRecapProps = {
+  items: OrderItemType[]; // <-- Reçoit les OrderItems depuis la commande
+  subtotal: number;       // Reçoit le sous-total déjà calculé sur la commande
+};
 
-  if (loading) {
-    return <div className="text-center p-4">Chargement du panier...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-600 p-4">Erreur: {error}</div>;
-  }
-
-  // Calcul du sous-total
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  // Mettre à jour l'état du sous-total dans le composant parent (CheckoutSummary)
-  useEffect(() => {
-    setSubtotal(subtotal);
-  }, [subtotal, setSubtotal]);
+const CartRecap = ({ items, subtotal }: CartRecapProps) => {
+  // NOTE: On ne dépend plus de useCart, donc on retire useCart, loading, error
 
   return (
     <div className="cart-recap space-y-4 pt-4">
-      {cartItems.length === 0 ? (
-        <p className="text-gray-500">Votre panier est vide.</p>
+      {items.length === 0 ? (
+        <p className="text-gray-500">Aucun article trouvé pour cette commande.</p>
       ) : (
         <>
-          {/* Liste des articles du panier */}
+          {/* Liste des articles de la COMMANDE */}
           <div className="items-list m-0">
-            {cartItems.map((item: CartItemType) => (
+            {items.map((item: OrderItemType) => (
               <div
-                key={item.id}
+                key={item.orderItemId}
                 className="flex justify-between items-center border-b border-gray-300 py-2 font-light"
               >
                 <div className="flex-1 pr-2">
@@ -51,8 +41,8 @@ const CartRecap = ({ setSubtotal }: CartRecapProps) => {
                   </p>
                 </div>
                 <div className="text-right">
-                  {/* Affichage du prix total de l'article */}
-                  {(item.price * item.quantity).toFixed(2)} €
+                  {/* Affichage du prix total de l'article (déjà calculé par Symfony) */}
+                  {parseFloat(item.total).toFixed(2)} €
                 </div>
               </div>
             ))}
@@ -60,7 +50,7 @@ const CartRecap = ({ setSubtotal }: CartRecapProps) => {
 
           {/* Sous-total affiché ici pour le contexte */}
           <div className="flex justify-between font-regular pt-2 border-b border-gray-300 py-2">
-            <span>Sous-total</span>
+            <span>Sous-total des articles</span>
             <span>{subtotal.toFixed(2)} €</span>
           </div>
 

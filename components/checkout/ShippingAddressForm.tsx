@@ -2,7 +2,11 @@ import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import Input from '../ui/Input';
 import { useParams } from "next/navigation";
 
+<<<<<<< Updated upstream
 // --- EXPORTATION DES TYPES DE LIVRAISON ---
+=======
+// --- NOUVEAUX TYPES POUR L'INTÉGRATION DE LA LIVRAISON ---
+>>>>>>> Stashed changes
 export type PUDOInfo = { 
     id: string; 
     name: string; 
@@ -30,12 +34,21 @@ export type ShippingFormRef = {
     submitForm: () => Promise<boolean>;
 };
 
+<<<<<<< Updated upstream
 // --- NOUVELLES PROPS REQUISES (Le Contrat avec PaiementPage) ---
 export type ShippingAddressFormProps = {
     orderId: string;
     selectedPudo: PUDOInfo;
     shippingMethod: string; // Ex: 'mondial_relay_pr', 'colissimo_domicile', 'pickup'
     shippingCost: number;   // Le prix TTC calculé, pour envoi au backend (sécurité)
+=======
+// --- NOUVELLES PROPS REQUISES ---
+type ShippingAddressFormProps = {
+    orderId: string;
+    selectedPudo: PUDOInfo;
+    shippingMethod: string; // Ex: 'mondial_relay_pr', 'colissimo_domicile', 'pickup'
+    shippingCost: number;   // Le prix TTC calculé
+>>>>>>> Stashed changes
 };
 // ----------------------------------
 
@@ -45,6 +58,7 @@ const REGEX_POSTAL_CODE = /^[0-9A-Za-z\s-]{3,10}$/;
 const REGEX_PHONE = /^[\d\s-]{5,20}$/;
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+<<<<<<< Updated upstream
 // --- DÉCLARATION AVEC LES PROPS COMPLÈTES ---
 const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<ShippingFormRef, ShippingAddressFormProps>((props, ref) => {
     
@@ -52,6 +66,12 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     const { orderId, selectedPudo, shippingMethod, shippingCost } = props; 
     
     // Les hooks d'état restent inchangés
+=======
+const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<ShippingFormRef, ShippingAddressFormProps>(({ orderId, selectedPudo, shippingMethod, shippingCost }, ref) => {
+    const params = useParams();
+    // orderId est déjà passé par les props pour plus de clarté, mais on peut le récupérer ici si besoin
+
+>>>>>>> Stashed changes
     const [formData, setFormData] = useState<FormData>({
         email: '', firstName: '', lastName: '', address: '',
         postalCode: '', city: '', country: '', phone: ''
@@ -59,12 +79,18 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
+<<<<<<< Updated upstream
     // --- Calcul pour le rendu et la validation ---
     const currentMethod = shippingMethod || ''; // Si shippingMethod est undefined/null, utilise ''
 
     // Calcul pour le rendu et la validation
     const requiresPudo = currentMethod.includes('_pr') || currentMethod.includes('_relais');
     // ----------------------------------------------
+=======
+    // Calcul pour le rendu et la validation (accessible dans tout le composant)
+    const requiresPudo = shippingMethod.includes('_pr') || shippingMethod.includes('_relais');
+
+>>>>>>> Stashed changes
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -83,15 +109,27 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         }
     };
 
+<<<<<<< Updated upstream
     // Fonction de validation (inchangée)
+=======
+>>>>>>> Stashed changes
     const validateForm = (data: FormData): FormErrors => {
         const errors: FormErrors = {};
         const isBlank = (val: string) => val.trim() === '';
 
+<<<<<<< Updated upstream
         // Valider les champs obligatoires (adresse de FACTURATION/LIVRAISON)
+=======
+        // Validation des champs obligatoires
+>>>>>>> Stashed changes
         if (isBlank(data.firstName)) errors.firstName = "Le prénom est obligatoire.";
         if (isBlank(data.lastName)) errors.lastName = "Le nom est obligatoire.";
-        if (isBlank(data.address)) errors.address = "L'adresse est obligatoire.";
+        
+        // Si ce n'est pas un PUDO, l'adresse de la personne est obligatoire.
+        // Si c'est un PUDO, l'adresse sera remplacée par celle du PUDO dans le payload, 
+        // mais nous conservons les champs de base pour la facturation.
+        if (!requiresPudo && isBlank(data.address)) errors.address = "L'adresse est obligatoire.";
+        
         if (isBlank(data.city)) errors.city = "La ville est obligatoire.";
         if (isBlank(data.country)) errors.country = "Le pays est obligatoire.";
         if (isBlank(data.postalCode)) errors.postalCode = "Le code postal est obligatoire.";
@@ -107,7 +145,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         if (!isBlank(data.phone) && !REGEX_PHONE.test(data.phone)) {
             errors.phone = "Format de téléphone invalide (chiffres, espaces, tirets).";
         }
-
+        
         // Valider les longueurs 
         if (data.address.length > 255) errors.address = "L'adresse est trop longue.";
 
@@ -165,7 +203,11 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
                 country: selectedPudo.country 
             }),
             
+<<<<<<< Updated upstream
             email: email // Toujours envoyer l'email
+=======
+            email: email // Toujours envoyer l'email pour le User/Facturation
+>>>>>>> Stashed changes
         };
         
         console.log("Payload envoyé à Symfony:", payload);
@@ -184,7 +226,11 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             const responseData = await res.json();
 
             if (!res.ok) {
+<<<<<<< Updated upstream
                 // Gestion des erreurs du backend
+=======
+                // Gestion de l'erreur de sécurité (incohérence du prix) ou de validation
+>>>>>>> Stashed changes
                 if (responseData.error && responseData.error.includes("Incohérence du prix")) {
                      alert("Erreur de sécurité: Les frais de port ont été modifiés. Veuillez recalculer le tarif.");
                 } else if (responseData.details) {
