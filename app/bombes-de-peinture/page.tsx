@@ -1,18 +1,14 @@
-import type { Metadata } from "next";
+import SubCategoriesSection from "@/components/sections/SubCategories";
+import CategoryHero from "@/components/sections/CategoryHero";
+import Breadcrumbs from "@/components/ui/Breadcrumb";
+import InstagramFeed from "@/components/sections/InstagramFeed";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Bombes de peinture - Eightyone Store",
-  description:
-    "Découvrez notre large sélection de bombes de peinture pour graffiti et arts graphiques : acryliques, à solvant, vernis, apprêts et bombes à effets pour tous vos projets créatifs à Lyon.",
+  description: "Découvrez notre large sélection de bombes de peinture…"
 };
 
-import CategoryHero from '@/components/sections/CategoryHero'
-import Breadcrumbs from '@/components/ui/Breadcrumb';
-
-type Props = {}
-
-const Page = (props: Props) => {
-
+export default async function Page() {
   const crumbs = [
     { label: "Accueil", href: "/" },
     { label: "Bombes de peinture" }
@@ -23,13 +19,62 @@ const Page = (props: Props) => {
       <div className="max-w-6xl mx-auto pt-8 px-6">
         <Breadcrumbs crumbs={crumbs} />
       </div>
+
       <CategoryHero
         title="Bombes de peinture"
         description="Eightyone Store propose un large choix de bombes de peinture, allant des incontournables à solvant aux bombes acryliques. Nous proposons aussi une large gamme de bombes techniques (vernis, apprêts) ainsi que des bombes à effets pour diversifier vos rendus!"
         backgroundImage="/bandeau-spray-global.webp"
+        scrollTargetId="subCategoriesFirst"
       />
-    </div>
-  )
-}
 
-export default Page
+      {/* Bombes classiques */}
+      <SubCategoriesSection
+        id="subCategoriesFirst"
+        title="Les Classiques"
+        categorySlug="classiques"
+        description="Bombes de peinture originales, les classiques sont des sprays au solvant offrant un très large choix de couleurs. Proposant un fort pouvoir couvrant et une grande durabilité, elles sont idéales pour les applications extérieures/intérieures sur tout types de surfaces."
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/classiques"
+      />
+
+
+      {/* Bombes acryliques */}
+      <SubCategoriesSection
+        title="Les Acryliques"
+        categorySlug="acryliques"
+        description="Bombes de peinture sans solvant et à base d’eau, les bombes de peinture acryliques sont idéales pour un usage intérieur ou ludique, du fait de son absence d’odeur. Sa couvrance et sa résistance sont équivalentes aux bombes de peinture classiques !"
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/acryliques"
+      />
+
+      {/* Bombes techniques */}
+      <SubCategoriesSection
+        title="Les Techniques"
+        categorySlug="techniques"
+        description="Indispensable pour la finition ou la préparation, les bombes techniques offrent une qualité de travail incomparable et un rendu optimal."
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/techniques"
+      />
+
+      {/* Bombes effets */}
+      <SubCategoriesSection
+        title="Les Effets"
+        categorySlug="effets"
+        description="Les gammes Effets offrent des rendus originaux et novateurs dans la pratique des arts graphiques."
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/effets"
+      />
+
+      {/* Caps */}
+      <SubCategoriesSection
+        title="Les Caps"
+        categorySlug="caps"
+        description="Des plus petits aux plus diffus, le choix des caps est important dans la technique,  et vous aidera à obtenir une plus grande précision d’exécution."
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/caps"
+      />
+
+      <InstagramFeed />
+    </div>
+  );
+}

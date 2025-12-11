@@ -1,11 +1,11 @@
 "use client";
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 type Props = {
   isHome: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-const SearchField = forwardRef<HTMLInputElement, Props>(({ isHome, ...props }, ref) => {
+const SearchField = forwardRef<HTMLInputElement, Props>(({ isHome, className, ...props }, ref) => {
   return (
     <input
       ref={ref}
@@ -15,7 +15,7 @@ const SearchField = forwardRef<HTMLInputElement, Props>(({ isHome, ...props }, r
         isHome
           ? "placeholder-white/70 border-white text-white"
           : "placeholder-black/50 border-black text-black"
-      }`}
+      } ${className ?? ""}`}
       {...props}
     />
   );

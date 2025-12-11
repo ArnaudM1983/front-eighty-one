@@ -1,4 +1,6 @@
 import ProductGrid from "@/components/product/ProductGrid";
+import CategoryHero from "@/components/sections/CategoryHero";
+import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
  * Fetch products from the Symfony API for the "classiques" category.
@@ -21,15 +23,36 @@ async function getProducts() {
     return res.json();
 }
 
+export const metadata = {
+    title: "Classiques - Eightyone Store",
+    description: "Découvrez notre large sélection de bombes de peinture classiques"
+};
+
 export default async function Classiques() {
+    const crumbs = [
+        { label: "Accueil", href: "/" },
+        { label: "Bombes de peinture", href: "/bombes-de-peinture" },
+        { label: "Les classiques" }
+    ];
 
     // Fetch products from the API before rendering
     const products = await getProducts();
 
     return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold mb-6">Bombes de peinture - Classiques</h1>
-            <ProductGrid products={products} />
+        <div>
+            <div className="max-w-6xl mx-auto pt-8 px-6">
+                <Breadcrumbs crumbs={crumbs} />
+            </div>
+
+            <CategoryHero
+                title="Classiques"
+                description="Les bombes de peinture originales, les classiques sont des sprays au solvant offrant un très large choix de couleurs. Proposant un fort pouvoir couvrant et une grande durabilité, elles sont idéales pour les applications extérieures/intérieures sur tout types de surfaces."
+                backgroundImage="/classiques.webp"
+                scrollTargetId="productGrid"
+            />
+
+            <ProductGrid products={products} title="Les Classiques" />
+
         </div>
     );
 }

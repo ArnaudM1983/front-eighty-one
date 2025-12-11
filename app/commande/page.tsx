@@ -1,9 +1,10 @@
+import React from 'react'
 
 type Props = {}
 
 const page = (props: Props) => {
   return (
-    <div>Produit Unique</div>
+    <div>Paiement</div>
   )
 }
 
