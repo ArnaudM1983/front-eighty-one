@@ -1,4 +1,3 @@
-
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import Input from '../ui/Input';
 
@@ -72,7 +71,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         }
     };
 
-    // Fonction de validation
+    // La fonction validateForm reste inchangée
     const validateForm = (data: FormData): FormErrors => {
         const errors: FormErrors = {};
         const isBlank = (val: string) => val.trim() === '';
@@ -107,6 +106,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     };
 
 
+    // La fonction submitForm reste inchangée
     const submitForm = async () => {
         if (!orderId) {
             setStatus('error');
@@ -198,8 +198,8 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     const isError = status === 'error';
     const isSuccess = status === 'success';
 
-    // Fonction pour le rendu des champs
-    const renderInput = (name: keyof FormData, label: string, type: string = 'text', colSpan: number = 6) => {
+    // Fonction pour le rendu des champs, utilisant des classes Tailwind pour la grille
+    const renderInput = (name: keyof FormData, label: string, type: string = 'text', gridClasses: string) => {
         const inputName = name === 'firstName' ? 'first_name' :
             name === 'lastName' ? 'last_name' :
                 name === 'postalCode' ? 'postal_code' :
@@ -208,7 +208,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         const error = formErrors[name];
 
         return (
-            <div className={`col-span-${colSpan} mb-2`}>
+            <div className={`${gridClasses} mb-2`}>
                 <Input
                     type={type}
                     name={inputName}
@@ -233,22 +233,35 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
                 <div className="p-3 mb-4 text-red-700 bg-red-100 rounded">Erreur: Veuillez vérifier les champs marqués.</div>
             )}
 
-            <div className="grid grid-cols-6 gap-4 p-4">
-                {renderInput('email', 'E-mail *', 'mail', 6)}
+            {/* Conteneur principal de la grille: grid, 6 colonnes, gap-4 pour les colonnes */}
+            <div className="grid grid-cols-6 gap-x-4 p-4">
+                
+                {/* Ligne 1: E-mail (div1) - col-span-6 */}
+                {renderInput('email', 'E-mail *', 'mail', 'col-span-6 row-start-1')}
 
-                {renderInput('firstName', 'Prénom *', 'text', 3)}
-                {renderInput('lastName', 'Nom *', 'text', 3)}
+                {/* Ligne 2: Prénom (div2) - col-span-3 */}
+                {renderInput('firstName', 'Prénom *', 'text', 'col-span-3 row-start-2')}
+                
+                {/* Ligne 2: Nom (div3) - col-span-3 */}
+                {renderInput('lastName', 'Nom *', 'text', 'col-span-3 row-start-2')}
 
-                {/* Condition: Si PUDO est requis et sélectionné, l'adresse de l'utilisateur n'est pas strictement l'adresse de livraison finale */}
-                {renderInput('address', `Adresse (numéro et nom de la rue) *${requiresPudo ? " (Pour facturation)" : ""}`, 'text', 6)}
+                {/* Ligne 3: Adresse (div4) - col-span-6 */}
+                {renderInput('address', `Adresse (numéro et nom de la rue) *${requiresPudo ? " (Pour facturation)" : ""}`, 'text', 'col-span-6 row-start-3')}
 
-                {renderInput('postalCode', 'Code postal *', 'text', 2)}
-                {renderInput('city', 'Ville *', 'text', 2)}
-                {renderInput('country', 'Pays *', 'text', 2)}
+                {/* Ligne 4: Code postal (div5) - col-span-2 */}
+                {renderInput('postalCode', 'Code postal *', 'text', 'col-span-2 row-start-4')}
+                
+                {/* Ligne 4: Ville (div6) - col-span-2 */}
+                {renderInput('city', 'Ville *', 'text', 'col-span-2 row-start-4')}
+                
+                {/* Ligne 4: Pays (div7) - col-span-2 */}
+                {renderInput('country', 'Pays *', 'text', 'col-span-2 row-start-4')}
 
-                {renderInput('phone', 'Téléphone', 'tel', 3)}
+                {/* Ligne 5: Téléphone (div8) - col-span-3 */}
+                {renderInput('phone', 'Téléphone', 'tel', 'col-span-3 row-start-5')}
 
-                <div className="col-span-3 mb-2"></div>
+                {/* Espace pour aligner l'agencement si besoin (non nécessaire avec row-start/end, mais inclus pour clarté) */}
+                {/* <div className="col-span-3 row-start-5"></div> */}
             </div>
             
             {/* Rendu du Point Relais si sélectionné et requis */}
