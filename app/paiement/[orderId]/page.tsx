@@ -1,5 +1,3 @@
-// src/app/paiement/[orderId]/page.tsx
-
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -61,6 +59,13 @@ export default function PaiementPage() {
              alert("Veuillez patienter pendant le calcul des frais de port.");
              return false;
         }
+        
+        // Validation additionnelle pour le mode Mondial Relay (via shippingMethod)
+        if (shippingMethod.includes('_pr') && !selectedPudo) {
+            alert("Veuillez sélectionner un Point Relais avant de continuer.");
+            return false;
+        }
+
 
         setIsSaving(true);
         console.log("Étape 1: Sauvegarde des infos de livraison...");
@@ -84,7 +89,7 @@ export default function PaiementPage() {
 
     // --- PRÉPARATION DES PROPS DE COMMANDE ---
     const orderIdString = orderId as string;
-    const orderTotalWeight = order?.totalWeight || 0; // Cette valeur est supposée être en GRAMMES (ex: 1780)
+    const orderTotalWeight = order?.totalWeight || 0; // Valeur en grammes
     const orderItems = order?.items || [];
     // -----------------------------------------
 
@@ -114,9 +119,9 @@ export default function PaiementPage() {
                         isSavingAddress={isSaving}
 
                         // DONNÉES DE COMMANDE ESSENTIELLES
-                        totalWeight={orderTotalWeight} // Valeur en GRAMMES (sera convertie dans CheckoutSummary)
+                        totalWeight={orderTotalWeight} // Valeur en GRAMMES (convertie en KG dans CheckoutSummary)
                         orderId={orderIdString}
-                        subtotal={orderSubtotalState} // Subtotal est un état maître
+                        subtotal={orderSubtotalState}
                         orderItems={orderItems}
 
                         // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT

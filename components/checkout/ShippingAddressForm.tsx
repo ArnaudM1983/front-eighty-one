@@ -1,10 +1,7 @@
-// src/components/checkout/ShippingAddressForm.tsx
 
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import Input from '../ui/Input';
-// import { useParams } from "next/navigation"; // Inutile car orderId est passé par props
 
-// --- EXPORTATION DES TYPES DE LIVRAISON ---
 export type PUDOInfo = { 
     id: string; 
     name: string; 
@@ -14,7 +11,6 @@ export type PUDOInfo = {
     country: string;
 } | null;
 
-// Champs de base du formulaire d'adresse
 type FormData = {
     email: string;
     firstName: string;
@@ -32,29 +28,23 @@ export type ShippingFormRef = {
     submitForm: () => Promise<boolean>;
 };
 
-// --- PROPS REQUISES (Le Contrat avec PaiementPage) ---
 export type ShippingAddressFormProps = {
     orderId: string;
     selectedPudo: PUDOInfo;
-    shippingMethod: string; // Ex: 'mondial_relay_pr', 'colissimo_domicile', 'pickup'
-    shippingCost: number;   // Le prix TTC calculé, pour envoi au backend (sécurité)
+    shippingMethod: string; 
+    shippingCost: number;   
 };
-// ----------------------------------
 
 
-// Expressions régulières basiques
 const REGEX_POSTAL_CODE = /^[0-9A-Za-z\s-]{3,10}$/;
 const REGEX_PHONE = /^[\d\s-]{5,20}$/;
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
-// --- DÉCLARATION AVEC forwardRef ---
 const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<ShippingFormRef, ShippingAddressFormProps>((props, ref) => {
     
-    // Déstructuration des props pour un accès facile
     const { orderId, selectedPudo, shippingMethod, shippingCost } = props; 
     
-    // Les hooks d'état
     const [formData, setFormData] = useState<FormData>({
         email: '', firstName: '', lastName: '', address: '',
         postalCode: '', city: '', country: '', phone: ''
@@ -63,15 +53,13 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     // --- Calcul pour le rendu et la validation ---
-    const currentMethod = shippingMethod || ''; // S'assurer qu'il y a une chaîne
-    // Si la méthode contient '_pr' (point relais) ou '_relais', un PUDO est requis.
+    const currentMethod = shippingMethod || ''; 
     const requiresPudo = currentMethod.includes('_pr') || currentMethod.includes('_relais');
     // ----------------------------------------------
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        // Normaliser les noms de champs
         const nameKey = e.target.name === 'first_name' ? 'firstName' :
             e.target.name === 'last_name' ? 'lastName' :
                 e.target.name === 'postal_code' ? 'postalCode' :
@@ -125,7 +113,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             return false;
         }
 
-        // 1. Validation de l'Adresse
+        // Validation de l'Adresse
         const validationErrors = validateForm(formData);
         
         // Validation Logique: Point Relais Requis
@@ -142,27 +130,25 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             return false; 
         }
 
-        // Validation réussie, on prépare le payload
         setFormErrors({}); 
         setStatus('loading');
 
         const { email, ...shippingData } = formData;
         
-        // 2. Construction du Payload COMPLET pour Symfony
+        // Construction du Payload COMPLET pour Symfony
         const payload = {
-            // Champs d'adresse classiques (pour la facturation/le client)
             ...shippingData,
             
             // Champs de Commande (Order)
             shippingMethod: shippingMethod, 
-            shippingCost: shippingCost.toFixed(2), // Le coût calculé, formaté en string (SÉCURITÉ)
+            shippingCost: shippingCost.toFixed(2), 
 
-            // Champs de Point Relais (ShippingInfo) - Conditionnel
+            // Champs de Point Relais (ShippingInfo) 
             ...(selectedPudo && { 
                 pudoId: selectedPudo.id,
                 pudoName: selectedPudo.name,
                 
-                // IMPORTANT: Écraser les champs d'adresse par ceux du PUDO pour le colis (si PUDO choisi)
+                // Écraser les champs d'adresse par ceux du PUDO pour le colis (si PUDO choisi)
                 address: selectedPudo.address, 
                 postalCode: selectedPudo.postalCode, 
                 city: selectedPudo.city, 
@@ -188,11 +174,9 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             const responseData = await res.json();
 
             if (!res.ok) {
-                // Gestion de l'erreur de sécurité (incohérence du prix) ou de validation
                 if (responseData.error && responseData.error.includes("Incohérence du prix")) {
                      alert("Erreur de sécurité: Les frais de port ont été modifiés. Veuillez recalculer le tarif.");
                 } else if (responseData.details) {
-                    // Si Symfony renvoie des erreurs de validation spécifiques (ex: si le prix est refusé)
                     setFormErrors(responseData.details as FormErrors);
                 }
                 throw new Error(responseData.error || "Erreur de sauvegarde de l'adresse.");
@@ -214,9 +198,8 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     const isError = status === 'error';
     const isSuccess = status === 'success';
 
-    // Fonction utilitaire pour le rendu des champs
+    // Fonction pour le rendu des champs
     const renderInput = (name: keyof FormData, label: string, type: string = 'text', colSpan: number = 6) => {
-        // Déterminer le nom de l'attribut 'name' pour le rendu 
         const inputName = name === 'firstName' ? 'first_name' :
             name === 'lastName' ? 'last_name' :
                 name === 'postalCode' ? 'postal_code' :
