@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import CheckoutShipping from './CheckoutShipping'
 import StripePaymentForm from './StripePaymentForm'
+import SimpleCartRecap from './SimpleCartRecap';
 
 // Type PUDOInfo doit être disponible (assuré par le parent)
 type PUDOInfo = { id: string, name: string, address: string, postalCode: string, city: string, country: string } | null;
@@ -34,29 +35,29 @@ type Props = {
 }
 
 // Composant SimpleCartRecap (déplacé ici pour simplicité)
-const SimpleCartRecap = ({ items, subtotal }: { items: OrderItemType[], subtotal: number }) => (
-    <div className="p-4 bg-gray-50 rounded">
-        {items.map(item => (
-            <div
-                key={item.orderItemId}
-                className="flex justify-between items-center border-b border-gray-200 py-1 text-sm"
-            >
-                <div className="flex-1 pr-2">
-                    <p className="font-medium text-gray-700">
-                        {item.name} x {item.quantity}
-                    </p>
-                </div>
-                <div className="text-right">
-                    {parseFloat(item.total).toFixed(2)} €
-                </div>
-            </div>
-        ))}
-        <div className="mt-3 pt-2 border-t border-gray-300 flex justify-between font-regular">
-            <span>Sous-total</span>
-            <span>{subtotal.toFixed(2)} €</span>
-        </div>
-    </div>
-);
+// const SimpleCartRecap = ({ items, subtotal }: { items: OrderItemType[], subtotal: number }) => (
+//     <div className="p-4 bg-gray-50 rounded">
+//         {items.map(item => (
+//             <div
+//                 key={item.orderItemId}
+//                 className="flex justify-between items-center border-b border-gray-200 py-1 text-sm"
+//             >
+//                 <div className="flex-1 pr-2">
+//                     <p className="font-medium text-gray-700">
+//                         {item.name} x {item.quantity}
+//                     </p>
+//                 </div>
+//                 <div className="text-right">
+//                     {parseFloat(item.total).toFixed(2)} €
+//                 </div>
+//             </div>
+//         ))}
+//         <div className="mt-3 pt-2 border-t border-gray-300 flex justify-between font-regular">
+//             <span>Sous-total</span>
+//             <span>{subtotal.toFixed(2)} €</span>
+//         </div>
+//     </div>
+// );
 
 
 const CheckoutSummary = ({
