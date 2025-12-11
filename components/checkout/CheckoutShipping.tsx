@@ -1,8 +1,9 @@
+// src/components/checkout/CheckoutShipping.tsx (Complet)
+
 "use client";
 import React, { useState, useEffect } from 'react';
-import MondialRelayHandler from './MondialRelayHandler'; 
-type PUDOInfo = { id: string, name: string, address: string, postalCode: string, city: string, country: string } | null;
-
+// Import du composant spécifique pour le mode Point Relais (et le type PUDOInfo)
+import MondialRelayHandler, { PUDOInfo } from './MondialRelayHandler'; 
 
 type ShippingOption = {
     id: string;
@@ -12,7 +13,7 @@ type ShippingOption = {
     price: number;
 };
 
-// Liste des options de base, incluant les options Colissimo
+// Liste des options de base
 const INITIAL_SHIPPING_OPTIONS: ShippingOption[] = [
     { id: 'pickup', label: 'Commande à venir retirer en boutique', modeCode: 'pickup', requiresPUDO: false, price: 0.00 },
     { id: 'mondial_relay_pr', label: 'Mondial Relay Point Relais', modeCode: 'pr', requiresPUDO: true, price: 0.00 },
@@ -23,19 +24,25 @@ type CheckoutShippingProps = {
     setShippingPrice: (price: number) => void;
     setSelectedOptionId: (method: string) => void;
     setSelectedPudo: (pudo: PUDOInfo) => void;
-    totalWeight: number; // Poids total en KG 
+    totalWeight: number; // Poids total en KG
     orderId: string;
-    currentPrice: number; 
+    currentPrice: number; // Prix actuel (affiché dans le récapitulatif)
+    
+    // PROPRIÉTÉS CLIENT REQUISES
+    customerPostalCode: string; 
+    customerCountryCode: string;
 }
 
 const CheckoutShipping = ({
     setShippingPrice,
     setSelectedOptionId,
     setSelectedPudo,
-    totalWeight, 
+    totalWeight,
     orderId,
-    currentPrice
-}: CheckoutShippingProps) => {
+    currentPrice,
+    customerPostalCode, 
+    customerCountryCode 
+}: CheckoutShippingProps) => { // <-- Le type CheckoutShippingProps est maintenant satisfait
 
     const defaultOption = INITIAL_SHIPPING_OPTIONS[0];
 
@@ -44,35 +51,35 @@ const CheckoutShipping = ({
     const [loadingPrice, setLoadingPrice] = useState(false);
 
 
-    // --- LOGIQUE D'APPEL API POUR CALCULER LE PRIX (UNIQUEMENT POUR PICKUP/COLISSIMO) ---
+    // --- LOGIQUE D'APPEL API POUR CALCULER LE PRIX (NON-PUDO) ---
     useEffect(() => {
         const selectedOption = options.find(opt => opt.id === selectedId);
         
-        // Si Mondial Relay est sélectionné, la logique de prix est gérée par MondialRelayHandler
-        if (!selectedOption || selectedOption.id === 'mondial_relay_pr' || totalWeight <= 0) {
-            if (selectedOption?.id !== 'mondial_relay_pr') {
-                 setShippingPrice(0);
-                 setSelectedOptionId(selectedId);
-            }
+        if (!selectedOption || totalWeight <= 0) {
+            setShippingPrice(0);
             return;
         }
         
         const calculatePrice = async () => {
-             if (selectedOption.modeCode === 'pickup') {
-                setShippingPrice(0);
+            // Mondial Relay est géré par MondialRelayHandler; Pickup est 0.
+            if (selectedOption.modeCode === 'pickup' || selectedOption.requiresPUDO) {
+                if (selectedOption.modeCode === 'pickup') {
+                    setShippingPrice(0);
+                }
                 setSelectedOptionId(selectedId);
                 return;
-             }
-            
+            }
+
             setLoadingPrice(true);
             try {
+                // Ce bloc gère les modes non-PUDO (ex: Colissimo Domicile)
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/shipping/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         totalWeight: totalWeight, 
                         modeCode: selectedOption.modeCode,
-                        countryCode: 'FR',
+                        countryCode: customerCountryCode, 
                     }),
                 });
 
@@ -88,9 +95,8 @@ const CheckoutShipping = ({
                 setOptions(prev => prev.map(opt =>
                     opt.id === selectedOption.id ? { ...opt, price: newPrice } : opt
                 ));
-
                 setShippingPrice(newPrice);
-                setSelectedOptionId(selectedId);
+                setSelectedOptionId(selectedOption.id);
 
             } catch (error) {
                 console.error("Erreur de calcul de tarif:", error);
@@ -102,36 +108,25 @@ const CheckoutShipping = ({
 
         calculatePrice();
 
-    }, [selectedId, totalWeight, setShippingPrice, setSelectedOptionId]);
+    }, [selectedId, totalWeight, setShippingPrice, setSelectedOptionId, options, customerCountryCode]);
 
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newOptionId = event.target.value;
-        setSelectedId(newOptionId);
         
-        // Réinitialiser le PUDO si l'on quitte un mode Relais
         const oldOption = options.find(opt => opt.id === selectedId);
-        if (oldOption?.requiresPUDO) {
+        if (oldOption?.requiresPUDO && newOptionId !== oldOption.id) {
             setSelectedPudo(null);
         }
         
-        // Si la nouvelle option n'est pas Mondial Relay, on set la méthode directement
-        if (newOptionId !== 'mondial_relay_pr') {
-             setSelectedOptionId(newOptionId);
-             // Réinitialiser le prix si on passe à un mode non Mondial Relay, l'useEffect ci-dessus le recalculera.
-             setShippingPrice(0); 
-        } 
+        setSelectedId(newOptionId);
     };
 
-    const isMondialRelaySelected = selectedId === 'mondial_relay_pr';
-    
-    const getPriceDisplay = (option: ShippingOption) => {
-        if (option.id === 'mondial_relay_pr') {
-            return currentPrice;
-        }
-        return option.price;
-    }
+    const selectedOption = options.find(opt => opt.id === selectedId);
+    const requiresPudo = selectedOption?.requiresPUDO;
 
+
+    // --- RENDU ---
     return (
         <div className='checkout-shipping mt-8'>
             <p className='font-semibold mb-4'>Options de livraison</p>
@@ -157,24 +152,36 @@ const CheckoutShipping = ({
                         />
                         <span className='ml-3 text-sm font-medium text-gray-700 flex-1'>
                             {option.label}
-                            {loadingPrice && selectedId === option.id && !isMondialRelaySelected ? ' (calcul...)' : ` (${getPriceDisplay(option).toFixed(2)} €)`}
+                            {loadingPrice && selectedId === option.id && !requiresPudo ? ' (calcul...)' : ` (${option.price.toFixed(2)} €)`}
                         </span>
                     </label>
                 ))}
             </div>
 
-            {/* --- ZONE DÉDIÉE À MONDIAL RELAY --- */}
-            {isMondialRelaySelected && (
-                 <div className="mt-4">
-                    <MondialRelayHandler 
+            {/* Rendu du GESTIONNAIRE MONDIAL RELAY si l'option est sélectionnée */}
+            {selectedId === 'mondial_relay_pr' && (
+                <div className="mt-4">
+                    <MondialRelayHandler
                         totalWeight={totalWeight}
                         orderId={orderId}
                         setShippingPrice={setShippingPrice}
                         setSelectedPudo={setSelectedPudo}
-                        setShippingMethod={setSelectedOptionId} 
+                        setShippingMethod={setSelectedOptionId}
                         currentPrice={currentPrice}
+                        customerPostalCode={customerPostalCode} 
+                        customerCountryCode={customerCountryCode} 
                     />
-                 </div>
+                </div>
+            )}
+            
+            {/* Affichage du prix final pour les options non gérées par MondialRelayHandler */}
+            {selectedId !== 'mondial_relay_pr' && selectedOption && (
+                 <p className="mt-4 text-sm text-right text-gray-600">
+                    Frais de port :
+                    <span className="font-semibold ml-1">
+                        {currentPrice.toFixed(2)} €
+                    </span>
+                </p>
             )}
 
         </div>
