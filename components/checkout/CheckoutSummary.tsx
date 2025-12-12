@@ -108,7 +108,7 @@ const CheckoutSummary = ({
             />
 
             {/* Affichage des frais de port séparément */}
-            <div className="flex justify-between text-sm text-gray-600 mt-2">
+            <div className="flex justify-between text-sm text-gray-600 mt-8">
                 <span>Frais de port</span>
                 <span>{shippingCost.toFixed(2)} €</span>
             </div>
