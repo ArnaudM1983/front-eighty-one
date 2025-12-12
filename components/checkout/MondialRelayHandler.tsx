@@ -5,8 +5,9 @@
  * 2. Gérer le champ de saisie du Code Postal (CP) pour la recherche de points.
  * 3. Contrôler l'état de la Modale qui contient la carte.
  * 4. Déclencher l'appel API vers Symfony ('api/order/pudo/search') lorsque l'utilisateur clique sur "Rechercher".
- * 5. Recevoir la liste des PUDOs et la passer au composant de carte (PudoMap).
- * 6. Mettre à jour le Point Relais sélectionné (`setSelectedPudo`) et fermer la modale après sélection.
+ * 5. IMPLÉMENTER LA LOGIQUE DE RÉESSAI (RETRY) pour gérer l'instabilité de l'API externe.
+ * 6. Recevoir la liste des PUDOs et la passer au composant de carte (PudoMap).
+ * 7. Mettre à jour le Point Relais sélectionné (`setSelectedPudo`) et fermer la modale après sélection.
  * * DÉPENDANCES CLÉS :
  * - PudoMap (dynamic import): La carte Leaflet pour l'affichage visuel.
  * - API Symfony: Point de terminaison '/api/order/pudo/search' pour les données des points.
@@ -19,6 +20,7 @@ const PudoMap = dynamic(() => import('./PudoMap'), {
     ssr: false,
     loading: () => <div className="h-96 w-full bg-gray-200 flex items-center justify-center rounded"><p className="text-gray-500">Chargement de la carte...</p></div>,
 });
+
 
 export type PUDOInfo = { 
     id: string; 
@@ -64,16 +66,29 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     const [error, setError] = useState<string | null>(null);
     const [pudosList, setPudosList] = useState<PUDOInfo[]>([]); 
     
-    // searchPostalCode s'initialise avec l'adresse du client
-    const [searchPostalCode, setSearchPostalCode] = useState(customerPostalCode || '75001');
+    // searchPostalCode s'initialise avec l'adresse du client ou 69001 (Lyon)
+    const [searchPostalCode, setSearchPostalCode] = useState(customerPostalCode || '69001');
     // searchTrigger DOIT rester à 0 pour ne pas lancer la recherche au chargement
     const [searchTrigger, setSearchTrigger] = useState(0); 
     
     // NOUVEL ÉTAT : GESTION DE LA MODALE
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    // 💡 NOUVEL ÉTAT : Clé pour forcer le re-rendu/remontage de la carte
+    const [mapKey, setMapKey] = useState(0); 
 
     const effectiveCountryCode = customerCountryCode || 'FR'; 
     
+    // Helper pour vérifier si un PUDO a des coordonnées valides
+    const hasValidCoords = (p: PUDOInfo): p is PUDOInfo => {
+        return (
+            p !== null && 
+            typeof p.latitude === 'number' && 
+            typeof p.longitude === 'number' &&
+            p.latitude !== 0 && 
+            p.longitude !== 0
+        );
+    };
 
     // Initialisation : S'assure que le parent est au courant du mode de livraison
     useEffect(() => {
@@ -83,7 +98,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     }, [setShippingMethod, setSelectedPudo]);
 
 
-    // --- LOGIQUE D'APPEL API POUR CALCULER LE PRIX (Non modifiée, ne dépend pas du CP de recherche) ---
+    // --- LOGIQUE D'APPEL API POUR CALCULER LE PRIX (inchangée) ---
     useEffect(() => {
         if (totalWeight <= 0) {
             setShippingPrice(0);
@@ -134,19 +149,26 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     }, [totalWeight, setShippingPrice, effectiveCountryCode]);
 
 
-    // --- RECHERCHE DES PUDOS POUR LA CARTE (Déclenchée UNIQUEMENT par searchTrigger > 0) ---
+    // --- RECHERCHE DES PUDOS AVEC MÉCANISME DE RÉESSAI ---
     useEffect(() => {
         if (loadingPrice || currentPrice <= 0 || !!error || !searchPostalCode || searchPostalCode.length !== 5) {
              setPudosList([]);
              return;
         }
         
-        // La recherche ne se lance que si searchTrigger est > 0 (clic sur Rechercher)
         if (searchTrigger === 0) return; 
 
         setLoadingPudos(true);
+        setError(null); 
+
+        const MAX_RETRIES = 10;
         
-        const fetchPudos = async () => {
+        const fetchPudosWithRetry = async (attempt = 1) => {
+            
+            console.log(`📡 Tentative de recherche PUDO #${attempt} pour CP: ${searchPostalCode}`);
+            
+            let pudos: PUDOInfo[] = [];
+
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/pudo/search`, {
                     method: 'POST',
@@ -160,35 +182,67 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
 
                 if (!res.ok) {
                     const errorData = await res.json().catch(() => ({ message: res.statusText }));
-                    throw new Error(errorData.message || "Impossible de charger les Points Relais.");
+                    throw new Error(errorData.message || `Erreur HTTP serveur API (Tentative ${attempt})`);
                 }
 
                 const data = await res.json();
-                setPudosList(data.pudos || []);
+                pudos = data.pudos || [];
                 
+                // 💡 VÉRIFICATION CRITIQUE : Y a-t-il au moins 1 PUDO avec des coordonnées valides ?
+                const validPudos = pudos.filter(hasValidCoords);
+                
+                if (pudos.length > 0 && validPudos.length === 0) {
+                     // L'API a répondu 200, mais les coordonnées sont tronquées/invalides (ex: 45/4)
+                     throw new Error(`Coordonnées invalides reçues pour ${searchPostalCode}.`);
+                }
+                
+                if (pudos.length === 0) {
+                    // Aucun point trouvé du tout.
+                    throw new Error(`Aucun Point Relais disponible (Tentative ${attempt}).`);
+                }
+
+                // SUCCÈS : Données valides reçues
+                setPudosList(pudos);
+                setMapKey(prev => prev + 1); // Forcer le remontage de la carte
+                setLoadingPudos(false);
+                return; // Sortie réussie
+
             } catch (err: any) {
-                console.error("Erreur de recherche PUDO:", err);
-                setError(err.message);
+                console.warn(`Tentative ${attempt} échouée:`, err.message);
+
+                if (attempt < MAX_RETRIES) {
+                    // Réessayer après un délai
+                    await new Promise(resolve => setTimeout(resolve, 500 + 500 * attempt));
+                    return fetchPudosWithRetry(attempt + 1);
+                }
+
+                // ÉCHEC FINAL après toutes les tentatives
+                console.error("Échec définitif de la recherche PUDO après réessais.");
+                
+                const finalError = err.message.includes('Coordonnées invalides') 
+                    ? `Erreur de données pour ${searchPostalCode}. Veuillez réessayer.` 
+                    : err.message;
+                
+                setError(`[Échec après réessais] ${finalError}`);
                 setPudosList([]);
-            } finally {
                 setLoadingPudos(false);
             }
         };
 
-        fetchPudos();
+        fetchPudosWithRetry();
 
-    }, [currentPrice, loadingPrice, error, totalWeight, searchPostalCode, effectiveCountryCode, searchTrigger]); 
+    }, [currentPrice, loadingPrice, totalWeight, searchPostalCode, effectiveCountryCode, searchTrigger]); 
 
 
     // --- GESTION DE LA SÉLECTION SUR LA CARTE ---
     const handleMapPudoSelect = useCallback((pudoData: PUDOInfo) => {
         setLocalPudo(pudoData);
         setSelectedPudo(pudoData); 
-        setIsModalOpen(false); 
+        setIsModalOpen(false); // Ferme la modale après sélection
     }, [setSelectedPudo]);
 
 
-    // Handler pour le champ de saisie (maintenant dans la modale)
+    // Handler pour le champ de saisie (dans la modale)
     const handleSearchCPChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.substring(0, 5);
         setSearchPostalCode(value);
@@ -206,6 +260,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     // Handler pour l'ouverture de la modale
     const handleOpenModal = () => {
         setIsModalOpen(true);
+        // Déclencher une recherche si c'est la première ouverture avec un CP valide
         if (searchTrigger === 0 && searchPostalCode.length === 5) {
             setSearchTrigger(1);
         }
@@ -220,11 +275,13 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     }
 
     let modalPudoMessage = null;
+    const searchHasRun = searchTrigger > 0 && searchPostalCode.length === 5;
+    
     if (loadingPudos) {
         modalPudoMessage = `Recherche en cours près de ${searchPostalCode}...`;
     } else if (pudosList.length > 0) {
         modalPudoMessage = `${pudosList.length} Points Relais trouvés. Sélectionnez sur la carte.`;
-    } else if (searchTrigger > 0 && searchPostalCode.length === 5) {
+    } else if (searchHasRun) {
         modalPudoMessage = `Aucun Point Relais disponible près de ${searchPostalCode}.`;
     }
 
@@ -311,6 +368,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                         <div className='pudo-map-container mt-4'>
                             {pudosList.length > 0 ? (
                                 <PudoMap 
+                                    key={mapKey} // 💡 CLÉ DE REMONTAGE POUR LA STABILITÉ DE LEAFLET
                                     pudos={pudosList}
                                     onPudoSelect={handleMapPudoSelect}
                                     initialLocationCP={searchPostalCode} 
@@ -320,7 +378,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                             ) : (
                                 <div className="h-96 w-full bg-gray-200 flex items-center justify-center rounded">
                                      <p className="text-gray-600 font-semibold">
-                                         {searchTrigger === 0 ? "Saisissez un Code Postal et cliquez sur 'Rechercher' pour afficher les points de retrait." : modalPudoMessage}
+                                         {searchHasRun ? modalPudoMessage : "Saisissez un Code Postal et cliquez sur 'Rechercher' pour afficher les points de retrait."}
                                      </p>
                                 </div>
                             )}
