@@ -214,15 +214,7 @@ const CheckoutShipping = ({
                 })}
             </div>
 
-            {/* Le bloc de prix final (optionnel, affichant le prix actuel du frais de port sélectionné) */}
-            {selectedOption && (
-                 <p className="mt-4 text-sm text-right text-gray-600">
-                    Frais de port :
-                    <span className="font-semibold ml-1">
-                        {currentPrice.toFixed(2)} €
-                    </span>
-                </p>
-            )}
+            
         </div>
     );
 };
