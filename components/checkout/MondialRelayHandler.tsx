@@ -288,9 +288,6 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
 
     return (
         <div className='mondial-relay-handler'>
-            <p className="mt-2 text-sm font-semibold text-gray-700">
-                Frais de port : {loadingPrice ? '...' : `${currentPrice.toFixed(2)} €`}
-            </p>
             
             {error && 
                 <div className={`mt-2 p-2 rounded text-sm text-red-700 bg-red-100`}>
@@ -298,7 +295,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                 </div>
             }
 
-            <div className="mt-4 p-4 border border-dashed rounded bg-yellow-50">
+            <div className="p-4 rounded">
                 
                 {isPudoSelected && (
                     <div className="mb-4 p-3 bg-green-100 border border-green-300 rounded">
@@ -311,7 +308,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                 <button
                     onClick={handleOpenModal}
                     disabled={isDisabled}
-                    className="w-full p-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                    className="w-full p-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer"
                 >
                     {buttonText}
                 </button>
