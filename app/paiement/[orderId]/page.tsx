@@ -91,6 +91,10 @@ export default function PaiementPage() {
     const orderIdString = orderId as string;
     const orderTotalWeight = order?.totalWeight || 0; // Valeur en grammes
     const orderItems = order?.items || [];
+    
+    // 💡 EXTRACTION DU CODE POSTAL ET DU PAYS DE L'ADRESSE PAR DÉFAUT
+    const customerPostalCode = order?.shippingAddress?.postalCode || '';
+    const customerCountryCode = order?.shippingAddress?.countryCode || '';
     // -----------------------------------------
 
     return (
@@ -123,6 +127,10 @@ export default function PaiementPage() {
                         orderId={orderIdString}
                         subtotal={orderSubtotalState}
                         orderItems={orderItems}
+
+                        // 💡 PASSAGE DES INFOS CLIENT
+                        customerPostalCode={customerPostalCode}
+                        customerCountryCode={customerCountryCode}
 
                         // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT
                         setShippingCost={setShippingCost}

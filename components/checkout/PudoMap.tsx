@@ -1,16 +1,36 @@
-// src/components/checkout/PudoMap.tsx (Corrigé)
-
+/**
+ * COMPOSANT : PudoMap (Frontend - React Leaflet)
+ * * RÔLE :
+ * 1. Afficher la carte géographique interactive (Leaflet/OpenStreetMap).
+ * 2. Centrer la carte sur le premier Point Relais trouvé (ou sur la position par défaut).
+ * 3. Rendre les marqueurs interactifs (`PudoMarker`) pour chaque Point Relais dans la liste `pudos`.
+ * 4. Fournir le mécanisme de centrage dynamique (`ChangeView`) après une nouvelle recherche.
+ * 5. Transmettre l'action de sélection (`onPudoSelect`) du marqueur au composant parent (MondialRelayHandler).
+ * * DÉPENDANCES CLÉS :
+ * - React-Leaflet: Librairie pour l'affichage de la carte.
+ * - PudoMarker: Composant enfant gérant le marqueur et le popup pour chaque point.
+ */
 "use client";
-import React, { useMemo } from 'react';
-// ATTENTION: Ajouter "Popup" ICI
-import { MapContainer, TileLayer, useMapEvents, Popup } from 'react-leaflet'; 
+import React, { useMemo, useState, useEffect } from 'react';
+import { 
+    MapContainer, 
+    TileLayer, 
+    useMapEvents, 
+    Popup
+} from 'react-leaflet'; 
+import { LatLngTuple } from 'leaflet'; 
 import PudoMarker from './PudoMarker';
 import { PUDOInfo } from './MondialRelayHandler'; 
 
+// Position par défaut (Lyon, France) si aucun PUDO n'est trouvé
+const DEFAULT_CENTER: LatLngTuple = [45.764043, 4.835659]; 
+const DEFAULT_ZOOM = 13; // zoom par défaut
+
 // Composant utilitaire pour centrer la carte sur les marqueurs
-const ChangeView = ({ center }: { center: [number, number] }) => {
+const ChangeView = ({ center, zoom }: { center: LatLngTuple, zoom: number }) => {
   const map = useMapEvents({});
-  map.setView(center);
+  // setView pour centrer la carte et ajuster le zoom
+  map.setView(center, zoom);
   return null;
 };
 
@@ -30,20 +50,27 @@ const PudoMap: React.FC<PudoMapProps> = ({
     selectedPudoId
 }) => {
   
-  const centerPosition: [number, number] = useMemo(() => {
-    if (pudos.length === 0) {
-      // Position par défaut pour Paris si aucun PUDO n'est trouvé
-      return [48.8566, 2.3522];
-    }
+  // État pour stocker la position géographique du CP de recherche
+  const [centerCoords, setCenterCoords] = useState<LatLngTuple>(DEFAULT_CENTER);
+
+  
+  useEffect(() => {
+    // Si des PUDOs sont trouvés, centrez sur le premier PUDO
+    const firstPudoWithCoords = pudos
+      .filter((p): p is PUDOInfo => p !== null) 
+      .find(p => 
+        p.latitude !== undefined && p.longitude !== undefined && 
+        p.latitude !== null && p.longitude !== null &&
+        typeof p.latitude === 'number' && typeof p.longitude === 'number'
+      );
+      
+    if (firstPudoWithCoords) {
+        setCenterCoords([firstPudoWithCoords.latitude, firstPudoWithCoords.longitude] as LatLngTuple);
+    } 
     
-    const firstPudo = pudos.find(p => p.latitude && p.longitude);
-    if (firstPudo) {
-         return [firstPudo.latitude, firstPudo.longitude];
-    }
-
-    return [48.8566, 2.3522];
-  }, [pudos]);
-
+  }, [pudos, initialLocationCP]); 
+  
+    const centerPosition = centerCoords;
 
   if (isDisabled) {
     return (
@@ -57,19 +84,12 @@ const PudoMap: React.FC<PudoMapProps> = ({
 
   return (
     <div className="map-container" style={{ height: '400px' }}>
-        
-        {/* MESSAGE D'ABSENCE DE PUDO AFFICHÉ AU-DESSUS DE LA CARTE */}
-        {pudos.length === 0 && (
-            <div className="p-2 mb-2 bg-red-100 text-red-700 rounded text-sm font-medium">
-                Aucun Point Relais n'a été trouvé autour de {initialLocationCP}.
-            </div>
-        )}
-
+      
       <MapContainer 
         center={centerPosition} 
-        zoom={13} 
+        zoom={DEFAULT_ZOOM} 
         scrollWheelZoom={true}
-        style={{ height: pudos.length === 0 ? '100px' : '400px', width: '100%' }}
+        style={{ height: '400px', width: '100%' }}
         className="z-0" 
       >
         <TileLayer
@@ -77,16 +97,19 @@ const PudoMap: React.FC<PudoMapProps> = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {pudos.length > 0 && <ChangeView center={centerPosition} />}
+        {/* Utilise ChangeView pour forcer le centrage lorsque centerPosition change */}
+        <ChangeView center={centerPosition} zoom={DEFAULT_ZOOM} />
         
         {/* Rendu des Marqueurs */}
         {pudos.map((pudo) => (
-          <PudoMarker 
-            key={pudo.id} 
-            pudo={pudo} 
-            onPudoSelect={onPudoSelect}
-            isSelected={selectedPudoId === pudo.id}
-          />
+          pudo && (
+            <PudoMarker 
+                key={pudo.id} 
+                pudo={pudo} 
+                onPudoSelect={onPudoSelect}
+                isSelected={selectedPudoId === pudo.id}
+            />
+          )
         ))}
 
       </MapContainer>
