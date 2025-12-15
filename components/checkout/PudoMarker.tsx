@@ -1,11 +1,51 @@
-
 "use client";
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { PUDOInfo } from './MondialRelayHandler'; // Assurez-vous que le type PUDOInfo est bien exporté de MondialRelayHandler
+// Assurez-vous d'importer PUDOInfo et PUDOHoursByDay
+import { PUDOInfo, PUDOHoursByDay } from './MondialRelayHandler'; 
 
-// Définition de l'icône Leaflet par défaut (nécessaire car Webpack ne gère pas bien les URL par défaut)
+// --- DÉFINITIONS ET FONCTIONS UTILITAIRES POUR LES HORAIRES (inchangées) ---
+
+// Si PUDOHours n'est pas exporté, on le déduit
+type PUDOHours = PUDOInfo extends { hours: infer T } ? T[keyof T] : any; 
+
+const formatTime = (time: string | undefined): string => {
+  if (!time) return '';
+  const hours = time.substring(0, 2);
+  const minutes = time.substring(2, 4);
+  return `${hours}h${minutes}`;
+};
+
+const formatDaySchedule = (hours: PUDOHours | undefined): string => {
+  if (!hours) return 'Non spécifié';
+
+  const amStart = formatTime(hours.am_start);
+  const amEnd = formatTime(hours.am_end);
+  const pmStart = formatTime(hours.pm_start);
+  const pmEnd = formatTime(hours.pm_end);
+
+  if (!amStart && !pmStart) {
+    return 'Fermé';
+  }
+  
+  // Cas simple (une seule ouverture/fermeture ou ouverture continue)
+  if (!pmStart || pmStart === amEnd) { 
+    return `${amStart} - ${amEnd}`;
+  }
+
+  // Cas avec coupure (Matin et Après-midi)
+  let schedule = `${amStart} - ${amEnd}`;
+  if (pmStart && pmEnd) {
+      schedule += ` & ${pmStart} - ${pmEnd}`;
+  }
+  return schedule;
+};
+
+// --- FIN DES FONCTIONS UTILITAIRES ---
+
+
+// Définition de l'icône Leaflet par défaut
 const customIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -27,28 +67,48 @@ const PudoMarker: React.FC<PudoMarkerProps> = ({ pudo, onPudoSelect, isSelected 
     return null;
   }
 
-  // Créer une icône verte si sélectionné
-  const selectedIcon = L.icon({
-    ...customIcon.options,
-    iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg fill="#00AA00" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>')
-  });
+  const iconToUse = customIcon; 
+
+  // Déclaration du tableau des jours pour la boucle
+  const dayNames: (keyof PUDOHoursByDay)[] = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   
-  // Utiliser l'icône verte si le point est sélectionné, sinon l'icône par défaut
-  const iconToUse = isSelected ? customIcon : customIcon; 
+  // Obtenir le jour actuel en français pour le mettre en surbrillance
+  const today = new Date().toLocaleDateString('fr-FR', { weekday: 'long' }); 
+  const todayCapitalized = today.charAt(0).toUpperCase() + today.slice(1) as keyof PUDOHoursByDay;
+
 
   return (
     <Marker 
         position={[pudo.latitude, pudo.longitude]} 
-        icon={iconToUse} // Utilisez customIcon car Leaflet ne gère pas le SVG facilement sans plugin
+        icon={iconToUse}
     >
-      <Popup>
+      <Popup maxHeight={300}>
         <div className="text-sm">
-          <p className="font-semibold">{pudo.name}</p>
+          <p className="font-bold text-base">{pudo.name}</p>
           <p>{pudo.address}</p>
-          <p className="mb-2">{pudo.postalCode} {pudo.city}</p>
+          <p className="mb-2 text-gray-600">{pudo.postalCode} {pudo.city}</p>
+
+          {/* Section Horaires : Vérification conditionnelle de pudo.hours */}
+          {pudo.hours && (
+            <div className="border-t pt-2">
+              <p className="font-semibold text-sm mb-1">Horaires d'ouverture :</p>
+              
+              {dayNames.map(day => (
+                <p 
+                  key={day} 
+                  className={`text-xs ${day === todayCapitalized ? 'font-bold text-blue-700' : ''}`}
+                >
+                  {/* Utilisation de ! pour affirmer à TypeScript que pudo.hours existe ici */}
+                  {day} : {formatDaySchedule(pudo.hours![day])}
+                </p>
+              ))}
+            </div>
+          )}
+          {/* Fin Section Horaires */}
+
           <button
             onClick={() => onPudoSelect(pudo)}
-            className={`w-full p-1 text-white text-xs rounded transition-colors ${isSelected ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'}`}
+            className={`w-full mt-3 p-1 text-white text-xs rounded transition-colors ${isSelected ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'}`}
             disabled={isSelected}
           >
             {isSelected ? 'Sélectionné' : 'Sélectionner ce Point'}
