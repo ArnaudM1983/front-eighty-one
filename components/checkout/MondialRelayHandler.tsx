@@ -21,6 +21,22 @@ const PudoMap = dynamic(() => import('./PudoMap'), {
     loading: () => <div className="h-96 w-full bg-gray-200 flex items-center justify-center rounded"><p className="text-gray-500">Chargement de la carte...</p></div>,
 });
 
+export interface PUDOHours {
+    am_start: string; 
+    am_end: string;   
+    pm_start: string; // Ex: '1400'
+    pm_end: string;   // Ex: '1900'
+}
+
+export type PUDOHoursByDay = {
+    Lundi: PUDOHours;
+    Mardi: PUDOHours;
+    Mercredi: PUDOHours;
+    Jeudi: PUDOHours;
+    Vendredi: PUDOHours;
+    Samedi: PUDOHours;
+    Dimanche: PUDOHours;
+}
 
 export type PUDOInfo = { 
     id: string; 
@@ -32,6 +48,7 @@ export type PUDOInfo = {
     latitude?: number; 
     longitude?: number;
     distance?: number;
+    hours?: PUDOHoursByDay;
 } | null;
 
 interface MondialRelayHandlerProps {
