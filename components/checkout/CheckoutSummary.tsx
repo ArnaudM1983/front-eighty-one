@@ -46,9 +46,9 @@ const CheckoutSummary = ({
     subtotal,
     orderItems,
     shippingCost,
-    
+
     // DÉSTRUCTURATION NÉCESSAIRE des nouvelles props
-    customerPostalCode, 
+    customerPostalCode,
     customerCountryCode,
 
     setShippingCost,
@@ -58,7 +58,7 @@ const CheckoutSummary = ({
 
     // ** CORRECTION CLÉ : CONVERSION GRAMME -> KG **
     const totalWeightInKg = totalWeight / 1000;
-    
+
     const finalTotal = subtotal + shippingCost;
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
@@ -98,12 +98,12 @@ const CheckoutSummary = ({
                 setSelectedPudo={setSelectedPudo}
 
                 // Utilisation du poids converti
-                totalWeight={totalWeightInKg} 
+                totalWeight={totalWeightInKg}
                 orderId={orderId}
                 currentPrice={shippingCost}
-                
+
                 // TRANSMISSION DES NOUVELLES PROPS (nécessaire pour CheckoutShipping)
-                customerPostalCode={customerPostalCode} 
+                customerPostalCode={customerPostalCode}
                 customerCountryCode={customerCountryCode}
             />
 
@@ -128,7 +128,14 @@ const CheckoutSummary = ({
             <button
                 onClick={handleFinalSubmit}
                 disabled={buttonIsDisabled}
-                className="w-full mt-4 p-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-colors"
+                className={`
+        w-full mt-4 
+        group inline-block px-6 py-2 font-normal rounded-4xl border
+        border-(--primary) bg-(--primary) text-white
+        hover:bg-white hover:text-(--primary) hover:border-(--primary)
+        transition-colors duration-200 cursor-pointer
+        disabled:opacity-50 disabled:cursor-not-allowed
+    `}
             >
                 {buttonText}
             </button>
