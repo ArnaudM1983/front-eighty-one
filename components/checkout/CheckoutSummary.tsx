@@ -31,6 +31,7 @@ type Props = {
     // NOUVEAU: Informations Client (provenant du parent de CheckoutSummary)
     customerPostalCode: string; // Ex: '75001'
     customerCountryCode: string; // Ex: 'FR'
+    customerAddress: string;
 
     // Setters du parent (PaiementPage)
     setShippingCost: (price: number) => void;
@@ -50,6 +51,7 @@ const CheckoutSummary = ({
     // DÉSTRUCTURATION NÉCESSAIRE des nouvelles props
     customerPostalCode,
     customerCountryCode,
+    customerAddress,
 
     setShippingCost,
     setShippingMethod,
@@ -105,6 +107,7 @@ const CheckoutSummary = ({
                 // TRANSMISSION DES NOUVELLES PROPS (nécessaire pour CheckoutShipping)
                 customerPostalCode={customerPostalCode}
                 customerCountryCode={customerCountryCode}
+                customerAddress={customerAddress}
             />
 
             {/* Affichage des frais de port séparément */}
