@@ -225,7 +225,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
 
     return (
         <form className='shipping-address-form'>
-            <h2 className='mb-4 text-2xl font-semibold'>Adresse de livraison</h2>
+            <h2 className='mb-4 text-2xl font-semibold'>Adresse de facturation</h2>
 
             {/* Messages de statut généraux */}
             {isSuccess && <div className="p-3 mb-4 text-green-700 bg-green-100 rounded">Adresse enregistrée !</div>}
