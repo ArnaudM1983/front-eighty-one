@@ -21,6 +21,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
     setShippingMethod,
     customerPostalCode,
     customerCountryCode,
+    customerAddress
 }) => {
     const [loading, setLoading] = useState(false);
     const [isPluginInitialized, setIsPluginInitialized] = useState(false);
