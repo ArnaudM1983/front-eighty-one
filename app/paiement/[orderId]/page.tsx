@@ -118,6 +118,7 @@ export default function PaiementPage() {
     // 💡 EXTRACTION DU CODE POSTAL ET DU PAYS DE L'ADRESSE PAR DÉFAUT
     const customerPostalCode = order?.shippingAddress?.postalCode || '';
     const customerCountryCode = order?.shippingAddress?.countryCode || '';
+    const customerAddress = order?.shippingAddress?.address || '';
     // -----------------------------------------
 
     return (
@@ -154,6 +155,7 @@ export default function PaiementPage() {
                         // PASSAGE DES INFOS CLIENT
                         customerPostalCode={customerPostalCode}
                         customerCountryCode={customerCountryCode}
+                        customerAddress={customerAddress}
 
                         // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT
                         setShippingCost={setShippingCost}
