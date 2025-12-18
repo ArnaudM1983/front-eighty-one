@@ -148,7 +148,7 @@ const CheckoutShipping = ({
                     } else if (priceToDisplay === 0 && option.modeCode !== 'pickup') {
                         priceLabel = ' (-)'; 
                     } else {
-                        priceLabel = ` (${priceToDisplay.toFixed(2)} €)`;
+                        priceLabel = ` (${priceToDisplay.toFixed(2)}\u00A0€)`;
                     }
 
                     return (
