@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { PUDOInfo } from './MondialRelayHandler'; // On réutilise les types existants
+import { PUDOInfo } from './MondialRelayHandler';
 
 const PudoMap = dynamic(() => import('./PudoMap'), {
     ssr: false,
@@ -39,21 +39,23 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
     const [error, setError] = useState<string | null>(null);
     const [pudosList, setPudosList] = useState<PUDOInfo[]>([]);
     
-    // États de recherche synchronisés sur le parent au début
+    // États de recherche internes à la modale
     const [searchPostalCode, setSearchPostalCode] = useState(customerPostalCode);
+    const [searchCity, setSearchCity] = useState(""); // Nouveau champ obligatoire
     const [searchAddress, setSearchAddress] = useState(customerAddress);
+    
     const [searchTrigger, setSearchTrigger] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mapKey, setMapKey] = useState(0);
 
     const effectiveCountryCode = customerCountryCode || 'FR';
 
-    // 1. Initialisation du mode
+    // 1. Initialisation du mode au montage
     useEffect(() => {
         setShippingMethod(MODE_ID);
     }, [setShippingMethod]);
 
-    // 2. Calcul du prix Colissimo
+    // 2. Calcul du prix (indépendant de la sélection du point)
     useEffect(() => {
         const calculatePrice = async () => {
             setLoadingPrice(true);
@@ -70,7 +72,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                 const data = await res.json();
                 setShippingPrice(data.shippingCost ? parseFloat(data.shippingCost) : 0);
             } catch (err) {
-                setError("Impossible de calculer les frais Colissimo.");
+                setError("Erreur calcul frais Colissimo.");
             } finally {
                 setLoadingPrice(false);
             }
@@ -78,23 +80,23 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
         calculatePrice();
     }, [totalWeight, effectiveCountryCode, setShippingPrice]);
 
-    // 3. Recherche PUDO avec LOGIQUE RETRY (Idem Mondial Relay)
+    // 3. Recherche PUDO : Uniquement quand searchTrigger > 0
     useEffect(() => {
-        if (loadingPrice || currentPrice <= 0 || searchTrigger === 0) return;
+        if (searchTrigger === 0) return;
 
         const fetchPudosWithRetry = async (attempt = 1) => {
             setLoadingPudos(true);
             setError(null);
-            const MAX_RETRIES = 5;
+            const MAX_RETRIES = 3;
 
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/pudo/colissimo/search`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/pudo/colissimo/search`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         address: searchAddress,
-                        postalCode: searchPostalCode,
-                        city: "", 
+                        postalCode: searchPostalCode, // Obligatoire
+                        city: searchCity.toUpperCase(), // Obligatoire
                         countryCode: effectiveCountryCode,
                         totalWeight: totalWeight.toString()
                     }),
@@ -103,10 +105,9 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                 const data = await res.json();
                 
                 if (!res.ok || !data.success || !data.pudos || data.pudos.length === 0) {
-                    throw new Error("Données invalides ou aucun point trouvé.");
+                    throw new Error("Aucun point trouvé. Vérifiez le code postal et la ville.");
                 }
 
-                // Mapping des données Colissimo -> Format PUDOInfo
                 const formattedPudos = data.pudos.map((p: any) => ({
                     id: p.id,
                     name: p.name,
@@ -125,18 +126,17 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
 
             } catch (err: any) {
                 if (attempt < MAX_RETRIES) {
-                    await new Promise(r => setTimeout(r, 500 * attempt));
+                    await new Promise(r => setTimeout(r, 800));
                     return fetchPudosWithRetry(attempt + 1);
                 }
-                setError(`Colissimo : ${err.message}`);
+                setError(err.message);
                 setLoadingPudos(false);
             }
         };
 
         fetchPudosWithRetry();
-    }, [searchTrigger, currentPrice, loadingPrice]);
+    }, [searchTrigger]);
 
-    // 4. Handlers
     const handleMapPudoSelect = useCallback((pudoData: PUDOInfo) => {
         setLocalPudo(pudoData);
         setSelectedPudo(pudoData);
@@ -144,40 +144,35 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
     }, [setSelectedPudo]);
 
     const handleSearchClick = () => {
+        if (!searchPostalCode || !searchCity) {
+            alert("Le code postal et la ville sont obligatoires.");
+            return;
+        }
         setSearchTrigger(prev => prev + 1);
     };
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
-        if (searchTrigger === 0) setSearchTrigger(1);
-    };
-
-    const isDisabled = loadingPrice || currentPrice <= 0 || !!error;
-
     return (
         <div className='colissimo-handler'>
-            {error && <div className="mt-2 p-2 rounded text-sm text-red-700 bg-red-100">{error}</div>}
-
             <div className="p-4 rounded border border-blue-100 bg-blue-50/30">
                 {localPudo && (
                     <div className="mb-4 p-3 bg-white border border-blue-200 rounded-lg shadow-sm">
-                        <p className="font-bold text-sm text-blue-600">📍 Point Colissimo sélectionné :</p>
+                        <p className="font-bold text-sm text-blue-600">📍 Point Colissimo :</p>
                         <p className="text-sm font-medium">{localPudo.name}</p>
                         <p className="text-xs text-gray-500">{localPudo.address}, {localPudo.postalCode} {localPudo.city}</p>
                     </div>
                 )}
                 
                 <button
-                    onClick={handleOpenModal}
+                    onClick={() => setIsModalOpen(true)}
                     disabled={loadingPrice || currentPrice <= 0}
                     className="w-full p-3 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-all shadow-md"
                 >
-                    {localPudo ? "Modifier le point retrait" : "Trouver un point Colissimo"}
+                    {localPudo ? "Changer de point" : "Sélectionner un point Colissimo"}
                 </button>
             </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}>
+                <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}>
                     <div className="bg-white rounded-2xl shadow-2xl p-6 m-4 w-full max-w-5xl h-[85vh] overflow-hidden flex flex-col" onClick={e => e.stopPropagation()}>
                         
                         <div className="flex justify-between items-center mb-6">
@@ -185,24 +180,30 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                             <button onClick={() => setIsModalOpen(false)} className="text-3xl text-gray-400 hover:text-black">&times;</button>
                         </div>
 
-                        {/* DOUBLE RECHERCHE : ADRESSE + CP */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div className="md:col-span-2">
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Adresse</label>
-                                <input type="text" value={searchAddress} onChange={e => setSearchAddress(e.target.value)} className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm" />
+                        {/* FORMULAIRE DE RECHERCHE DANS LA MODALE */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div className="md:col-span-1">
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Code Postal *</label>
+                                <input type="text" value={searchPostalCode} onChange={e => setSearchPostalCode(e.target.value)} maxLength={5} className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ex: 69002" />
                             </div>
-                            <div>
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Code Postal</label>
-                                <div className="flex gap-2">
-                                    <input type="text" value={searchPostalCode} onChange={e => setSearchPostalCode(e.target.value)} maxLength={5} className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm" />
-                                    <button onClick={handleSearchClick} disabled={loadingPudos} className="bg-blue-600 text-white px-4 rounded-lg text-xs font-bold hover:bg-blue-700 transition-colors">
-                                        {loadingPudos ? "..." : "OK"}
-                                    </button>
-                                </div>
+                            <div className="md:col-span-1">
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Ville *</label>
+                                <input type="text" value={searchCity} onChange={e => setSearchCity(e.target.value)} className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ex: LYON" />
+                            </div>
+                            <div className="md:col-span-1">
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Adresse (optionnel)</label>
+                                <input type="text" value={searchAddress} onChange={e => setSearchAddress(e.target.value)} className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ex: 10 rue de la Paix" />
+                            </div>
+                            <div className="flex items-end">
+                                <button onClick={handleSearchClick} disabled={loadingPudos} className="w-full bg-blue-600 text-white p-2.5 rounded-lg text-xs font-bold hover:bg-blue-700 transition-colors shadow-sm disabled:bg-blue-300">
+                                    {loadingPudos ? "RECHERCHE..." : "RECHERCHER"}
+                                </button>
                             </div>
                         </div>
 
-                        <div className="flex-1 rounded-xl overflow-hidden border border-gray-200">
+                        {error && <div className="mb-4 p-2 rounded text-xs text-red-700 bg-red-50 border border-red-100">{error}</div>}
+
+                        <div className="flex-1 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 relative">
                             {pudosList.length > 0 ? (
                                 <PudoMap 
                                     key={mapKey}
@@ -210,12 +211,13 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                                     onPudoSelect={handleMapPudoSelect}
                                     initialLocationCP={searchPostalCode}
                                     selectedPudoId={localPudo?.id || null}
-                                    isDisabled={isDisabled}
+                                    isDisabled={false}
                                 />
                             ) : (
-                                <div className="h-full flex flex-col items-center justify-center bg-gray-50 text-gray-400">
-                                    <span className="text-4xl mb-2">🔍</span>
-                                    <p className="text-sm font-medium">{loadingPudos ? "Recherche des points Colissimo..." : "Aucun point trouvé pour cette adresse."}</p>
+                                <div className="h-full flex flex-col items-center justify-center text-gray-400 p-8 text-center">
+                                    <span className="text-4xl mb-4">📍</span>
+                                    <p className="text-sm font-bold text-gray-600">Saisissez votre code postal et votre ville</p>
+                                    <p className="text-xs max-w-xs mt-1">Cliquez sur Rechercher pour afficher les points de retrait Colissimo sur la carte.</p>
                                 </div>
                             )}
                         </div>
