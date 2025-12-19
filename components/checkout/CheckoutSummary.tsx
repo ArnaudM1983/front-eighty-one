@@ -66,15 +66,20 @@ const CheckoutSummary = ({
 
     const handleFinalSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
-
         setIsProcessingPayment(true);
+
+        // 1. Sauvegarder d'abord l'adresse et le mode de livraison 
         const success = await onFinalize();
 
         if (success) {
-            console.log("Paiement initié.");
+            // 2. Si l'adresse est OK, on clique sur le bouton caché de Stripe
+            const stripeButton = document.getElementById('submit-stripe');
+            if (stripeButton) {
+                stripeButton.click();
+            }
+        } else {
+            setIsProcessingPayment(false);
         }
-
-        setIsProcessingPayment(false);
     };
 
     const buttonIsDisabled = isSavingAddress || isProcessingPayment;
@@ -125,7 +130,7 @@ const CheckoutSummary = ({
             </div>
 
             <div className="mt-8">
-                <StripePaymentForm />
+                <StripePaymentForm orderId={orderId} />
             </div>
 
             <button
