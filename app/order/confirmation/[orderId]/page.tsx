@@ -23,6 +23,7 @@ export default function ConfirmationPage() {
                     // Votre contrôleur supprimera les items et le cookie cart_token
                     await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/clear`, {
                         method: "DELETE",
+                        credentials: "include",
                     });
 
                     // 3. Nettoyage manuel au cas où (LocalStorage / SessionStorage)
