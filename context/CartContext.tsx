@@ -20,6 +20,7 @@ export type CartContextType = {
   updateQuantity: (id: number, qty: number) => Promise<void>;
   removeItem: (id: number) => Promise<void>;
   refreshCart: () => Promise<void>;
+  clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -105,6 +106,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Cette fonction vide l'état local immédiatement
+  const clearCart = useCallback(() => {
+    setCartItems([]);
+    setCartToken("");
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -115,6 +122,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         cartToken,
         updateQuantity,
         removeItem,
+        clearCart,
         refreshCart: fetchCart,
       }}
     >

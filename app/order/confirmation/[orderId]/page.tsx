@@ -4,35 +4,39 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, XCircle, Loader2, ArrowRight, ShoppingBag } from "lucide-react";
+import { useCart } from "@/context/CartContext"; // 1. Import du context
 
 export default function ConfirmationPage() {
     const params = useParams();
     const searchParams = useSearchParams();
     const orderId = params.orderId;
+    const { clearCart } = useCart(); // 2. Récupération de la méthode clearCart
     
     const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
 
     useEffect(() => {
         const checkStatusAndClearCart = async () => {
-            // 1. Récupération du statut Stripe dans l'URL
+            // Récupération du statut Stripe dans l'URL
             const paymentIntentStatus = searchParams.get("redirect_status");
 
             if (paymentIntentStatus === "succeeded") {
                 try {
-                    // 2. Appel à votre API Symfony pour vider le panier en base de données
-                    // Votre contrôleur supprimera les items et le cookie cart_token
+                    // Appel à l'API Symfony pour vider le panier en BDD et supprimer le cookie
                     await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/clear`, {
                         method: "DELETE",
-                        credentials: "include",
+                        credentials: "include", // Important pour envoyer le cookie cart_token
                     });
 
-                    // 3. Nettoyage manuel au cas où (LocalStorage / SessionStorage)
+                    // Nettoyage manuel du stockage local
                     localStorage.removeItem('cart_token');
+                    
+                    // 3. Mise à jour de l'état global React (Navbar, badge, etc.)
+                    clearCart();
                     
                     setStatus("success");
                 } catch (err) {
                     console.error("Erreur lors du nettoyage du panier:", err);
-                    // On reste en success car le paiement est validé, même si le vidage a échoué
+                    // On affiche quand même le succès car le paiement Stripe est passé
                     setStatus("success");
                 }
             } else {
@@ -41,13 +45,13 @@ export default function ConfirmationPage() {
         };
 
         checkStatusAndClearCart();
-    }, [searchParams]);
+    }, [searchParams, clearCart]); // Ajout de clearCart en dépendance
 
     // ÉCRAN DE CHARGEMENT
     if (status === "loading") {
         return (
             <div className="flex flex-col items-center justify-center min-h-[70vh]">
-                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+                <Loader2 className="h-12 w-12 animate-spin text-(--primary) mb-4" />
                 <h2 className="text-xl font-medium text-gray-700">Vérification de la transaction...</h2>
                 <p className="text-gray-500 text-sm">Veuillez ne pas fermer cette page.</p>
             </div>
@@ -108,7 +112,7 @@ export default function ConfirmationPage() {
                     
                     <div className="mt-10 flex flex-col items-center gap-4">
                         <Link 
-                            href={`/api/payment/stripe/create-intent/${orderId}`} // Redirige vers la page de paiement
+                            href={`/order/payment/${orderId}`} // Redirection vers ton interface de paiement et non vers l'API
                             className="bg-black text-white px-10 py-4 rounded-full font-semibold hover:bg-gray-800 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
                         >
                             <ArrowRight className="w-4 h-4 rotate-180" /> Réessayer le paiement
