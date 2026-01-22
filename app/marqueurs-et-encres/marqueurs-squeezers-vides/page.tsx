@@ -3,12 +3,12 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "marqueurs" category.
+ * Fetch products from the Symfony API for the "squeezers" category.
  * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/marqueurs`,
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/marqueurs-squeezers-vides`,
         {
             method: "GET",
             cache: "no-store",
@@ -24,15 +24,15 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Marqueurs - Eightyone Store",
-    description: "Découvrez notre large sélection de marqueurs"
+    title: "Marqueurs & Squeezers vides - Eightyone Store",
+    description: "Découvrez notre large sélection de marqueurs et squeezers vides"
 };
 
-export default async function Marqueurs() {
+export default async function Squeezers() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
-        { label: "Les marqueurs" }
+        { label: "Les marqueurs et squeezers vides" }
     ];
 
     // Fetch products from the API before rendering
@@ -45,13 +45,13 @@ export default async function Marqueurs() {
             </div>
 
             <CategoryHero
-                title="Marqueurs"
-                description="Cette sélection de marqueurs déjà remplis vous permettra de tracer, écrire ou dessiner sur tout types de surfaces, quels que soient vos besoins."
-                backgroundImage="/home-marker.webp"
+                title="Marqueurs & Squeezers vides"
+                description="Facile à remplir, les marqueurs vides sont pratiques et économiques. Ils permettent de faire vos propres mélanges d’encres et peuvent êtres remplis autant de fois que voulu."
+                backgroundImage="/bandeau-marqueur-squeezer-vides.png"
                 scrollTargetId="productGrid"
             />
 
-            <ProductGrid products={products} title="Les Marqueurs" />
+            <ProductGrid products={products} title="Les Marqueurs et Squeezers vides" />
 
         </div>
     );

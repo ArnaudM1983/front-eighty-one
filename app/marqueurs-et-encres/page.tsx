@@ -34,7 +34,7 @@ export default async function Page() {
         categorySlug="encres"
         description="De la pratique des arts graphiques à la pratique du tag pur et dur, notre selection d’encre vous offres ce qu’il y a de meilleurs sur le marché actuel. En êtant nous même passionés, nous testons et selectionnons seulement le meilleur et le plus efficace pour vous."
         buttonLabel="Voir plus"
-        buttonHref="/marqueurs-encres/encres"
+        buttonHref="/marqueurs-et-encres/encres"
       />
 
 
@@ -44,7 +44,7 @@ export default async function Page() {
         categorySlug="squeezers"
         description="Permettant de faire des tags ou des traçés rond et coulant, le squeezer est vite passé de l’effet de mode à un incontournable pour tout les graffeurs du monde entier."
         buttonLabel="Voir plus"
-        buttonHref="/marqueurs-encres/squeezers"
+        buttonHref="/marqueurs-et-encres/squeezers"
       />
 
       {/* Les marqueurs */}
@@ -53,7 +53,7 @@ export default async function Page() {
         categorySlug="marqueurs"
         description="Cette selection de marqueurs déjà remplies vous permettra de traçer, écrire et plus sur tout types de surfaces, quelques soit vos besoins."
         buttonLabel="Voir plus"
-        buttonHref="/marqueurs-encres/marqueurs"
+        buttonHref="/marqueurs-et-encres/marqueurs"
       />
 
       {/* Les mines de rechange */}
@@ -62,7 +62,7 @@ export default async function Page() {
         categorySlug="mines-de-rechange"
         description="Indispensables pour assurer une plus grande durée de vie à son marqueur ou squeezer préferé, vous trouverez ici toutes les tailles de mines de rechanges pour repartir avec un marqueur comme neuf !"
         buttonLabel="Voir plus"
-        buttonHref="/marqueurs-encres/mines-de-rechange"
+        buttonHref="/marqueurs-et-encres/mines-de-rechange"
       />
 
       {/* Les marqueurs & squeezers vides */}
@@ -71,7 +71,16 @@ export default async function Page() {
         categorySlug="marqueurs-squeezers-vides"
         description="Faciles à remplir et de très bonne qualité, notre séléction de squeezers vides vous offres ce qu’il se fait de mieux sur le marché."
         buttonLabel="Voir plus"
-        buttonHref="/marqueurs-encres/marqueurs-squeezers-vides"
+        buttonHref="/marqueurs-et-encres/marqueurs-squeezers-vides"
+      />
+
+      {/* Les Posca & Uni Paint */}
+      <SubCategoriesSection
+        title="Les Posca & Uni Paint"
+        categorySlug="posca-uni-paint"
+        description="Faciles à remplir et de très bonne qualité, notre séléction de squeezers vides vous offres ce qu’il se fait de mieux sur le marché."
+        buttonLabel="Voir plus"
+        buttonHref="/marqueurs-et-encres/posca-uni-paint"
       />
 
       <InstagramFeed />

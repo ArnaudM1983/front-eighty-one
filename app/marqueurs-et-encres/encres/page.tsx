@@ -31,7 +31,7 @@ export const metadata = {
 export default async function Encres() {
     const crumbs = [
         { label: "Accueil", href: "/" },
-        { label: "Marqueurs & encres", href: "/marqueurs-encres" },
+        { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
         { label: "Les encres" }
     ];
 

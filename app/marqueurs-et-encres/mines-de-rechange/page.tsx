@@ -3,12 +3,12 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "marqueurs" category.
+ * Fetch products from the Symfony API for the "squeezers" category.
  * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/marqueurs`,
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/mines-de-rechange`,
         {
             method: "GET",
             cache: "no-store",
@@ -24,15 +24,15 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Marqueurs - Eightyone Store",
-    description: "Découvrez notre large sélection de marqueurs"
+    title: "Mines de rechange - Eightyone Store",
+    description: "Découvrez notre large sélection de mines de rechange"
 };
 
-export default async function Marqueurs() {
+export default async function Squeezers() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
-        { label: "Les marqueurs" }
+        { label: "Les mines de rechange" }
     ];
 
     // Fetch products from the API before rendering
@@ -45,13 +45,13 @@ export default async function Marqueurs() {
             </div>
 
             <CategoryHero
-                title="Marqueurs"
-                description="Cette sélection de marqueurs déjà remplis vous permettra de tracer, écrire ou dessiner sur tout types de surfaces, quels que soient vos besoins."
-                backgroundImage="/home-marker.webp"
+                title="Mines de rechange"
+                description="Indispensables pour assurer une plus grande durée de vie à son marqueur ou son squeezer préféré, vous trouverez ici toutes les tailles de mines de rechanges pour repartir avec un marqueur comme neuf !"
+                backgroundImage="/bandeau-mines.png"
                 scrollTargetId="productGrid"
             />
 
-            <ProductGrid products={products} title="Les Marqueurs" />
+            <ProductGrid products={products} title="Les Mines de rechange" />
 
         </div>
     );
