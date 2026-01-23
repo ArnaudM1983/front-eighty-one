@@ -160,6 +160,7 @@ export default function PaiementPage() {
                         // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT
                         setShippingCost={setShippingCost}
                         setShippingMethod={setShippingMethod}
+                        shippingMethod={shippingMethod}
                         setSelectedPudo={setSelectedPudo}
                         shippingCost={shippingCost}
                     />
