@@ -95,7 +95,9 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         if (!isBlank(data.postalCode) && !REGEX_POSTAL_CODE.test(data.postalCode)) {
             errors.postalCode = "Format de code postal invalide (3 à 10 caractères alphanumériques/tirets).";
         }
-        if (!isBlank(data.phone) && !REGEX_PHONE.test(data.phone)) {
+        if (isBlank(data.phone)) {
+            errors.phone = "Le numéro de téléphone est obligatoire.";
+        } else if (!REGEX_PHONE.test(data.phone)) {
             errors.phone = "Format de téléphone invalide (chiffres, espaces, tirets).";
         }
 
@@ -232,7 +234,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
                 {renderInput('country', 'Pays *', 'text', 'col-span-2 row-start-4')}
 
                 {/* Ligne 5: Téléphone (div8) - col-span-3 */}
-                {renderInput('phone', 'Téléphone', 'tel', 'col-span-3 row-start-5')}
+                {renderInput('phone', 'Téléphone *', 'tel', 'col-span-3 row-start-5')}
 
                 {/* Espace pour aligner l'agencement si besoin (non nécessaire avec row-start/end, mais inclus pour clarté) */}
                 {/* <div className="col-span-3 row-start-5"></div> */}
