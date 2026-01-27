@@ -65,31 +65,60 @@ const CheckoutSummary = ({
     const totalWeightInKg = totalWeight / 1000;
     const finalTotal = subtotal + shippingCost;
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-
     // Déterminer si le retrait boutique est actif
     const isPickup = shippingMethod === 'pickup';
 
     const handleFinalSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
+        
+        // Empêcher le double clic
+        if (isProcessingPayment || isSavingAddress) return;
+        
         setIsProcessingPayment(true);
 
-        // 1. Sauvegarder l'adresse et le mode de livraison (appel API Symfony)
-        const success = await onFinalize();
+        // 1. D'abord, on sauvegarde l'adresse via la fonction du parent (PaiementPage)
+        const addressSaved = await onFinalize();
 
-        if (success) {
-            if (paymentType === 'cod') {
-                // 2a. Cas Paiement au retrait : Redirection directe vers succès
-                // Le statut restera 'created' (En attente) car Stripe n'est pas appelé
-                window.location.href = `/order/confirmation/${orderId}?payment=cod`;
-            } else {
-                // 2b. Cas Stripe : On clique sur le bouton caché du formulaire Stripe
-                const stripeButton = document.getElementById('submit-stripe');
-                if (stripeButton) {
-                    stripeButton.click();
-                }
-            }
-        } else {
+        if (!addressSaved) {
             setIsProcessingPayment(false);
+            return; // On arrête si l'adresse n'est pas valide
+        }
+
+        // 2. Gestion selon le mode de paiement
+        if (paymentType === 'cod') {
+            // --- CAS PAIEMENT EN BOUTIQUE ---
+            try {
+                // C'EST ICI QU'ON APPELLE LA NOUVELLE ROUTE SYMFONY
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}/confirm-pickup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    // Succès : Redirection vers la page de confirmation avec un paramètre spécial
+                    window.location.href = `/order/confirmation/${orderId}?payment=cod`;
+                } else {
+                    const errorData = await response.json();
+                    console.error(errorData);
+                    setIsProcessingPayment(false);
+                }
+            } catch (error) {
+                console.error("Erreur réseau:", error);
+                setIsProcessingPayment(false);
+            }
+
+        } else {
+            // --- CAS STRIPE ---
+            // On déclenche le clic sur le bouton caché du formulaire StripePaymentForm
+            const stripeButton = document.getElementById('submit-stripe');
+            if (stripeButton) {
+                stripeButton.click();
+                // Note : setIsProcessingPayment restera true jusqu'à ce que Stripe redirige ou échoue
+            } else {
+                setIsProcessingPayment(false);
+            }
         }
     };
 
