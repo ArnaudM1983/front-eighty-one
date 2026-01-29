@@ -79,7 +79,7 @@ export default function PaiementPage() {
             if (success) {
                 // Mise à jour du toast en succès
                 toast.update(toastId, { 
-                    render: "Merci pour votre commande ! Votre paiement a été validé avec succès. Vous allez recevoir un e-mail de confirmation d'ici quelques instants. Votre commande est désormais en cours de préparation.", 
+                    render: "Informations de livraison enregistrées.", 
                     type: "success", 
                     isLoading: false,
                     autoClose: 6000 
