@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Classiques - Eightyone Store",
-    description: "Découvrez notre large sélection de bombes de peinture classiques"
+    title: "Bombes de Peinture Classiques & Graffiti | Eightyone Store",
+    description: "Découvrez nos bombes de peinture classiques. Un choix immense de couleurs, un fort pouvoir couvrant pour tous vos projets graffiti et déco."
 };
 
 export default async function Classiques() {

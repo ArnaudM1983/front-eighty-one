@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Stickers & books - Eightyone Store",
-    description: "Découvrez notre large sélection de stickers & books"
+    title: "Stickers Graffiti & Blackbooks (Sketchbooks) | Eightyone Store",
+    description: "Retrouvez les meilleurs supports pour vos esquisses : Blackbooks, carnets de dessin et stickers Eggshell haute résistance. Idéal pour le sketching et le tag."
 };
 
 export default async function Stickers() {

@@ -4,8 +4,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 import InstagramFeed from "@/components/sections/InstagramFeed";
 
 export const metadata = {
-  title: "Marqueurs & encres - Eightyone Store",
-  description: "Découvrez notre large sélection de marqueurs et encres"
+  title: "Marqueurs Graffiti, Squeezers & Encres : Posca, Uni Paint | Eightyone Store",
+  description: "Large choix de marqueurs graffiti, squeezers et encres. Retrouvez les gammes Posca, Uni Paint, Montana, On The Run pour le tag et le dessin."
 };
 
 export default async function Page() {

@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Effets - Eightyone Store",
-    description: "Découvrez notre large sélection de bombes de peinture effets"
+    title: "Bombes de Peinture à Effets : Craie, UV, Paillettes, Phosphorescente & Textures | Eightyone Store",
+    description: "Donnez une dimension unique à vos créations avec nos bombes de peinture à effets. Sprays craie, UV, phosphorescente, paillettes, craquelé ou marbre."
 };
 
 export default async function Effets() {

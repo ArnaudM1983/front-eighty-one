@@ -4,8 +4,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 import InstagramFeed from "@/components/sections/InstagramFeed";
 
 export const metadata = {
-  title: "Accessoires & équipements - Eightyone Store",
-  description: "Découvrez notre large sélection d'accessoires et d'équipements'"
+  title: "Accessoires Graffiti : Masques, Gants, Stickers & Blackbooks | Eightyone Store",
+  description: "Équipez-vous pour vos sessions graffiti : masques de protection, gants, stickers eggshell et blackbooks. Tout l'équipement nécessaire pour dessiner et peindre."
 };
 
 export default async function Page() {

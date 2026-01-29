@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Techniques - Eightyone Store",
-    description: "Découvrez notre large sélection de bombes de peinture techniques"
+    title: "Bombes Techniques : Vernis, Apprêts & Acetone | Eightyone Store",
+    description: "Préparez et protégez vos œuvres avec nos sprays techniques. Large choix de vernis, apprêts et nettoyants pour le graffiti et les beaux-arts."
 };
 
 export default async function Techniques() {

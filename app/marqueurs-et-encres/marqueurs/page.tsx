@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Marqueurs - Eightyone Store",
-    description: "Découvrez notre large sélection de marqueurs"
+    title: "Marqueurs Peinture & Feutres Tous Supports | Eightyone Store",
+    description: "Large gamme de marqueurs encres et peinture déjà remplis. Idéals pour dessiner, taguer ou customiser sur métal, verre, plastique et papier."
 };
 
 export default async function Marqueurs() {

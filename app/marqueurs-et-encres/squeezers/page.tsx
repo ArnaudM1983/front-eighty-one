@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Squeezers - Eightyone Store",
-    description: "Découvrez notre large sélection de squeezers"
+    title: "Squeezers Graffiti & Marqueurs Mop (Drips) | Eightyone Store",
+    description: "Réalisez des tags avec des coulures parfaites grâce à nos squeezers. Marqueurs rechargeables avec peinture ultra-couvrante pour un rendu authentique."
 };
 
 export default async function Squeezers() {

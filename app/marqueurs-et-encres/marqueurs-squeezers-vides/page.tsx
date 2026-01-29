@@ -3,7 +3,7 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "squeezers" category.
+ * Fetch products from the Symfony API for the "marqueurs-squeezers-vides" category.
  * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Marqueurs & Squeezers vides - Eightyone Store",
-    description: "Découvrez notre large sélection de marqueurs et squeezers vides"
+    title: "Marqueurs Vides & Squeezers à Remplir | Eightyone Store",
+    description: "Créez vos propres couleurs avec nos marqueurs et squeezers vides. Outils graffiti rechargeables, parfaits pour vos mélanges d'encres et peintures."
 };
 
 export default async function Squeezers() {

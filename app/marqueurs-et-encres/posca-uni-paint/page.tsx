@@ -3,7 +3,7 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "squeezers" category.
+ * Fetch products from the Symfony API for the "posca-uni-paint" category.
  * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Posca & Uni Paint - Eightyone Store",
-    description: "Découvrez notre large sélection de Posca & Uni Paint"
+    title: "Marqueurs Posca & Uni Paint : Peinture Acrylique et Huile | Eightyone Store",
+    description: "Retrouvez toute la gamme Posca et Uni Paint. Les marqueurs de référence pour dessiner sur textile, bois, métal et verre avec une couvrance pro."
 };
 
 export default async function Squeezers() {

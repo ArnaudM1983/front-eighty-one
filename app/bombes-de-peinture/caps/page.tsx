@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Caps - Eightyone Store",
-    description: "Découvrez notre large sélection de caps"
+    title: "Caps pour Bombes de Peinture : Fat Caps, Skinny, Original | Eightyone Store",
+    description: "Sélection de caps pour bombes de peinture. Retrouvez tous les Fat Caps, Skinny Caps et Original Caps pour une précision d'exécution maximale."
 };
 
 export default async function Caps() {

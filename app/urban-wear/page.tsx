@@ -4,8 +4,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 import InstagramFeed from "@/components/sections/InstagramFeed";
 
 export const metadata = {
-  title: "Urban Wear - Eightyone Store",
-  description: "Découvrez notre large sélection de vêtements"
+  title: "Urban Wear & Streetwear : Eighty One, Jacker | Eightyone Store",
+  description: "Découvrez notre sélection Urban Wear. Retrouvez les collections Jacker et Eighty One : T-shirts, hoodies, etc.. inspirés par la culture skate et graffiti."
 };
 
 export default async function Page() {
@@ -22,7 +22,7 @@ export default async function Page() {
 
       <CategoryHero
         title="Urban Wear"
-        description="Large choix disponible, du marqueur au squeezer, qu’il soit plein ou vide, de différentes tailles et diamètres . Vous trouverez aussi les encres adaptées au remplissage, toutes testées par nos soins et approuvées pour leur résistance et leurs qualités !"
+        description="Plongez dans notre univers textile. Une sélection rigoureuse de vêtements streetwear alliant confort et style, pensée pour les passionnés de glisse, d'art urbain et de culture underground."
         backgroundImage="/bandeau-encres.png"
         scrollTargetId="subCategoriesFirst"
       />
@@ -32,7 +32,7 @@ export default async function Page() {
         id="subCategoriesFirst"
         title="Eighty One"
         categorySlug="streetwear"
-        description="De la pratique des arts graphiques à la pratique du tag pur et dur, notre selection d’encre vous offres ce qu’il y a de meilleurs sur le marché actuel. En êtant nous même passionés, nous testons et selectionnons seulement le meilleur et le plus efficace pour vous."
+        description="Notre propre ligne de vêtements. Des basiques de qualité aux pièces plus graphiques, portez les valeurs de notre shop au quotidien."
         buttonLabel="Voir plus"
         buttonHref="/streetwear"
       />

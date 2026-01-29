@@ -3,7 +3,7 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "squeezers" category.
+ * Fetch products from the Symfony API for the "mines-de-rechange" category.
  * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Mines de rechange - Eightyone Store",
-    description: "Découvrez notre large sélection de mines de rechange"
+    title: "Mines de Rechange & Pointes pour Marqueurs | Eightyone Store",
+    description: "Donnez une seconde vie à vos marqueurs et squeezers. Large choix de mines de rechange de toutes tailles pour un tracé précis et un matériel comme neuf."
 };
 
 export default async function Squeezers() {
