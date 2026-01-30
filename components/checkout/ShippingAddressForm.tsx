@@ -212,32 +212,25 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             {/* Conteneur principal de la grille: grid, 6 colonnes, gap-4 pour les colonnes */}
             <div className="grid grid-cols-6 gap-x-4 p-4">
 
-                {/* Ligne 1: E-mail (div1) - col-span-6 */}
-                {renderInput('email', 'E-mail *', 'mail', 'col-span-6 row-start-1')}
+                {/* Ligne 1: E-mail - Reste en col-6 */}
+                {renderInput('email', 'E-mail *', 'mail', 'col-span-6')}
 
-                {/* Ligne 2: Prénom (div2) - col-span-3 */}
-                {renderInput('firstName', 'Prénom *', 'text', 'col-span-3 row-start-2')}
+                {/* Ligne 2: Prénom - col-6 sur mobile, col-3 à partir de md */}
+                {renderInput('firstName', 'Prénom *', 'text', 'col-span-6 md:col-span-3')}
 
-                {/* Ligne 2: Nom (div3) - col-span-3 */}
-                {renderInput('lastName', 'Nom *', 'text', 'col-span-3 row-start-2')}
+                {/* Ligne 2: Nom - col-6 sur mobile, col-3 à partir de md */}
+                {renderInput('lastName', 'Nom *', 'text', 'col-span-6 md:col-span-3')}
 
-                {/* Ligne 3: Adresse (div4) - col-span-6 */}
-                {renderInput('address', `Adresse (numéro et nom de la rue) *${requiresPudo ? " (Pour facturation)" : ""}`, 'text', 'col-span-6 row-start-3')}
+                {/* Ligne 3: Adresse - col-6 */}
+                {renderInput('address', `Adresse *`, 'text', 'col-span-6')}
 
-                {/* Ligne 4: Code postal (div5) - col-span-2 */}
-                {renderInput('postalCode', 'Code postal *', 'text', 'col-span-2 row-start-4')}
+                {/* Ligne 4: Code postal, Ville, Pays - col-6 sur mobile, col-2 sur md */}
+                {renderInput('postalCode', 'Code postal *', 'text', 'col-span-6 md:col-span-2')}
+                {renderInput('city', 'Ville *', 'text', 'col-span-6 md:col-span-2')}
+                {renderInput('country', 'Pays *', 'text', 'col-span-6 md:col-span-2')}
 
-                {/* Ligne 4: Ville (div6) - col-span-2 */}
-                {renderInput('city', 'Ville *', 'text', 'col-span-2 row-start-4')}
-
-                {/* Ligne 4: Pays (div7) - col-span-2 */}
-                {renderInput('country', 'Pays *', 'text', 'col-span-2 row-start-4')}
-
-                {/* Ligne 5: Téléphone (div8) - col-span-3 */}
-                {renderInput('phone', 'Téléphone *', 'tel', 'col-span-3 row-start-5')}
-
-                {/* Espace pour aligner l'agencement si besoin (non nécessaire avec row-start/end, mais inclus pour clarté) */}
-                {/* <div className="col-span-3 row-start-5"></div> */}
+                {/* Ligne 5: Téléphone */}
+                {renderInput('phone', 'Téléphone *', 'tel', 'col-span-6 md:col-span-3')}
             </div>
 
             {/* Rendu du Point Relais si sélectionné et requis */}
