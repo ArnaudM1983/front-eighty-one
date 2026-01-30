@@ -8,10 +8,10 @@ const PudoMap = dynamic(() => import('./PudoMap'), {
 });
 
 export interface PUDOHours {
-    am_start: string; 
-    am_end: string;   
-    pm_start: string; 
-    pm_end: string;   
+    am_start: string;
+    am_end: string;
+    pm_start: string;
+    pm_end: string;
 }
 
 export type PUDOHoursByDay = {
@@ -24,27 +24,27 @@ export type PUDOHoursByDay = {
     Dimanche: PUDOHours;
 }
 
-export type PUDOInfo = { 
-    id: string; 
-    name: string; 
-    address: string; 
-    postalCode: string; 
-    city: string; 
+export type PUDOInfo = {
+    id: string;
+    name: string;
+    address: string;
+    postalCode: string;
+    city: string;
     country: string;
-    latitude?: number; 
+    latitude?: number;
     longitude?: number;
     distance?: number;
     hours?: PUDOHoursByDay;
 } | null;
 
 interface MondialRelayHandlerProps {
-    totalWeight: number; 
+    totalWeight: number;
     orderId: string;
     setShippingPrice: (price: number) => void;
     setSelectedPudo: (pudo: PUDOInfo) => void;
-    setShippingMethod: (method: string) => void; 
-    currentPrice: number; 
-    customerPostalCode: string; 
+    setShippingMethod: (method: string) => void;
+    currentPrice: number;
+    customerPostalCode: string;
     customerCountryCode: string;
 }
 
@@ -66,28 +66,28 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     setSelectedPudo,
     setShippingMethod,
     currentPrice,
-    customerPostalCode, 
-    customerCountryCode 
+    customerPostalCode,
+    customerCountryCode
 }) => {
     const [loadingPrice, setLoadingPrice] = useState(false);
     const [loadingPudos, setLoadingPudos] = useState(false);
     const [localPudo, setLocalPudo] = useState<PUDOInfo>(null);
     const [error, setError] = useState<string | null>(null);
-    const [pudosList, setPudosList] = useState<PUDOInfo[]>([]); 
-    
-    const [searchPostalCode, setSearchPostalCode] = useState(customerPostalCode || '69001');
-    const [searchTrigger, setSearchTrigger] = useState(0); 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [mapKey, setMapKey] = useState(0); 
+    const [pudosList, setPudosList] = useState<PUDOInfo[]>([]);
 
-    const effectiveCountryCode = customerCountryCode || 'FR'; 
-    
+    const [searchPostalCode, setSearchPostalCode] = useState(customerPostalCode || '69001');
+    const [searchTrigger, setSearchTrigger] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [mapKey, setMapKey] = useState(0);
+
+    const effectiveCountryCode = customerCountryCode || 'FR';
+
     const hasValidCoords = (p: PUDOInfo): p is PUDOInfo => {
         return (
-            p !== null && 
-            typeof p.latitude === 'number' && 
+            p !== null &&
+            typeof p.latitude === 'number' &&
             typeof p.longitude === 'number' &&
-            p.latitude !== 0 && 
+            p.latitude !== 0 &&
             p.longitude !== 0
         );
     };
@@ -101,17 +101,17 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
             setShippingPrice(0);
             return;
         }
-        
+
         const calculatePrice = async () => {
             setLoadingPrice(true);
-            if (error) setError(null); 
+            if (error) setError(null);
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/shipping/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        totalWeight, 
-                        modeCode: MODE_CODE, 
+                        totalWeight,
+                        modeCode: MODE_CODE,
                         countryCode: effectiveCountryCode,
                     }),
                 });
@@ -132,7 +132,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
 
         const fetchPudosWithRetry = async (attempt = 1) => {
             setLoadingPudos(true);
-            setError(null); 
+            setError(null);
             const MAX_RETRIES = 5;
 
             try {
@@ -140,19 +140,19 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        postalCode: searchPostalCode, 
-                        countryCode: effectiveCountryCode, 
+                        postalCode: searchPostalCode,
+                        countryCode: effectiveCountryCode,
                         totalWeight,
                     }),
                 });
 
                 const data = await res.json();
                 const pudos = data.pudos || [];
-                
+
                 if (pudos.length > 0 && pudos.filter(hasValidCoords).length === 0) {
-                     throw new Error(`Coordonnées invalides reçues.`);
+                    throw new Error(`Coordonnées invalides reçues.`);
                 }
-                
+
                 if (pudos.length === 0) {
                     throw new Error(`Aucun Point Relais disponible.`);
                 }
@@ -172,17 +172,17 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
         };
 
         fetchPudosWithRetry();
-    }, [searchTrigger, currentPrice, loadingPrice]); 
+    }, [searchTrigger, currentPrice, loadingPrice]);
 
     const handleMapPudoSelect = useCallback((pudoData: PUDOInfo) => {
         setLocalPudo(pudoData);
-        setSelectedPudo(pudoData); 
+        setSelectedPudo(pudoData);
         setIsModalOpen(false);
     }, [setSelectedPudo]);
 
     const handleSearchClick = () => {
         if (searchPostalCode.length === 5) {
-            setSearchTrigger(prev => prev + 1); 
+            setSearchTrigger(prev => prev + 1);
         }
     };
 
@@ -198,7 +198,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
     return (
         <div className='mondial-relay-handler'>
             <div className="p-4 rounded border border-blue-100 bg-blue-50/30">
-                
+
                 {localPudo && (
                     <div className="mb-4 p-4 bg-white border border-blue-200 rounded-lg shadow-sm">
                         <div>
@@ -216,7 +216,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                                         if (!h) return null;
                                         const am = h.am_start ? `${formatTime(h.am_start)} - ${formatTime(h.am_end)}` : "";
                                         const pm = h.pm_start ? `${formatTime(h.pm_start)} - ${formatTime(h.pm_end)}` : "";
-                                        
+
                                         return (
                                             <div key={day} className="flex justify-between text-[11px] border-b border-gray-50 pb-1">
                                                 <span className="font-medium text-gray-700 w-16">{day}</span>
@@ -231,7 +231,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                         )}
                     </div>
                 )}
-                
+
                 <button
                     onClick={handleOpenModal}
                     disabled={isDisabled}
@@ -240,57 +240,95 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                     {localPudo ? "Changer de Point Relais" : "Sélectionner un point de retrait"}
                 </button>
             </div>
-            
+
             {/* MODALE REFAITE AVEC STYLE FLOU ET MODERNE */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}>
-                    <div className="bg-white rounded-2xl shadow-2xl p-6 m-4 w-full max-w-4xl h-[85vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
-                        
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-xl font-black uppercase text-gray-800 tracking-tight">Points de retrait Mondial Relay</h3>
-                            <button onClick={() => setIsModalOpen(false)} className="text-3xl text-gray-400 hover:text-black">&times;</button>
-                        </div>
+                <div
+                    className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div
+                        className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[85vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
 
-                        <div className="mb-6 flex flex-col sm:flex-row sm:items-end gap-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div className="flex-1">
-                                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1 ml-1">Code Postal</label>
-                                <input
-                                    type="text"
-                                    value={searchPostalCode}
-                                    onChange={(e) => setSearchPostalCode(e.target.value.substring(0, 5))}
-                                    maxLength={5}
-                                    placeholder="Ex: 75001"
-                                    className="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                />
+                        {/* HEADER COMPACT */}
+                        <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-50">
+                            <div>
+                                <h3 className="text-lg sm:text-xl font-black uppercase text-gray-800 tracking-tight leading-none">
+                                    Points Mondial Relay
+                                </h3>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase mt-1 hidden sm:block">
+                                    Trouvez le point de retrait le plus proche
+                                </p>
                             </div>
                             <button
-                                onClick={handleSearchClick}
-                                disabled={searchPostalCode.length !== 5 || loadingPudos}
-                                className='px-8 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm disabled:bg-blue-300 uppercase'
+                                onClick={() => setIsModalOpen(false)}
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-black transition-colors"
                             >
-                                {loadingPudos ? '...' : 'Rechercher'}
+                                <span className="text-2xl mt-[-2px]">&times;</span>
                             </button>
                         </div>
-                        
-                        {error && <div className="mb-4 p-2 rounded text-xs text-red-700 bg-red-50 border border-red-100 font-medium">{error}</div>}
 
-                        <div className='flex-1 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 relative'>
+                        {/* BARRE DE RECHERCHE OPTIMISÉE (Côte à côte sur mobile) */}
+                        <div className="p-3 sm:p-4 bg-gray-50 border-b border-gray-100">
+                            <div className="flex flex-row items-end gap-2 max-w-2xl mx-auto">
+                                <div className="flex-1">
+                                    <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">
+                                        Code Postal
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={searchPostalCode}
+                                        onChange={(e) => setSearchPostalCode(e.target.value.substring(0, 5))}
+                                        maxLength={5}
+                                        placeholder="75001"
+                                        className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-base sm:text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+                                    />
+                                </div>
+                                <button
+                                    onClick={handleSearchClick}
+                                    disabled={searchPostalCode.length !== 5 || loadingPudos}
+                                    className='px-6 h-[46px] sm:h-[42px] bg-blue-600 text-white rounded-xl text-xs font-black hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-200 disabled:bg-blue-300 uppercase'
+                                >
+                                    {loadingPudos ? '...' : 'OK'}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* ZONE DE CARTE / ERROR */}
+                        <div className='flex-1 relative bg-slate-50'>
+                            {error && (
+                                <div className="absolute top-4 left-4 right-4 z-[1000] p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl">
+                                    ⚠️ {error}
+                                </div>
+                            )}
+
                             {pudosList.length > 0 ? (
-                                <PudoMap 
-                                    key={mapKey}
-                                    pudos={pudosList}
-                                    onPudoSelect={handleMapPudoSelect}
-                                    initialLocationCP={searchPostalCode} 
-                                    isDisabled={isDisabled}
-                                    selectedPudoId={localPudo?.id || null}
-                                />
+                                <div className="h-full w-full">
+                                    <PudoMap
+                                        key={mapKey}
+                                        pudos={pudosList}
+                                        onPudoSelect={handleMapPudoSelect}
+                                        initialLocationCP={searchPostalCode}
+                                        isDisabled={isDisabled}
+                                        selectedPudoId={localPudo?.id || null}
+                                    />
+                                </div>
                             ) : (
                                 <div className="h-full flex flex-col items-center justify-center text-gray-400 p-8 text-center">
-                                    <span className="text-4xl mb-4">🏠</span>
-                                    <p className="text-sm font-bold text-gray-600 uppercase tracking-wide">
-                                        {loadingPudos ? 'Recherche en cours...' : 'Entrez un code postal'}
+                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                                        <span className="text-3xl">🏠</span>
+                                    </div>
+                                    <p className="text-sm font-black text-gray-600 uppercase tracking-widest">
+                                        {loadingPudos ? 'Recherche...' : 'Où livrer votre colis ?'}
                                     </p>
-                                    <p className="text-xs max-w-xs mt-1">Saisissez votre code postal pour afficher les points Mondial Relay disponibles sur la carte.</p>
+                                    <p className="text-[11px] max-w-[200px] mt-2 font-medium leading-relaxed">
+                                        {loadingPudos
+                                            ? "Nous interrogeons Mondial Relay..."
+                                            : "Entrez votre code postal pour afficher les points relais disponibles."
+                                        }
+                                    </p>
                                 </div>
                             )}
                         </div>
