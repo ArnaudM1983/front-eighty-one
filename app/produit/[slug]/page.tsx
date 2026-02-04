@@ -2,7 +2,6 @@ import ColorChart from "@/components/product/ColorChart";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInfo from "@/components/product/ProductInfo";
 import BuyTogether from "@/components/sections/BuyTogether";
-import YouMayAlsoLike from "@/components/sections/YouMayAlsoLike";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -36,6 +35,13 @@ type Product = {
     images: { id: number; url: string; alt?: string }[];
     variants: ProductVariant[];
     categories: ProductCategory[];
+    related_products?: {
+        id: number;
+        name: string;
+        slug: string;
+        price: string;
+        main_image: string | null;
+    }[];
 };
 
 type Props = {
@@ -179,9 +185,7 @@ export default async function ProductPage({ params }: Props) {
 
             </div>
 
-            {/* Sections complémentaires */}
-            <BuyTogether />
-            <YouMayAlsoLike />
+            <BuyTogether products={product.related_products} />
         </div>
     );
 }

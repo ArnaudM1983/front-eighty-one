@@ -4,9 +4,10 @@ type Product = {
   id: number;
   name: string;
   slug: string;
-  price: number;
-  stock: number;
-  main_image: string;
+  price: number | string; // Accepte string (API) ou number (Cast)
+  stock?: number;         // Optionnel
+  main_image: string | null; // Peut être null
+  featured?: boolean;
 };
 
 type Props = {
