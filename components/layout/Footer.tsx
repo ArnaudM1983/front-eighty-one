@@ -47,40 +47,40 @@ const Footer = (props: Props) => {
             </div>
 
             <div>
-              <a href="/bombes-de-peinture">
+              <a href="/marqueurs-et-encres">
                 <p className="font-medium text-gray-900">Marqueurs & encres</p>
               </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Encres</a></li>
-                <li><a href="/bombes-de-peinture/techniques" className="text-gray-700 transition hover:opacity-75">Marqueurs</a></li>
-                <li><a href="/bombes-de-peinture/techniques" className="text-gray-700 transition hover:opacity-75">Squeezers</a></li>
-                <li><a href="/bombes-de-peinture/acryliques" className="text-gray-700 transition hover:opacity-75">Marqueurs & Squeezers vides</a></li>
-                <li><a href="/bombes-de-peinture/effets" className="text-gray-700 transition hover:opacity-75">Mines de rechange</a></li>
-                <li><a href="/bombes-de-peinture/caps" className="text-gray-700 transition hover:opacity-75">Posca & Uni Paint</a></li>
+                <li><a href="/marqueurs-et-encres/encres" className="text-gray-700 transition hover:opacity-75">Encres</a></li>
+                <li><a href="/marqueurs-et-encres/marqueurs" className="text-gray-700 transition hover:opacity-75">Marqueurs</a></li>
+                <li><a href="/marqueurs-et-encres/squeezers" className="text-gray-700 transition hover:opacity-75">Squeezers</a></li>
+                <li><a href="/marqueurs-et-encres/marqueurs-squeezers-vides" className="text-gray-700 transition hover:opacity-75">Marqueurs & Squeezers vides</a></li>
+                <li><a href="/marqueurs-et-encres/mines-de-rechange" className="text-gray-700 transition hover:opacity-75">Mines de rechange</a></li>
+                <li><a href="/marqueurs-et-encres/posca-uni-paint" className="text-gray-700 transition hover:opacity-75">Posca & Uni Paint</a></li>
               </ul>
             </div>
 
             <div>
-              <a href="/bombes-de-peinture">
+              <a href="/accessoires-equipements">
                 <p className="font-medium text-gray-900">Accessoires & équipements</p>
               </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Protections & équipements</a></li>
-                <li><a href="/bombes-de-peinture/acryliques" className="text-gray-700 transition hover:opacity-75">Stickers & books</a></li>
+                <li><a href="/accessoires-equipements/protections-equipements" className="text-gray-700 transition hover:opacity-75">Protections & équipements</a></li>
+                <li><a href="/accessoires-equipements/stickers-books" className="text-gray-700 transition hover:opacity-75">Stickers & books</a></li>
               </ul>
             </div>
 
             <div>
-              <a href="/bombes-de-peinture">
+              <a href="/urban-wear">
                 <p className="font-medium text-gray-900">Urban wear</p>
               </a>
               <ul className="mt-6 space-y-4 text-sm">
-                <li><a href="/bombes-de-peinture/classiques" className="text-gray-700 transition hover:opacity-75">Eighty One</a></li>
+                <li><a href="/urban-wear/eighty-one" className="text-gray-700 transition hover:opacity-75">Eighty One</a></li>
               </ul>
             </div>
 
             <div>
-              <a href="/bombes-de-peinture">
+              <a href="/">
                 <p className="font-medium text-gray-900">Eighty One Store</p>
               </a>
               <ul className="mt-6 space-y-4 text-sm">
@@ -125,9 +125,9 @@ const Footer = (props: Props) => {
             <p className="text-xs text-gray-500">Copyright © 2025. Eightyone Store</p>
           </div>
           <div>
-            <a href="" className="text-xs text-gray-500 hover:text-black">Mentions légales -</a>
-            <a href="" className="text-xs text-gray-500 hover:text-black"> CGV -</a>
-            <a href="" className="text-xs text-gray-500 hover:text-black"> Politiques de confidentialité</a>
+            <a href="/mentions-legales" className="text-xs text-gray-500 hover:text-black">Mentions légales -</a>
+            <a href="/cgv" className="text-xs text-gray-500 hover:text-black"> CGV -</a>
+            <a href="/politique-de-confidentialite" className="text-xs text-gray-500 hover:text-black"> Politiques de confidentialité</a>
           </div>
         </div>
 
