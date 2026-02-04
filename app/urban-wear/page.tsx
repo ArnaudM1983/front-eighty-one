@@ -31,10 +31,10 @@ export default async function Page() {
       <SubCategoriesSection
         id="subCategoriesFirst"
         title="Eighty One"
-        categorySlug="streetwear"
+        categorySlug="eighty-one"
         description="Notre propre ligne de vêtements. Des basiques de qualité aux pièces plus graphiques, portez les valeurs de notre shop au quotidien."
         buttonLabel="Voir plus"
-        buttonHref="/streetwear"
+        buttonHref="/urban-wear/eighty-one"
       />
 
       <InstagramFeed />
