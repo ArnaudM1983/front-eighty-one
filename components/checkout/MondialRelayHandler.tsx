@@ -244,7 +244,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
             {/* MODALE REFAITE AVEC STYLE FLOU ET MODERNE */}
             {isModalOpen && (
                 <div
-                    className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
+                    className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
                     onClick={() => setIsModalOpen(false)}
                 >
                     <div
@@ -266,7 +266,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                                 onClick={() => setIsModalOpen(false)}
                                 className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-black transition-colors"
                             >
-                                <span className="text-2xl mt-[-2px]">&times;</span>
+                                <span className="text-2xl -mt-0.5">&times;</span>
                             </button>
                         </div>
 
@@ -299,7 +299,7 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                         {/* ZONE DE CARTE / ERROR */}
                         <div className='flex-1 relative bg-slate-50'>
                             {error && (
-                                <div className="absolute top-4 left-4 right-4 z-[1000] p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl">
+                                <div className="absolute top-4 left-4 right-4 z-1000 p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl">
                                     ⚠️ {error}
                                 </div>
                             )}

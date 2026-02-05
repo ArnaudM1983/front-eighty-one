@@ -208,7 +208,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
 
             {isModalOpen && (
     <div 
-        className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" 
+        className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" 
         onClick={() => setIsModalOpen(false)}
     >
         <div 
@@ -229,7 +229,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                     onClick={() => setIsModalOpen(false)} 
                     className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-black transition-colors"
                 >
-                    <span className="text-2xl mt-[-2px]">&times;</span>
+                    <span className="text-2xl -mt-0.5">&times;</span>
                 </button>
             </div>
 
@@ -286,7 +286,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
             {/* ZONE DE CARTE - Prend tout le reste de la place */}
             <div className="flex-1 relative bg-slate-50">
                 {error && (
-                    <div className="absolute top-4 left-4 right-4 z-[1000] p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl animate-bounce">
+                    <div className="absolute top-4 left-4 right-4 z-1000 p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl animate-bounce">
                         ⚠️ {error}
                     </div>
                 )}
