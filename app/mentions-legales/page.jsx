@@ -23,15 +23,17 @@ export default function MentionsLegales() {
           <section className="space-y-4">
             <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">1. Édition du site</h2>
             <p>
-              Le site internet <strong>81store.fr</strong> est édité par la société 
-              <strong> [NOM DE TA SOCIÉTÉ OU AUTO-ENTREPRISE]</strong>, au capital de [MONTANT] €, 
+              Le site internet <strong>eightyonestore.com</strong> est édité par la société 
+              <strong> EIGHTYONE</strong>, EURL au capital de 2 000 €, 
               immatriculée au Registre du Commerce et des Sociétés (RCS) de Lyon sous le numéro 
-              <strong> [NUMÉRO SIRET]</strong>.
+              <strong> 508 542 107</strong>.
             </p>
-            <ul className="list-none space-y-1">
-              <li><strong>Siège social :</strong> 21 rue des Capucins, 69001 Lyon</li>
-              <li><strong>Directeur de la publication :</strong> [NOM DU RESPONSABLE]</li>
-              <li><strong>Contact :</strong> contact@81store.fr | 04 78 91 18 52</li>
+            <ul className="list-none space-y-1 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+              <li><strong>Siège social :</strong> 21 rue des Capucins, 69001 Lyon, France</li>
+              <li><strong>SIRET :</strong> 508 542 107 00018</li>
+              <li><strong>N° TVA Intracommunautaire :</strong> FR51508542107</li>
+              <li><strong>Responsable éditorial :</strong> Florent SORAGNA</li>
+              <li><strong>Contact :</strong> eightyone@hotmail.fr | 04 78 91 18 52</li>
             </ul>
           </section>
 
@@ -39,9 +41,12 @@ export default function MentionsLegales() {
           <section className="space-y-4">
             <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">2. Hébergement</h2>
             <p>
-              Le site est hébergé par la société <strong>[NOM DE L'HÉBERGEUR, ex: Vercel / OVH]</strong>, 
-              dont le siège social est situé à [ADRESSE DE L'HÉBERGEUR].
+              Le site est hébergé par la société <strong>OVH SAS</strong>.
             </p>
+            <ul className="list-none space-y-1 text-sm">
+                <li><strong>Adresse :</strong> 2 rue Kellermann, 59100 Roubaix, France</li>
+                <li><strong>Site web :</strong> www.ovh.com</li>
+            </ul>
           </section>
 
           {/* PROPRIÉTÉ INTELLECTUELLE */}
@@ -50,7 +55,7 @@ export default function MentionsLegales() {
             <p>
               L'ensemble des éléments constituant ce site (textes, graphismes, logos, photos, vidéos) est la propriété exclusive de 
               <strong> Eightyone Store</strong>, sauf mention contraire. Toute reproduction, représentation, modification ou 
-              adaptation de tout ou partie des éléments du site est strictement interdite sans autorisation écrite préalable.
+              adaptation de tout ou partie des éléments du site est strictement interdite sans autorisation écrite préalable (Articles L.335-2 et suivants du Code de la propriété intellectuelle).
             </p>
           </section>
 
@@ -69,13 +74,9 @@ export default function MentionsLegales() {
             <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">5. Droit applicable</h2>
             <p>
               Le présent site et ses mentions légales sont soumis au droit français. En cas de litige, et à défaut d'accord amiable, 
-              le tribunal de Lyon sera seul compétent.
+              les tribunaux du siège social de la société Eightyone Store (Lyon) seront seuls compétents.
             </p>
           </section>
-
-          <footer className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pt-10">
-            Mise à jour le 04/02/2026
-          </footer>
         </div>
       </main>
     </div>
