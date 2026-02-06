@@ -57,8 +57,8 @@ const CheckoutSummary = ({
     setSelectedPudo
 }: Props) => {
 
-    // État pour la méthode de paiement
-    const [paymentType, setPaymentType] = useState<'stripe' | 'paypal' | 'cod'>('stripe');
+    // --- MODIFICATION ICI : Pas de sélection par défaut (null) ---
+    const [paymentType, setPaymentType] = useState<'stripe' | 'paypal' | 'cod' | null>(null);
 
     // Conversion Gramme -> KG
     const totalWeightInKg = totalWeight / 1000;
@@ -78,10 +78,13 @@ const CheckoutSummary = ({
     const handleFinalSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
         
+        // --- SÉCURITÉ : On bloque si rien n'est choisi ---
+        if (!paymentType) return;
+
         // Empêcher le double clic
         if (isProcessingPayment || isSavingAddress) return;
 
-        // Si PayPal est choisi, ce bouton ne doit rien faire (normalement il est caché)
+        // Si PayPal est choisi, ce bouton ne doit rien faire (le bouton PayPal gère tout)
         if (paymentType === 'paypal') return;
         
         setIsProcessingPayment(true);
@@ -128,10 +131,12 @@ const CheckoutSummary = ({
         }
     };
 
-    const buttonIsDisabled = isSavingAddress || isProcessingPayment;
+    // Le bouton est désactivé si rien n'est sélectionné
+    const buttonIsDisabled = isSavingAddress || isProcessingPayment || !paymentType;
     
     // Texte dynamique du bouton
-    let buttonText = `Payer ${finalTotal.toFixed(2)} €`;
+    let buttonText = "Choisir un paiement";
+    if (paymentType === 'stripe') buttonText = `Payer ${finalTotal.toFixed(2)} €`;
     if (paymentType === 'cod') buttonText = "Confirmer la commande";
     if (isSavingAddress) buttonText = "Vérification...";
     if (isProcessingPayment) buttonText = "Traitement en cours...";
@@ -224,6 +229,14 @@ const CheckoutSummary = ({
 
                 {/* ZONE DYNAMIQUE DE PAIEMENT */}
                 <div className="mt-6">
+                    
+                    {/* --- AJOUT : MESSAGE PAR DEFAUT --- */}
+                    {!paymentType && (
+                        <div className="p-4 text-center bg-gray-50 border border-dashed border-gray-300 rounded-xl text-gray-500 text-sm">
+                            Veuillez sélectionner un moyen de paiement ci-dessus.
+                        </div>
+                    )}
+
                     {/* 1. Formulaire STRIPE */}
                     {paymentType === 'stripe' && (
                         <StripePaymentForm orderId={orderId} />
@@ -292,7 +305,6 @@ const CheckoutSummary = ({
             </div>
 
             {/* BOUTON D'ACTION PRINCIPAL */}
-            {/* On le cache si PayPal est sélectionné car PayPal fournit ses propres boutons */}
             {paymentType !== 'paypal' && (
                 <button
                     onClick={handleFinalSubmit}
@@ -300,8 +312,11 @@ const CheckoutSummary = ({
                     className={`
                         w-full mt-6 
                         group inline-block px-6 py-4 font-bold rounded-2xl border
-                        border-[#01B0F0] bg-[#01B0F0] text-white
-                        hover:bg-white hover:text-[#01B0F0] hover:border-[#01B0F0]
+                        /* Style dynamique si désactivé */
+                        ${!paymentType 
+                            ? 'bg-gray-200 border-gray-200 text-gray-400 cursor-not-allowed' 
+                            : 'border-[#01B0F0] bg-[#01B0F0] text-white hover:bg-white hover:text-[#01B0F0] hover:border-[#01B0F0]'
+                        }
                         transition-all duration-200 cursor-pointer shadow-lg
                         disabled:opacity-50 disabled:cursor-not-allowed uppercase text-sm tracking-widest
                     `}
