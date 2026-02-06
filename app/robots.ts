@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
         '/panier',     // Panier d'achat
         '/paiement',   // Tunnel de commande
         '/success',    // Page de confirmation de paiement (très important pour le SEO)
-        '/api/',       // Tes routes API Next.js internes
+        '/api/',       // Routes API Next.js internes
         '/*?*',        // Optionnel : interdit l'indexation des URLs avec paramètres (filtres, recherche) pour éviter le duplicate content
       ],
     },

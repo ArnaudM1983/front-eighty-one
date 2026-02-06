@@ -41,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let productRoutes: MetadataRoute.Sitemap = [];
   
   try {
-    // On force un _limit très haut pour récupérer TOUS les produits de ton Symfony
+    // On force un _limit très haut pour récupérer TOUS les produits de Symfony
     const res = await fetch(`${API_URL}/api/products?_limit=5000`, { 
         cache: 'no-store' 
     });
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       productRoutes = products.map((product: any) => ({
         url: `${BASE_URL}/produit/${product.slug}`,
-        // Utilise le champ updated_at renvoyé par ton sérialiseur Symfony
+        // Utilise le champ updated_at renvoyé par le sérialiseur Symfony
         lastModified: new Date(product.updated_at || new Date()),
         changeFrequency: 'weekly' as const,
         priority: 0.6,
