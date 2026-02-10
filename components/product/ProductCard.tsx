@@ -24,19 +24,16 @@ export default function ProductCard({ product }: Props) {
     brand = `${words[0]} ${words[1]}`;
   }
 
-  // LOGIQUE RUPTURE :
-  // 1. Ce n'est PAS un produit parent (pas de variants)
-  // 2. Le stock est inférieur ou égal à 0
-  const isParentProduct = product.has_variants === true;
-  const isOutOfStock = !isParentProduct && (product.stock !== undefined && product.stock <= 0);
+  // Si le stock (cumulé ou direct) est <= 0, on affiche "Rupture"
+  const isOutOfStock = product.stock !== undefined && product.stock !== null && product.stock <= 0;
 
   return (
     <Link href={`/produit/${product.slug}`} className="group">
       <div className="h-112 block bg-white overflow-hidden shadow transition rounded-2xl relative">
-        
+
         {/* Container Image avec position relative pour placer le badge */}
         <div className="w-full h-78 flex items-center justify-center overflow-hidden bg-white relative">
-          
+
           {/* BADGE RUPTURE */}
           {isOutOfStock && (
             <div className="absolute top-3 right-3 z-10 px-3 py-1 bg-red-50 backdrop-blur-sm border border-red-100 rounded-lg shadow-sm">
@@ -60,8 +57,8 @@ export default function ProductCard({ product }: Props) {
 
         <div className="px-8 flex flex-col justify-between pt-4 pb-4">
           <div>
-             <p className="uppercase font-bold text-(--text-secondary)">{brand}</p>
-             <p className="text-(--text-secondary) truncate">{product.name}</p>
+            <p className="uppercase font-bold text-(--text-secondary)">{brand}</p>
+            <p className="text-(--text-secondary) truncate">{product.name}</p>
           </div>
           <p className="mt-2 font-bold text-xl">{product.price} €</p>
         </div>
