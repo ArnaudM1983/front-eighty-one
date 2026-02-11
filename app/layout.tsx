@@ -8,6 +8,7 @@ import Main from "@/components/layout/Main";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from "@/context/CartContext";
+import CookieBanner from "@/components/layout/CookieBanner";
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -47,6 +48,7 @@ export default function RootLayout({
             draggable
             theme="light"
           />
+          <CookieBanner />
         </CartProvider>
       </body>
     </html>

@@ -8,7 +8,6 @@ type Product = {
   stock?: number;
   main_image: string | null;
   featured?: boolean;
-  // On ajoute le champ qu'on vient de créer dans l'API
   has_variants?: boolean;
 };
 
@@ -31,7 +30,6 @@ export default function ProductCard({ product }: Props) {
     <Link href={`/produit/${product.slug}`} className="group">
       <div className="h-112 block bg-white overflow-hidden shadow transition rounded-2xl relative">
 
-        {/* Container Image avec position relative pour placer le badge */}
         <div className="w-full h-78 flex items-center justify-center overflow-hidden bg-white relative">
 
           {/* BADGE RUPTURE */}
@@ -47,7 +45,6 @@ export default function ProductCard({ product }: Props) {
             src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${product.main_image}`}
             alt={product.name}
             loading="lazy"
-            // J'ajoute un effet grisé si rupture + effet zoom au survol (group-hover)
             className={`
                 object-contain w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-110
                 ${isOutOfStock ? 'opacity-60 grayscale' : ''}

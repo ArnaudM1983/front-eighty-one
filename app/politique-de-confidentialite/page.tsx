@@ -1,10 +1,14 @@
-import Breadcrumbs from "@/components/ui/Breadcrumb";
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Politique de Confidentialité | Eightyone Store",
-  description: "Découvrez comment Eightyone Store protège vos données personnelles et respecte votre vie privée (RGPD).",
-};
+import Breadcrumbs from "@/components/ui/Breadcrumb";
+import { useEffect } from "react";
+
+// Déclaration pour TypeScript afin d'éviter les erreurs sur window.tarteaucitron
+declare global {
+  interface Window {
+    tarteaucitron: any;
+  }
+}
 
 export default function PrivacyPolicy() {
   const crumbs = [
@@ -12,8 +16,18 @@ export default function PrivacyPolicy() {
     { label: "Politique de confidentialité" }
   ];
 
+  // Fonction pour ouvrir le gestionnaire de cookies
+  const openCookiePanel = () => {
+    if (window.tarteaucitron) {
+      window.tarteaucitron.userInterface.openPanel();
+    }
+  };
+
   return (
     <div className="bg-white pb-20">
+      {/* SEO & Meta (Next.js Metadata doit être dans un fichier 'layout.tsx' ou 'page.tsx' Server Component, 
+          mais si ce fichier est votre 'page.tsx', déplacez les metadata dans un fichier parent ou un client component séparé) */}
+      
       <div className="max-w-6xl mx-auto pt-8 px-6">
         <Breadcrumbs crumbs={crumbs} />
       </div>
@@ -52,7 +66,23 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">3. Finalité du traitement</h2>
+            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">3. Gestion des Cookies</h2>
+            <p>
+              Notre site utilise des cookies pour améliorer votre expérience d'achat. Certains sont <strong>strictement nécessaires</strong> au fonctionnement de la boutique (panier, session, paiement sécurisé Stripe/PayPal) et ne peuvent pas être désactivés.
+            </p>
+            <p>
+              Pour les autres types de cookies (statistiques, réseaux sociaux), vous pouvez changer d'avis à tout moment en utilisant le bouton ci-dessous :
+            </p>
+            <button 
+              onClick={openCookiePanel}
+              className="mt-2 px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#01B0F0] transition-colors rounded-sm"
+            >
+              Modifier mes préférences cookies
+            </button>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">4. Finalité du traitement</h2>
             <p>
               Le traitement de ces données est nécessaire pour :
             </p>
@@ -64,28 +94,28 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">4. Vos Droits (RGPD)</h2>
+            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">5. Vos Droits (RGPD)</h2>
             <p>
               Vous disposez d'un droit d'accès, de rectification, d'opposition et de suppression de vos données personnelles. Pour exercer ce droit, il vous suffit de nous contacter :
             </p>
-            <ul className="list-none space-y-1 mt-2 bg-slate-50 p-4 rounded-xl">
+            <ul className="list-none space-y-1 mt-2 bg-slate-50 p-6 rounded-xl border border-slate-100">
                 <li><strong>Par email :</strong> eightyone@hotmail.fr</li>
                 <li><strong>Par courrier :</strong> Eightyone Store, 21 rue des Capucins, 69001 LYON</li>
             </ul>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">5. Démarchage téléphonique</h2>
+            <h2 className="text-2xl font-black uppercase text-slate-800 tracking-tight">6. Démarchage téléphonique</h2>
             <p>
-              Si votre numéro de téléphone est recueilli à l’occasion de la création de votre compte ou de la passation de votre commande, nous vous informons que vos coordonnées téléphoniques ne seront utilisées que pour la bonne exécution de vos commandes (livraison, SAV).
+              Si votre numéro de téléphone est recueilli à l’occasion de la création de votre compte ou de la passation de votre commande, nous vous informons que vos coordonnées téléphoniques ne seront utilisées que pour la bonne exécution de vos commandes (livraison, notification SMS de retrait).
             </p>
-            <p className="text-sm">
-               Conformément aux dispositions légales, vous pouvez vous inscrire gratuitement sur la liste d’opposition au démarchage téléphonique <strong>Bloctel</strong> (http://www.bloctel.gouv.fr/).
+            <p className="text-sm italic">
+               Conformément aux dispositions légales, vous pouvez vous inscrire gratuitement sur la liste d’opposition au démarchage téléphonique <strong>Bloctel</strong> (www.bloctel.gouv.fr).
             </p>
           </section>
 
-          <footer className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pt-10">
-            Dernière mise à jour : 04/02/2026
+          <footer className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pt-10 border-t border-slate-100">
+            Dernière mise à jour : 11/02/2026
           </footer>
         </div>
       </main>
