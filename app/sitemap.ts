@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+export const dynamic = 'force-dynamic';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyonestore.com';
 const API_URL = process.env.NEXT_PUBLIC_SYMFONY_API_URL || 'http://localhost:8000';
