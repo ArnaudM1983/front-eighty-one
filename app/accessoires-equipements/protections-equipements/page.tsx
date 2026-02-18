@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Protections & équipements - Eightyone Store",
-    description: "Découvrez notre large sélection de bombes de protections et équipements"
+    title: "Protections Graffiti : Masques 3M, Gants Montana & Cellograff | Eightyone Store",
+    description: "Tout l'équipement du graffeur : Masques 3M, gants Montana, cellophane noir pour cellograff, adhésifs de masquage. Sécurité et logistique au meilleur prix."
 };
 
 export default async function Protections() {

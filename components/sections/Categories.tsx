@@ -2,10 +2,10 @@ import { CategoryCard } from "../ui/CategoryCard"
 
 const categories = [
   { name: "Bombes de peinture", href: "/bombes-de-peinture", image: "/home-spray.webp" },
-  { name: "Posca & Uni Paint", href: "/marqueurs-encres/posca-uni-paint", image: "/bandeau-posca-unipaint.webp" },
-  { name: "Marqueurs & squeezers", href: "/marqueurs-encres", image: "/home-marker.webp" },
+  { name: "Posca & Uni Paint", href: "/marqueurs-et-encres/posca-uni-paint", image: "/bandeau-posca-unipaint.webp" },
+  { name: "Marqueurs & squeezers", href: "/marqueurs-et-encres", image: "/home-marker.webp" },
   { name: "Caps", href: "/bombes-de-peinture/caps", image: "/home-caps.webp" },
-  { name: "Encres", href: "/marqueurs-encres/encres", image: "/bandeau-encres.webp" },
+  { name: "Encres", href: "/marqueurs-et-encres/encres", image: "/bandeau-encres.webp" },
   { name: "Accessoires & équipements", href: "/accessoires-equipements", image: "/accessoires.webp" },
 ]
 

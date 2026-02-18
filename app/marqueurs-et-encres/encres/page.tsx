@@ -24,14 +24,14 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Encres - Eightyone Store",
-    description: "Découvrez notre large sélection d'encres"
+    title: "Encres de Recharge pour Marqueurs & Squeezers | Eightyone Store",
+    description: "Découvrez notre sélection d'encres permanentes pour recharger vos marqueurs et squeezers. Des encres testées pour leur couvrance et leur résistance aux UV."
 };
 
 export default async function Encres() {
     const crumbs = [
         { label: "Accueil", href: "/" },
-        { label: "Marqueurs & encres", href: "/marqueurs-encres" },
+        { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
         { label: "Les encres" }
     ];
 

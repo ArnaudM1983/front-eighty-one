@@ -84,5 +84,25 @@ h5 {
   --tw-ring-color: var(--primary);
 }
 
+/* Empêche le clic sur la popup de déplacer la carte en arrière-plan */
+.leaflet-popup-content-wrapper {
+    border-radius: 12px !important;
+    padding: 0 !important;
+}
+
+.leaflet-popup-content {
+    margin: 12px !important;
+    width: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar pour les horaires */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
 
 

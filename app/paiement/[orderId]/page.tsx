@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import ShippingAddressForm, { ShippingFormRef, PUDOInfo } from "@/components/checkout/ShippingAddressForm";
+import { toast, ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";
 import CheckoutSummary from "@/components/checkout/CheckoutSummary";
 
 export default function PaiementPage() {
@@ -54,32 +56,53 @@ export default function PaiementPage() {
     const handleFullCheckout = async () => {
         if (!shippingFormRef.current) return false;
 
-        // Validation de sécurité: Si ce n'est pas 'pickup', le coût doit être positif.
+        // Remplacement des alertes par des toasts d'erreur
         if (shippingMethod !== 'pickup' && shippingCost <= 0) {
-             alert("Veuillez patienter pendant le calcul des frais de port.");
+             toast.warning("Veuillez patienter pendant le calcul des frais de port.");
              return false;
         }
         
-        // Validation additionnelle pour le mode Mondial Relay (via shippingMethod)
         if (shippingMethod.includes('_pr') && !selectedPudo) {
-            alert("Veuillez sélectionner un Point Relais avant de continuer.");
+            toast.info("Veuillez sélectionner un Point Relais avant de continuer.");
             return false;
         }
 
-
         setIsSaving(true);
-        console.log("Étape 1: Sauvegarde des infos de livraison...");
+        
+        // Création d'un toast de chargement (Id)
+        const toastId = toast.loading("Enregistrement de vos informations...");
 
-        const success = await shippingFormRef.current.submitForm();
+        try {
+            const success = await shippingFormRef.current.submitForm();
+            setIsSaving(false);
 
-        setIsSaving(false);
+            if (success) {
+                // Mise à jour du toast en succès
+                toast.update(toastId, { 
+                    render: "Informations de livraison enregistrées.", 
+                    type: "success", 
+                    isLoading: false,
+                    autoClose: 6000 
+                });
 
-        if (success) {
-            console.log("Étape 2: Adresse et frais enregistrés. Procéder au paiement...");
-            // TODO: Déclencher la logique de confirmation Stripe ici
-            return true;
-        } else {
-            console.error("Échec de la validation de l'adresse ou des frais.");
+                setTimeout(() => {
+                    // router.push(`/order/confirmation/${orderId}`);
+                }, 2000);
+
+                return true;
+            } else {
+                toast.update(toastId, { 
+                    render: "Erreur lors de la validation du formulaire.", 
+                    type: "error", 
+                    isLoading: false,
+                    autoClose: 3000 
+                });
+                return false;
+            }
+        } catch (err) {
+            setIsSaving(false);
+            toast.dismiss(toastId);
+            toast.error("Une erreur inattendue est survenue.");
             return false;
         }
     };
@@ -91,6 +114,11 @@ export default function PaiementPage() {
     const orderIdString = orderId as string;
     const orderTotalWeight = order?.totalWeight || 0; // Valeur en grammes
     const orderItems = order?.items || [];
+    
+    // 💡 EXTRACTION DU CODE POSTAL ET DU PAYS DE L'ADRESSE PAR DÉFAUT
+    const customerPostalCode = order?.shippingAddress?.postalCode || '';
+    const customerCountryCode = order?.shippingAddress?.countryCode || '';
+    const customerAddress = order?.shippingAddress?.address || '';
     // -----------------------------------------
 
     return (
@@ -124,9 +152,15 @@ export default function PaiementPage() {
                         subtotal={orderSubtotalState}
                         orderItems={orderItems}
 
+                        // PASSAGE DES INFOS CLIENT
+                        customerPostalCode={customerPostalCode}
+                        customerCountryCode={customerCountryCode}
+                        customerAddress={customerAddress}
+
                         // PASSAGE DES SETTERS POUR CONTRÔLER L'ÉTAT
                         setShippingCost={setShippingCost}
                         setShippingMethod={setShippingMethod}
+                        shippingMethod={shippingMethod}
                         setSelectedPudo={setSelectedPudo}
                         shippingCost={shippingCost}
                     />

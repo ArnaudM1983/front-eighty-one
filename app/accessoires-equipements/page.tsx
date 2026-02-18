@@ -4,8 +4,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 import InstagramFeed from "@/components/sections/InstagramFeed";
 
 export const metadata = {
-  title: "Accessoires & équipements - Eightyone Store",
-  description: "Découvrez notre large sélection d'accessoires et d'équipements'"
+  title: "Accessoires Graffiti : Masques, Gants, Stickers & Blackbooks | Eightyone Store",
+  description: "Équipez-vous pour vos sessions graffiti : masques de protection, gants, stickers eggshell et blackbooks. Tout l'équipement nécessaire pour dessiner et peindre."
 };
 
 export default async function Page() {
@@ -34,7 +34,7 @@ export default async function Page() {
         categorySlug="protections-equipements"
         description="De la pratique des arts graphiques à la pratique du tag pur et dur, notre selection d’encre vous offres ce qu’il y a de meilleurs sur le marché actuel. En êtant nous même passionés, nous testons et selectionnons seulement le meilleur et le plus efficace pour vous."
         buttonLabel="Voir plus"
-        buttonHref="/protections-equipements"
+        buttonHref="accessoires-equipements/protections-equipements"
       />
 
       {/* Stickers & books */}
@@ -44,7 +44,7 @@ export default async function Page() {
         categorySlug="stickers-book"
         description="Idéal pour gagner en visibilité, les stickers vous offrent un support adapté et durable pour l’utilisation des marqueurs. Les carnets, quant à eux, sont des indispensables, aussi bien pour l’entraînement (sketching) que pour récolter des dessins et œuvres de vos artistes préférés au fil des rencontres."
         buttonLabel="Voir plus"
-        buttonHref="/stickers-book"
+        buttonHref="accessoires-equipements/stickers-books"
       />
 
       <InstagramFeed />

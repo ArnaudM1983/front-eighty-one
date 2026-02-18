@@ -2,10 +2,15 @@ import SubCategoriesSection from "@/components/sections/SubCategories";
 import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 import InstagramFeed from "@/components/sections/InstagramFeed";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Bombes de peinture - Eightyone Store",
-  description: "Découvrez notre large sélection de bombes de peinture…"
+export const metadata: Metadata = {
+  // 1. TITRE : Mots-clés importants + Nom de marque
+  title: "Bombes de peinture & Spray Graffiti | Eightyone Store",
+  
+  // 2. DESCRIPTION : ~150-160 caractères. 
+  description: "Achetez vos bombes de peinture en ligne. Large choix de sprays acryliques, solvantés, techniques et caps pour le graffiti et les beaux-arts. Livraison rapide.",
+  
 };
 
 export default async function Page() {

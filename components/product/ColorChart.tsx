@@ -20,9 +20,10 @@ type ProductVariant = {
 type Props = {
   productId: number;
   variants: ProductVariant[];
+  title?: string;
 };
 
-const ColorChart = ({ productId, variants }: Props) => {
+const ColorChart = ({ productId, variants, title }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
     () => Object.fromEntries(variants.map((v) => [v.id, 0]))
@@ -41,31 +42,26 @@ const ColorChart = ({ productId, variants }: Props) => {
       if (qty > 0) {
         const variant = variants.find((v) => v.id === Number(id));
         if (!variant) continue;
-
         await addToCart(productId, variant.id, qty);
       }
     }
-
     await refreshCart();
-    setQuantities(Object.fromEntries(variants.map((v) => [v.id, 0]))); // reset
+    setQuantities(Object.fromEntries(variants.map((v) => [v.id, 0])));
   };
 
   return (
     <div className="mt-24" id="ColorChart">
       <div className="md:flex items-center justify-between mb-16">
-        <h4 className="text-lg font-semibold">Nuancier</h4>
+        <h4 className="text-lg font-semibold">{title || "Nuancier"}</h4>
         <SearchBar
-          placeholder="Rechercher une couleur..."
+          placeholder="Rechercher..."
           onSearch={(query) => setSearchQuery(query)}
         />
       </div>
 
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mb-12">
-          <AddToCartButton
-            stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
-            onAdd={handleAddAllToCart}
-          />
+          <AddToCartButton stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0} onAdd={handleAddAllToCart} />
         </div>
       )}
 
@@ -78,10 +74,7 @@ const ColorChart = ({ productId, variants }: Props) => {
             const lastWord = words[words.length - 1];
 
             return (
-              <div
-                key={variant.id}
-                className="col-span-12 md:col-span-1 flex flex-col items-center justify-between h-40"
-              >
+              <div key={variant.id} className="col-span-12 md:col-span-1 flex flex-col items-center justify-between h-40">
                 {variant.image && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
@@ -89,29 +82,15 @@ const ColorChart = ({ productId, variants }: Props) => {
                     className="w-full max-w-[100px] max-h-[100px] object-cover rounded"
                   />
                 )}
-                <p className="text-xs text-center mt-2 wrap-break-word whitespace-normal w-full">
-                  {lastWord}
-                </p>
-
+                <p className="text-xs text-center mt-2 wrap-break-word whitespace-normal w-full">{lastWord}</p>
                 <QuantityStepperChart
                   stock={variant.stock}
                   quantity={quantities[variant.id] ?? 0}
-                  onChange={(qty) =>
-                    setQuantities((prev) => ({ ...prev, [variant.id]: qty }))
-                  }
+                  onChange={(qty) => setQuantities((prev) => ({ ...prev, [variant.id]: qty }))}
                 />
               </div>
             );
           })}
-        </div>
-      )}
-
-      {filteredVariants.length > 0 && (
-        <div className="flex justify-center mt-8">
-          <AddToCartButton
-            stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0}
-            onAdd={handleAddAllToCart}
-          />
         </div>
       )}
     </div>

@@ -24,8 +24,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Acryliques - Eightyone Store",
-    description: "Découvrez notre large sélection de bombes de peinture acryliques"
+    title: "Bombes de Peinture Acrylique & Base Eau (Sans Odeur) | Eightyone Store",
+    description: "Découvrez nos bombes de peinture acryliques à base d'eau. Idéales pour un usage intérieur sans odeur, résistance durable !"
 };
 
 export default async function Acryliques() {

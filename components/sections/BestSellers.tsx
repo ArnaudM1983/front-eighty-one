@@ -3,8 +3,6 @@ import SliderWrapper from "../ui/SliderWrapper";
 import { EmblaOptionsType } from 'embla-carousel'
 
 const OPTIONS: EmblaOptionsType = { containScroll: false }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 type Product = {
     id: number;
@@ -16,9 +14,12 @@ type Product = {
     featured: boolean;
 };
 
-async function fetchProducts() {
+async function fetchFeaturedProducts() {
+    // CORRECTION ICI :
+    // 1. On ajoute '?featured=true' pour activer le filtre côté serveur (Symfony)
+    // 2. On ajoute '&_limit=20' pour récupérer jusqu'à 20 best-sellers (au lieu de la page 1 par défaut)
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products`,
+        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products?featured=true&_limit=20`,
         {
             method: "GET",
             cache: "no-store",
@@ -26,7 +27,6 @@ async function fetchProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -35,10 +35,16 @@ async function fetchProducts() {
 
 export default async function BestSellers() {
   
-  const products: Product[] = await fetchProducts();
+  // L'API nous renvoie maintenant UNIQUEMENT les produits mis en avant
+  const featuredProducts: Product[] = await fetchFeaturedProducts();
 
-  // Filter only featured products
-  const featuredProducts = products.filter((product) => product.featured);
+  // PLUS BESOIN DE FILTRER EN JS ICI
+  // Le filtre JS posait problème car il ne filtrais que sur les 20 premiers résultats globaux.
+  
+  // Si aucun produit n'est mis en avant, on n'affiche pas la section
+  if (featuredProducts.length === 0) {
+    return null;
+  }
 
   return (
     <section className="px-4 py-16 bg-(--background-secondary)">

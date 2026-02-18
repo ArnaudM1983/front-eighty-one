@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Roboto, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import 'leaflet/dist/leaflet.css';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Main from "@/components/layout/Main";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from "@/context/CartContext";
+import CookieBanner from "@/components/layout/CookieBanner";
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -46,6 +48,7 @@ export default function RootLayout({
             draggable
             theme="light"
           />
+          <CookieBanner />
         </CartProvider>
       </body>
     </html>
