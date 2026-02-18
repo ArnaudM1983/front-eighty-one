@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductGrid from "@/components/product/ProductGrid";
-import Pagination from "@/components/ui/Pagination"; // ← Import
+import Pagination from "@/components/ui/Pagination";
 
 type Product = {
   id: number;
@@ -14,7 +14,8 @@ type Product = {
   main_image: string;
 };
 
-export default function SearchPage() {
+// 1. On crée un sous-composant qui contient toute la logique de recherche
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
 
@@ -54,7 +55,6 @@ export default function SearchPage() {
     fetchSearch();
   }, [query]);
 
-  // Produits pour la page courante
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = products.slice(startIndex, endIndex);
@@ -70,8 +70,6 @@ export default function SearchPage() {
       {!loading && currentProducts.length > 0 && (
         <>
           <ProductGrid products={currentProducts} title={`Résultats pour "${query}"`} />
-
-          {/* Pagination */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -79,6 +77,18 @@ export default function SearchPage() {
           />
         </>
       )}
+    </div>
+  );
+}
+
+// 2. Le composant principal exporté par défaut
+// Il enveloppe le tout dans Suspense pour que Vercel accepte le build
+export default function SearchPage() {
+  return (
+    <div className="max-w-6xl mx-auto px-6 py-8">
+      <Suspense fallback={<div className="text-gray-500">Chargement de la recherche...</div>}>
+        <SearchContent />
+      </Suspense>
     </div>
   );
 }
