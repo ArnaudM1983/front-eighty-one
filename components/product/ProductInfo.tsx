@@ -7,7 +7,6 @@ import ButtonLink from "@/components/ui/ButtonLink";
 import { addToCart } from "@/lib/cartApi";
 import { useCart } from "@/context/CartContext";
 
-// --- Types ---
 type ProductVariant = {
   id: number;
   name: string;
@@ -41,22 +40,19 @@ type Product = {
 
 type Props = {
   product: Product;
+  isUrbanWear?: boolean;
 };
 
-const ProductInfo = ({ product }: Props) => {
+const ProductInfo = ({ product, isUrbanWear }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const { refreshCart } = useCart();
 
-  // Extraction de la marque (ex: "Double A" ou le premier mot)
   const words = product.name.split(" ");
-  const brand =
-    words[0] === "Double" && words[1] ? `${words[0]} ${words[1]}` : words[0];
+  const brand = words[0] === "Double" && words[1] ? `${words[0]} ${words[1]}` : words[0];
 
   const handleAddToCart = async () => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${product.id}/stock`
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${product.id}/stock`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const availableStock = data.stock;
@@ -69,7 +65,6 @@ const ProductInfo = ({ product }: Props) => {
 
       await addToCart(product.id, null, quantity);
       refreshCart();
-      console.log("Panier mis à jour !");
     } catch (err) {
       console.error("Erreur lors de l'ajout au panier :", err);
     }
@@ -80,83 +75,48 @@ const ProductInfo = ({ product }: Props) => {
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Marque et Titre */}
       <div>
-        <p className="uppercase text-gray-500 text-sm font-semibold tracking-wide mb-1">
-            {brand}
-        </p>
+        <p className="uppercase text-gray-500 text-sm font-semibold tracking-wide mb-1">{brand}</p>
         <h2 className="text-3xl font-bold text-gray-900">{product.name}</h2>
       </div>
 
-      {/* Description courte */}
-      {product.excerpt && (
-        <p className="text-gray-600 leading-relaxed">{product.excerpt}</p>
-      )}
-
-      {/* Prix */}
+      {product.excerpt && <p className="text-gray-600 leading-relaxed">{product.excerpt}</p>}
       <p className="text-4xl text-gray-900 font-bold">{product.price} €</p>
 
-      {/* Zone d'action (Boutons / Selecteurs) */}
       <div className="mt-4">
-        {/* CAS 1 : C'est un produit Parent (avec variantes type Bombe de peinture) */}
         {isParentProduct ? (
           <ButtonLink
             onClick={() => {
               const element = document.getElementById("ColorChart");
               if (element) {
                 const offset = 120;
-                const top =
-                  element.getBoundingClientRect().top + window.scrollY - offset;
+                const top = element.getBoundingClientRect().top + window.scrollY - offset;
                 window.scrollTo({ top, behavior: "smooth" });
               }
             }}
             className="w-full text-center py-4 text-lg"
           >
-            Voir les couleurs disponibles
+            {isUrbanWear ? "Voir les tailles disponibles" : "Voir les couleurs disponibles"}
           </ButtonLink>
         ) : (
-          /* CAS 2 : C'est un produit Simple (Accessoire, T-shirt, etc.) */
           <div className="flex items-center gap-4">
             {outOfStock ? (
-              // --- BADGE RUPTURE ---
               <div className="px-6 py-3 bg-red-50 border border-red-200 text-red-600 font-bold rounded-lg uppercase tracking-wider text-sm w-full text-center select-none">
                 Rupture de stock
               </div>
             ) : (
-              // --- BOUTONS D'ACHAT CLASSIQUES ---
               <>
-                <QuantityStepper
-                  productId={product.id}
-                  quantity={quantity}
-                  onChange={(qty) => setQuantity(qty)}
-                />
-                <AddToCartButton
-                  productId={product.id}
-                  quantity={quantity}
-                  stock={product.stock}
-                  onAdd={handleAddToCart}
-                />
+                <QuantityStepper productId={product.id} quantity={quantity} onChange={(qty) => setQuantity(qty)} />
+                <AddToCartButton productId={product.id} quantity={quantity} stock={product.stock} onAdd={handleAddToCart} />
               </>
             )}
           </div>
         )}
       </div>
 
-      {/* Note Click & Collect */}
       <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-4 h-4"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72l1.189-1.19A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .414.336.75.75.75z"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72l1.189-1.19A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .414.336.75.75.75z" />
         </svg>
         Option « click and collect » disponible au paiement
       </p>
