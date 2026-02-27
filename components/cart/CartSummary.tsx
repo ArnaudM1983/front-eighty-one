@@ -35,10 +35,11 @@ export default function CartSummary({ cartItems, cartToken }: Props) {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/create`,
+        `${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/create`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({ cartToken }),
         }
       );

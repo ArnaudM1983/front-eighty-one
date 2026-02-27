@@ -155,9 +155,10 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         };
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}/shipping`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/${orderId}/shipping`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', 
                 body: JSON.stringify(payload),
             });
             // ... (reste de la gestion de réponse)

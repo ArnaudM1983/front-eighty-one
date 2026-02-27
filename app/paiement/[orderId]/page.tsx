@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import ShippingAddressForm, { ShippingFormRef, PUDOInfo } from "@/components/checkout/ShippingAddressForm";
-import { toast, ToastContainer } from "react-toastify"; 
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CheckoutSummary from "@/components/checkout/CheckoutSummary";
 
@@ -30,13 +30,17 @@ export default function PaiementPage() {
             if (!orderId) return;
 
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/${orderId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/${orderId}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include"
+                });
                 if (!res.ok) throw new Error("Erreur de récupération de la commande.");
-                
+
                 const data = await res.json();
-                
+
                 setOrder(data);
-                
+
                 // Initialise le subtotal une fois l'ordre chargé
                 const initialSubtotal = data?.total ? parseFloat(data.total) : 0;
                 setOrderSubtotalState(initialSubtotal);
@@ -58,17 +62,17 @@ export default function PaiementPage() {
 
         // Remplacement des alertes par des toasts d'erreur
         if (shippingMethod !== 'pickup' && shippingCost <= 0) {
-             toast.warning("Veuillez patienter pendant le calcul des frais de port.");
-             return false;
+            toast.warning("Veuillez patienter pendant le calcul des frais de port.");
+            return false;
         }
-        
+
         if (shippingMethod.includes('_pr') && !selectedPudo) {
             toast.info("Veuillez sélectionner un Point Relais avant de continuer.");
             return false;
         }
 
         setIsSaving(true);
-        
+
         // Création d'un toast de chargement (Id)
         const toastId = toast.loading("Enregistrement de vos informations...");
 
@@ -78,11 +82,11 @@ export default function PaiementPage() {
 
             if (success) {
                 // Mise à jour du toast en succès
-                toast.update(toastId, { 
-                    render: "Informations de livraison enregistrées.", 
-                    type: "success", 
+                toast.update(toastId, {
+                    render: "Informations de livraison enregistrées.",
+                    type: "success",
                     isLoading: false,
-                    autoClose: 6000 
+                    autoClose: 6000
                 });
 
                 setTimeout(() => {
@@ -91,11 +95,11 @@ export default function PaiementPage() {
 
                 return true;
             } else {
-                toast.update(toastId, { 
-                    render: "Erreur lors de la validation du formulaire.", 
-                    type: "error", 
+                toast.update(toastId, {
+                    render: "Erreur lors de la validation du formulaire.",
+                    type: "error",
                     isLoading: false,
-                    autoClose: 3000 
+                    autoClose: 3000
                 });
                 return false;
             }
@@ -114,7 +118,7 @@ export default function PaiementPage() {
     const orderIdString = orderId as string;
     const orderTotalWeight = order?.totalWeight || 0; // Valeur en grammes
     const orderItems = order?.items || [];
-    
+
     // 💡 EXTRACTION DU CODE POSTAL ET DU PAYS DE L'ADRESSE PAR DÉFAUT
     const customerPostalCode = order?.shippingAddress?.postalCode || '';
     const customerCountryCode = order?.shippingAddress?.countryCode || '';

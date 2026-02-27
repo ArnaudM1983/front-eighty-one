@@ -5,7 +5,7 @@ export async function addToCart(
   variantId: number | null,
   quantity: number
 ) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/add`, {
+  const res = await fetch('/api-proxy/api/cart/add', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

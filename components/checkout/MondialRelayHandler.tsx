@@ -51,9 +51,6 @@ interface MondialRelayHandlerProps {
 const MODE_ID = 'mondial_relay_pr';
 const MODE_CODE = 'pr';
 
-/**
- * Formate le temps HHmm en HH:mm (ex: 0900 -> 09:00)
- */
 const formatTime = (t: string | undefined | null) => {
     if (!t) return "";
     return `${t.substring(0, 2)}:${t.substring(2, 4)}`;
@@ -106,9 +103,11 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
             setLoadingPrice(true);
             if (error) setError(null);
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/shipping/calculate`, {
+                // CORRECTION : Proxy + Credentials
+                const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/shipping/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: "include",
                     body: JSON.stringify({
                         totalWeight,
                         modeCode: MODE_CODE,
@@ -136,9 +135,11 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
             const MAX_RETRIES = 5;
 
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/pudo/search`, {
+                // CORRECTION : Proxy + Credentials
+                const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/pudo/search`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: "include",
                     body: JSON.stringify({
                         postalCode: searchPostalCode,
                         countryCode: effectiveCountryCode,
@@ -207,7 +208,6 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                             <p className="text-sm text-gray-500">{localPudo.address}, {localPudo.postalCode} {localPudo.city}</p>
                         </div>
 
-                        {/* AFFICHAGE DES HORAIRES (STYLE COLLISSIMO) */}
                         {localPudo.hours && (
                             <div className="mt-4 border-t border-gray-100 pt-3">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase mb-2 tracking-widest">Horaires d'ouverture</p>
@@ -241,7 +241,6 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                 </button>
             </div>
 
-            {/* MODALE REFAITE AVEC STYLE FLOU ET MODERNE */}
             {isModalOpen && (
                 <div
                     className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
@@ -251,8 +250,6 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                         className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[85vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300"
                         onClick={(e) => e.stopPropagation()}
                     >
-
-                        {/* HEADER COMPACT */}
                         <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-50">
                             <div>
                                 <h3 className="text-lg sm:text-xl font-black uppercase text-gray-800 tracking-tight leading-none">
@@ -270,7 +267,6 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                             </button>
                         </div>
 
-                        {/* BARRE DE RECHERCHE OPTIMISÉE (Côte à côte sur mobile) */}
                         <div className="p-3 sm:p-4 bg-gray-50 border-b border-gray-100">
                             <div className="flex flex-row items-end gap-2 max-w-2xl mx-auto">
                                 <div className="flex-1">
@@ -296,7 +292,6 @@ const MondialRelayHandler: React.FC<MondialRelayHandlerProps> = ({
                             </div>
                         </div>
 
-                        {/* ZONE DE CARTE / ERROR */}
                         <div className='flex-1 relative bg-slate-50'>
                             {error && (
                                 <div className="absolute top-4 left-4 right-4 z-1000 p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl">
