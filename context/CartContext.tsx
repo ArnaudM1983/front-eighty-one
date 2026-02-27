@@ -33,12 +33,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  // Utilisation systématique du proxy pour les appels Client
+  const API_BASE = "/api-proxy";
+
   const fetchCart = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart`, {
-        credentials: "include",
+      const res = await fetch(`${API_BASE}/api/cart`, {
+        credentials: "include", // Important pour Safari
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -58,7 +61,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setCartItems(items);
       setCartToken(data.cartToken || "");
     } catch (err) {
-      console.error(err);
+      console.error("Erreur fetchCart:", err);
       setError("Impossible de récupérer le panier.");
     } finally {
       setLoading(false);
@@ -72,19 +75,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const updateQuantity = async (id: number, qty: number) => {
     setCartItems(prev => prev.map(i => i.id === id ? { ...i, quantity: qty } : i));
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/update/${id}`, {
+      const res = await fetch(`${API_BASE}/api/cart/update/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ quantity: qty }),
       });
       const data = await res.json();
+      
       if (data.availableStock !== undefined && qty > data.availableStock) {
         setCartItems(prev =>
           prev.map(i => i.id === id ? { ...i, quantity: data.availableStock } : i)
         );
         setError(`Stock disponible : ${data.availableStock}`);
       }
+      
       if (!res.ok && data.availableStock === undefined) {
         fetchCart();
       }
@@ -96,7 +101,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const removeItem = async (id: number) => {
     setCartItems(prev => prev.filter(i => i.id !== id));
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/remove/${id}`, {
+      const res = await fetch(`${API_BASE}/api/cart/remove/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -106,7 +111,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Cette fonction vide l'état local immédiatement
   const clearCart = useCallback(() => {
     setCartItems([]);
     setCartToken("");

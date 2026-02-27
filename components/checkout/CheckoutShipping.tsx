@@ -64,21 +64,21 @@ const CheckoutShipping = ({
             }
             
             // 2. Cas Points Relais (Mondial Relay ou Colissimo PR)
-            // Le prix est géré par les composants Handlers respectifs
             if (selectedOption.requiresPUDO) {
                 setSelectedOptionId(selectedId);
-                // On ne force pas setShippingPrice ici pour laisser le Handler s'en charger
                 return;
             }
 
             // 3. Cas Livraison Domicile (Colissimo ss et as)
             setLoadingPrice(true);
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/shipping/calculate`, {
+                // CORRECTION : Utilisation du Proxy + Credentials pour éviter les CORS et garder la session
+                const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/shipping/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                     body: JSON.stringify({
-                        totalWeight: totalWeight, // S'assurer que c'est bien en KG (ex: 1.78)
+                        totalWeight: totalWeight,
                         modeCode: selectedOption.modeCode,
                         countryCode: customerCountryCode || 'FR', 
                     }),
@@ -92,12 +92,10 @@ const CheckoutShipping = ({
                 const data = await res.json();
                 const newPrice = data.shippingCost ? parseFloat(data.shippingCost) : 0;
 
-                // Mise à jour de la liste locale pour l'affichage du prix à côté du label
                 setOptions(prev => prev.map(opt =>
                     opt.id === selectedOption.id ? { ...opt, price: newPrice } : opt
                 ));
 
-                // Notification au parent
                 setShippingPrice(newPrice);
                 setSelectedOptionId(selectedOption.id);
 
@@ -110,15 +108,12 @@ const CheckoutShipping = ({
         };
 
         calculatePrice();
-
-    // 💡 Correction: On ne dépend plus de 'currentPrice' ou 'options' pour éviter les boucles infinies
     }, [selectedId, totalWeight, customerCountryCode, setSelectedOptionId, setShippingPrice]);
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newOptionId = event.target.value;
         const oldOption = options.find(opt => opt.id === selectedId);
 
-        // Si on change de mode, on nettoie le point relais
         if (oldOption?.requiresPUDO && newOptionId !== oldOption.id) {
             setSelectedPudo(null); 
             setShippingPrice(0); 
@@ -129,15 +124,11 @@ const CheckoutShipping = ({
 
     return (
         <div className='checkout-shipping mt-8'>
-            <p className='font-semibold mb-4 text-gray-800'>Options de livraison</p>
+            <p className='font-semibold mb-4 text-gray-800 uppercase text-xs tracking-widest'>Options de livraison</p>
 
             <div className='space-y-3'>
                 {options.map((option) => {
                     const isCurrentOption = selectedId === option.id;
-                    
-                    // Déterminer le prix à afficher
-                    // Pour les PUDO, on utilise currentPrice (mis à jour par les handlers)
-                    // Pour les autres, on utilise le prix stocké dans l'objet option
                     const priceToDisplay = (option.requiresPUDO && isCurrentOption) 
                         ? currentPrice 
                         : option.price;
@@ -146,7 +137,7 @@ const CheckoutShipping = ({
                     if (loadingPrice && isCurrentOption && !option.requiresPUDO) {
                         priceLabel = ' (calcul...)';
                     } else if (priceToDisplay === 0 && option.modeCode !== 'pickup') {
-                        priceLabel = ' (-)'; 
+                        priceLabel = ' (calculé après sélection)'; 
                     } else {
                         priceLabel = ` (${priceToDisplay.toFixed(2)}\u00A0€)`;
                     }
@@ -157,7 +148,7 @@ const CheckoutShipping = ({
                                 htmlFor={option.id}
                                 className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all ${
                                     isCurrentOption
-                                        ? 'border-[--primary] bg-blue-50/30 ring-1 ring-[--primary]'
+                                        ? 'border-[#01B0F0] bg-blue-50/30 ring-1 ring-[#01B0F0]'
                                         : 'border-gray-200 hover:border-gray-300'
                                 }`}
                             >
@@ -168,7 +159,7 @@ const CheckoutShipping = ({
                                     value={option.id}
                                     checked={isCurrentOption}
                                     onChange={handleOptionChange}
-                                    className='form-radio h-4 w-4 text-[--primary] focus:ring-[--primary]'
+                                    className='form-radio h-4 w-4 text-[#01B0F0] focus:ring-[#01B0F0]'
                                 />
                                 <span className='ml-3 text-sm font-medium text-gray-700 flex-1'>
                                     {option.label}

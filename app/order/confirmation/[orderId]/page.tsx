@@ -47,10 +47,9 @@ export default function ConfirmationPage() {
 
         const finalizeOrderClearing = async () => {
             try {
-                // Nettoyage BDD (via Cookie)
-                await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/cart/clear`, {
+                await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/cart/clear`, {
                     method: "DELETE",
-                    credentials: "include",
+                    credentials: "include", 
                 });
                 // Nettoyage Local
                 localStorage.removeItem('cart_token');

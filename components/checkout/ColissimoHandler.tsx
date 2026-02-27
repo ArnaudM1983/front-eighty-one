@@ -23,9 +23,6 @@ interface ColissimoHandlerProps {
 const MODE_ID = 'colissimo_pr';
 const MODE_CODE = 'colissimo_pr';
 
-/**
- * Formate le temps HHmm en HH:mm (ex: 0900 -> 09:00)
- */
 const formatTime = (t: string | undefined | null) => {
     if (!t) return "";
     return `${t.substring(0, 2)}:${t.substring(2, 4)}`;
@@ -57,19 +54,19 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
 
     const effectiveCountryCode = customerCountryCode || 'FR';
 
-    // 1. Initialisation du mode au montage
     useEffect(() => {
         setShippingMethod(MODE_ID);
     }, [setShippingMethod]);
 
-    // 2. Calcul du prix (indépendant de la sélection du point)
+    // 1. Calcul du prix via le PROXY
     useEffect(() => {
         const calculatePrice = async () => {
             setLoadingPrice(true);
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/shipping/calculate`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/shipping/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: "include", // Important pour la session
                     body: JSON.stringify({
                         totalWeight,
                         modeCode: MODE_CODE,
@@ -87,7 +84,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
         calculatePrice();
     }, [totalWeight, effectiveCountryCode, setShippingPrice]);
 
-    // 3. Recherche PUDO : Uniquement quand searchTrigger > 0
+    // 2. Recherche des points de retrait via le PROXY
     useEffect(() => {
         if (searchTrigger === 0) return;
 
@@ -97,9 +94,10 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
             const MAX_RETRIES = 3;
 
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/order/pudo/colissimo/search`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/pudo/colissimo/search`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: "include", // Indispensable pour Safari
                     body: JSON.stringify({
                         address: searchAddress,
                         postalCode: searchPostalCode,
@@ -125,7 +123,7 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                     latitude: parseFloat(p.latitude),
                     longitude: parseFloat(p.longitude),
                     distance: p.distance,
-                    hours: p.hours // On récupère les horaires mappés par Symfony
+                    hours: p.hours 
                 }));
 
                 setPudosList(formattedPudos);
@@ -172,7 +170,6 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
                             </div>
                         </div>
 
-                        {/* AFFICHAGE DES HORAIRES */}
                         {localPudo.hours && (
                             <div className="mt-4 border-t border-gray-100 pt-3">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase mb-2 tracking-widest">Horaires d'ouverture</p>
@@ -207,116 +204,109 @@ const ColissimoHandler: React.FC<ColissimoHandlerProps> = ({
             </div>
 
             {isModalOpen && (
-    <div 
-        className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" 
-        onClick={() => setIsModalOpen(false)}
-    >
-        <div 
-            className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full max-w-5xl h-[95vh] sm:h-[85vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300" 
-            onClick={e => e.stopPropagation()}
-        >
-            {/* HEADER - Plus compact sur mobile */}
-            <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-50">
-                <div>
-                    <h3 className="text-lg sm:text-xl font-black uppercase text-gray-800 tracking-tight leading-none">
-                        Points Colissimo
-                    </h3>
-                    <p className="text-[10px] text-gray-400 font-bold uppercase mt-1 hidden sm:block">
-                        Sélectionnez votre point de retrait sur la carte
-                    </p>
-                </div>
-                <button 
-                    onClick={() => setIsModalOpen(false)} 
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-black transition-colors"
+                <div 
+                    className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" 
+                    onClick={() => setIsModalOpen(false)}
                 >
-                    <span className="text-2xl -mt-0.5">&times;</span>
-                </button>
-            </div>
+                    <div 
+                        className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full max-w-5xl h-[95vh] sm:h-[85vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300" 
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-50">
+                            <div>
+                                <h3 className="text-lg sm:text-xl font-black uppercase text-gray-800 tracking-tight leading-none">
+                                    Points Colissimo
+                                </h3>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase mt-1 hidden sm:block">
+                                    Sélectionnez votre point de retrait sur la carte
+                                </p>
+                            </div>
+                            <button 
+                                onClick={() => setIsModalOpen(false)} 
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-black transition-colors"
+                            >
+                                <span className="text-2xl -mt-0.5">&times;</span>
+                            </button>
+                        </div>
 
-            {/* BARRE DE RECHERCHE - Ultra optimisée pour l'espace */}
-            <div className="p-3 sm:p-4 bg-gray-50 border-b border-gray-100">
-                <div className="grid grid-cols-4 gap-2">
-                    {/* Code Postal */}
-                    <div className="col-span-1">
-                        <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">CP *</label>
-                        <input 
-                            type="text" 
-                            value={searchPostalCode} 
-                            onChange={e => setSearchPostalCode(e.target.value)} 
-                            maxLength={5} 
-                            className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-base sm:text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" 
-                            placeholder="69002" 
-                        />
-                    </div>
-                    {/* Ville */}
-                    <div className="col-span-2 sm:col-span-1">
-                        <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">Ville *</label>
-                        <input 
-                            type="text" 
-                            value={searchCity} 
-                            onChange={e => setSearchCity(e.target.value)} 
-                            className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-base sm:text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" 
-                            placeholder="LYON" 
-                        />
-                    </div>
-                    {/* Adresse (Cachée sur petit mobile si besoin, ou ici sur 1 col) */}
-                    <div className="hidden sm:block sm:col-span-1">
-                        <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">Adresse</label>
-                        <input 
-                            type="text" 
-                            value={searchAddress} 
-                            onChange={e => setSearchAddress(e.target.value)} 
-                            className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" 
-                            placeholder="Optionnel" 
-                        />
-                    </div>
-                    {/* Bouton OK */}
-                    <div className="col-span-1 flex items-end">
-                        <button 
-                            onClick={handleSearchClick} 
-                            disabled={loadingPudos} 
-                            className="w-full h-[45px] sm:h-[42px] bg-blue-600 text-white rounded-xl text-xs font-black hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-200 disabled:bg-blue-300 uppercase"
-                        >
-                            {loadingPudos ? "..." : "OK"}
-                        </button>
+                        <div className="p-3 sm:p-4 bg-gray-50 border-b border-gray-100">
+                            <div className="grid grid-cols-4 gap-2">
+                                <div className="col-span-1">
+                                    <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">CP *</label>
+                                    <input 
+                                        type="text" 
+                                        value={searchPostalCode} 
+                                        onChange={e => setSearchPostalCode(e.target.value)} 
+                                        maxLength={5} 
+                                        className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-base sm:text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" 
+                                        placeholder="69002" 
+                                    />
+                                </div>
+                                <div className="col-span-2 sm:col-span-1">
+                                    <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">Ville *</label>
+                                    <input 
+                                        type="text" 
+                                        value={searchCity} 
+                                        onChange={e => setSearchCity(e.target.value)} 
+                                        className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-base sm:text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" 
+                                        placeholder="LYON" 
+                                    />
+                                </div>
+                                <div className="hidden sm:block sm:col-span-1">
+                                    <label className="block text-[9px] font-black text-gray-400 uppercase mb-1 ml-1">Adresse</label>
+                                    <input 
+                                        type="text" 
+                                        value={searchAddress} 
+                                        onChange={e => setSearchAddress(e.target.value)} 
+                                        className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" 
+                                        placeholder="Optionnel" 
+                                    />
+                                </div>
+                                <div className="col-span-1 flex items-end">
+                                    <button 
+                                        onClick={handleSearchClick} 
+                                        disabled={loadingPudos} 
+                                        className="w-full h-[45px] sm:h-[42px] bg-blue-600 text-white rounded-xl text-xs font-black hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-200 disabled:bg-blue-300 uppercase"
+                                    >
+                                        {loadingPudos ? "..." : "OK"}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex-1 relative bg-slate-50">
+                            {error && (
+                                <div className="absolute top-4 left-4 right-4 z-1000 p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl">
+                                    ⚠️ {error}
+                                </div>
+                            )}
+
+                            {pudosList.length > 0 ? (
+                                <div className="h-full w-full">
+                                    <PudoMap 
+                                        key={mapKey}
+                                        pudos={pudosList}
+                                        onPudoSelect={handleMapPudoSelect}
+                                        initialLocationCP={searchPostalCode}
+                                        selectedPudoId={localPudo?.id || null}
+                                        isDisabled={false}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="h-full flex flex-col items-center justify-center text-gray-400 p-8 text-center">
+                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
+                                        <span className="text-3xl">📍</span>
+                                    </div>
+                                    <p className="text-sm font-black text-gray-600 uppercase tracking-widest">Lancez une recherche</p>
+                                    <p className="text-[11px] max-w-[200px] mt-2 font-medium leading-relaxed">
+                                        Entrez votre code postal et votre ville pour voir les points de retrait.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            {/* ZONE DE CARTE - Prend tout le reste de la place */}
-            <div className="flex-1 relative bg-slate-50">
-                {error && (
-                    <div className="absolute top-4 left-4 right-4 z-1000 p-3 rounded-xl text-[11px] font-bold text-red-700 bg-red-50 border border-red-100 shadow-xl animate-bounce">
-                        ⚠️ {error}
-                    </div>
-                )}
-
-                {pudosList.length > 0 ? (
-                    <div className="h-full w-full">
-                        <PudoMap 
-                            key={mapKey}
-                            pudos={pudosList}
-                            onPudoSelect={handleMapPudoSelect}
-                            initialLocationCP={searchPostalCode}
-                            selectedPudoId={localPudo?.id || null}
-                            isDisabled={false}
-                        />
-                    </div>
-                ) : (
-                    <div className="h-full flex flex-col items-center justify-center text-gray-400 p-8 text-center">
-                        <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
-                            <span className="text-3xl">📍</span>
-                        </div>
-                        <p className="text-sm font-black text-gray-600 uppercase tracking-widest">Lancez une recherche</p>
-                        <p className="text-[11px] max-w-[200px] mt-2 font-medium leading-relaxed">
-                            Entrez votre code postal et votre ville pour voir les points de retrait.
-                        </p>
-                    </div>
-                )}
-            </div>
-        </div>
-    </div>
-)}
+            )}
         </div>
     );
 };

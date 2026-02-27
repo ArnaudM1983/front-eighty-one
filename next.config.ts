@@ -2,25 +2,32 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   typescript: {
-    // Permet de passer l'étape de vérification qui bloque à cause de react-leaflet
     ignoreBuildErrors: true,
   },
   eslint: {
-    // Optionnel : ignore aussi les avertissements ESLint pour accélérer le build
     ignoreDuringBuilds: true,
   },
   images: {
-    // Important pour que tes affiches de films s'affichent
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api-eighty-one.explorelyon.ovh',
+        hostname: 'api-eightyone.com', // Mise à jour pour tes images produits
       },
       {
         protocol: 'https',
-        hostname: 'explorelyon.ovh',
+        hostname: 'eightyonestore.com', // Pour anticiper la bascule du domaine final
       },
     ],
+  },
+  // --- LE REVERSE PROXY POUR FIXER LE PANIER SUR SAFARI ---
+  async rewrites() {
+    return [
+      {
+        source: '/api-proxy/:path*',
+        // On utilise l'URL de ton API o2switch
+        destination: 'https://api-eightyone.com/:path*', 
+      },
+    ]
   },
 };
 

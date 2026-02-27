@@ -52,7 +52,9 @@ const ProductInfo = ({ product, isUrbanWear }: Props) => {
 
   const handleAddToCart = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${product.id}/stock`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/products/${product.id}/stock`, {
+        credentials: "include"
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const availableStock = data.stock;
