@@ -59,7 +59,7 @@ export default function CartSummary({ cartItems, cartToken }: Props) {
   };
 
   return (
-    <div className="w-full lg:w-1/3 rounded-md h-fit flex flex-col gap-4">
+    <div className="w-full lg:w-1/3 rounded-md h-screen flex flex-col gap-4">
       <h2 className="text-xl font-semibold mb-4">Récapitulatif</h2>
 
       <div className="flex justify-between text-black font-medium">
@@ -86,25 +86,7 @@ export default function CartSummary({ cartItems, cartToken }: Props) {
 
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
-      <a
-        href="/checkout/apple-pay"
-        className="mt-2 w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-800 rounded-4xl"
-      >
-        <span className="flex items-center gap-2 text-white">
-          Payer avec
-          <Image src="/apple-pay.png" alt="Apple Pay" width={42} height={42} />
-        </span>
-      </a>
-
-      <a
-        href="/checkout/google-pay"
-        className="mt-2 w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-800 rounded-4xl"
-      >
-        <span className="flex items-center gap-2 text-white">
-          Payer avec
-          <Image src="/google-pay.png" alt="Google Pay" width={42} height={42} />
-        </span>
-      </a>
+      
     </div>
   );
 }
