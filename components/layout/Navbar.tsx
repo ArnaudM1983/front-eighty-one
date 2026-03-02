@@ -91,7 +91,10 @@ const Navbar = (props: Props) => {
           <Dropdown
             title="Urban wear"
             href="/urban-wear"
-            items={[{ label: "Eighty One", href: "/urban-wear/eighty-one" }]}
+            items={[
+              { label: "Eighty One", href: "/urban-wear/eighty-one" },
+              { label: "Montana Cans", href: "/urban-wear/montana-cans" }
+            ]}
           />
           <Dropdown
             title="Accessoires & équipements"

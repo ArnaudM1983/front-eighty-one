@@ -37,6 +37,16 @@ export default async function Page() {
         buttonHref="/urban-wear/eighty-one"
       />
 
+      {/* Montana Cans */}
+      <SubCategoriesSection
+        id="subCategoriesSecond"
+        title="Montana Cans"
+        categorySlug="montana-cans"
+        description="Notre propre ligne de vêtements. Des basiques de qualité aux pièces plus graphiques, portez les valeurs de notre shop au quotidien."
+        buttonLabel="Voir plus"
+        buttonHref="/urban-wear/montana-cans"
+      />
+
       <InstagramFeed />
     </div>
   );
