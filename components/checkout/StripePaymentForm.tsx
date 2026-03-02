@@ -8,18 +8,31 @@ import { toast } from "react-toastify";
 // Initialisation de Stripe avec la clé publique
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
-export default function StripePaymentForm({ orderId }: { orderId: string }) {
+export default function StripePaymentForm({ 
+    orderId, 
+    shippingCost, 
+    shippingMethod 
+}: { 
+    orderId: string, 
+    shippingCost: number, 
+    shippingMethod: string 
+}) {
     const [clientSecret, setClientSecret] = useState<string>("");
 
     useEffect(() => {
-        // 1. Appeler Symfony pour créer le PaymentIntent
-        fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/payment/stripe/create-intent/${orderId}`, {
+        // CORRECTION : On envoie les infos de livraison actuelles au backend
+        // et on utilise le PROXY URL pour éviter les soucis de CORS/Session
+        fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/payment/stripe/create-intent/${orderId}`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ shippingCost, shippingMethod })
         })
         .then((res) => res.json())
         .then((data) => setClientSecret(data.clientSecret))
         .catch(() => toast.error("Erreur d'initialisation du paiement"));
-    }, [orderId]);
+    }, [orderId, shippingCost, shippingMethod]); // Relance si la livraison change
 
     if (!clientSecret) return <div className="text-sm text-gray-500">Chargement du module de paiement...</div>;
 
@@ -45,7 +58,6 @@ function CheckoutForm({ orderId }: { orderId: string }) {
         const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                // Redirection après succès (vers une page de confirmation)
                 return_url: `${window.location.origin}/order/confirmation/${orderId}`,
             },
         });
@@ -61,7 +73,7 @@ function CheckoutForm({ orderId }: { orderId: string }) {
             <PaymentElement id="payment-element" />
             <button 
                 disabled={isProcessing || !stripe} 
-                className="hidden" // On le cache car on va déclencher le submit via le parent
+                className="hidden"
                 id="submit-stripe"
             >
                 Payer
