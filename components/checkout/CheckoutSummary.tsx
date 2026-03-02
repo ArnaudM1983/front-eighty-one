@@ -93,7 +93,6 @@ const CheckoutSummary = ({
         // 2. Gestion selon le mode de paiement
         if (paymentType === 'cod') {
             try {
-                // CORRECTION : Proxy + Credentials pour la session
                 const response = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/${orderId}/confirm-pickup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -101,7 +100,6 @@ const CheckoutSummary = ({
                 });
 
                 if (response.ok) {
-                    // ON GARDE TON URL D'ORIGINE
                     window.location.href = `/order/confirmation/${orderId}?payment=cod`;
                 } else {
                     const errorData = await response.json();
@@ -201,7 +199,13 @@ const CheckoutSummary = ({
                         </div>
                     )}
 
-                    {paymentType === 'stripe' && <StripePaymentForm orderId={orderId} />}
+                    {paymentType === 'stripe' && (
+                        <StripePaymentForm 
+                            orderId={orderId} 
+                            shippingCost={shippingCost} 
+                            shippingMethod={shippingMethod} 
+                        />
+                    )}
 
                     {paymentType === 'paypal' && (
                         <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
@@ -227,7 +231,6 @@ const CheckoutSummary = ({
                                         });
                                         const json = await res.json();
                                         if (json.status === 'COMPLETED') {
-                                            // ON GARDE TON URL D'ORIGINE
                                             window.location.href = `/order/confirmation/${orderId}?payment=paypal`;
                                         }
                                     }}
@@ -239,7 +242,7 @@ const CheckoutSummary = ({
             </div>
 
             {paymentType !== 'paypal' && (
-                <button onClick={handleFinalSubmit} disabled={buttonIsDisabled} className="w-full mt-6 bg-[#01B0F0] text-white p-4 rounded-2xl font-bold uppercase tracking-widest disabled:opacity-50">
+                <button onClick={handleFinalSubmit} disabled={buttonIsDisabled} className="w-full mt-6 bg-[#01B0F0] text-white p-4 rounded-2xl font-bold uppercase tracking-widest disabled:opacity-50 cursor-pointer">
                     {buttonText}
                 </button>
             )}
