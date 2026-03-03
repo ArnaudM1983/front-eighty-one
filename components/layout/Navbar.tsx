@@ -102,6 +102,7 @@ const Navbar = (props: Props) => {
             items={[
               { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
               { label: "Stickers & Books", href: "/accessoires-equipements/stickers-books" },
+              { label: "Books", href: "/accessoires-equipements/books" }
             ]}
           />
           <Link href="/shop" className="hover:opacity-70 uppercase font-normal">
@@ -195,13 +196,17 @@ const Navbar = (props: Props) => {
           },
           {
             title: "Urban wear",
-            items: [{ label: "Eighty One", href: "/urban-wear/eighty-one" }],
+            items: [
+              { label: "Eighty One", href: "/urban-wear/eighty-one" },
+              { label: "Montana Cans", href: "/urban-wear/montana-cans" },
+            ],
           },
           {
             title: "Accessoires & équipements",
             items: [
               { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
               { label: "Stickers & Books", href: "/accessoires-equipements/stickers-books" },
+              { label: "Books", href: "/accessoires-equipements/books" }
             ],
           },
           { title: "Le shop", href: "/shop" },
