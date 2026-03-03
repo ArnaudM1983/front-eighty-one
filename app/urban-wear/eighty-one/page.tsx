@@ -46,8 +46,8 @@ export default async function Classiques() {
 
             <CategoryHero
                 title="Eighty One"
-                description="Portez les couleurs du shop. Notre gamme Urban Wear Eighty One est née de la rue et de la passion du graffiti. Des pièces de qualité, sérigraphiées avec soin, pour représenter la scène lyonnaise au quotidien."
-                backgroundImage="/classiques.webp"
+                description="Décliné principalement autour du logo du shop, nous vous proposons des vêtements de qualité, sérigraphiés à la main dans Lyon et aux alentours. En collaboration ou non, les vêtements Eightyone sont identifiables et appréciés depuis de nombreuses années... Rejoins le club !"
+                backgroundImage="/bandeau-urban-wear.webp"
                 scrollTargetId="productGrid"
             />
 

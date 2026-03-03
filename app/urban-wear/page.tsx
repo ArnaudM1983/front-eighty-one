@@ -23,7 +23,7 @@ export default async function Page() {
       <CategoryHero
         title="Urban Wear"
         description="Plongez dans notre univers textile. Une sélection rigoureuse de vêtements streetwear alliant confort et style, pensée pour les passionnés de glisse, d'art urbain et de culture underground."
-        backgroundImage="/bandeau-encres.png"
+        backgroundImage="/bandeau-urban-wear.webp"
         scrollTargetId="subCategoriesFirst"
       />
 
@@ -32,7 +32,7 @@ export default async function Page() {
         id="subCategoriesFirst"
         title="Eighty One"
         categorySlug="eighty-one"
-        description="Notre propre ligne de vêtements. Des basiques de qualité aux pièces plus graphiques, portez les valeurs de notre shop au quotidien."
+        description="Décliné principalement autour du logo du shop, nous vous proposons des vêtements de qualité, sérigraphiés à la main dans Lyon et aux alentours. En collaboration ou non, les vêtements Eightyone sont identifiables et appréciés depuis de nombreuses années... Rejoins le club !"
         buttonLabel="Voir plus"
         buttonHref="/urban-wear/eighty-one"
       />
@@ -42,7 +42,7 @@ export default async function Page() {
         id="subCategoriesSecond"
         title="Montana Cans"
         categorySlug="montana-cans"
-        description="Notre propre ligne de vêtements. Des basiques de qualité aux pièces plus graphiques, portez les valeurs de notre shop au quotidien."
+        description="La gamme wear de Montana propose des vêtements simples mais très qualitatifs ou des collaborations régulières avec les meilleurs artistes / graffeurs européens et mondiaux."
         buttonLabel="Voir plus"
         buttonHref="/urban-wear/montana-cans"
       />

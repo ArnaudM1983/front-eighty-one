@@ -25,7 +25,7 @@ async function getProducts() {
 
 export const metadata = {
     title: "Montana Cans | Urban Wear & Streetwear Lyon",
-    description: "Découvrez la collection Urban Wear exclusive d'Eightyone Store. T-shirts, hoodies et accessoires conçus par et pour la culture graffiti lyonnaise."
+    description: "Découvrez la gamme de vêtements Montana Cans chez Eightyone Store. Hoodies, t-shirts et collaborations exclusives avec les meilleurs graffeurs mondiaux."
 };
 
 export default async function Classiques() {
@@ -46,8 +46,8 @@ export default async function Classiques() {
 
             <CategoryHero
                 title="Montana Cans"
-                description="Portez les couleurs du shop. Notre gamme Urban Wear Eighty One est née de la rue et de la passion du graffiti. Des pièces de qualité, sérigraphiées avec soin, pour représenter la scène lyonnaise au quotidien."
-                backgroundImage="/classiques.webp"
+                description="La gamme wear de Montana propose des vêtements simples mais très qualitatifs ou des collaborations régulières avec les meilleurs artistes / graffeurs européens et mondiaux."
+                backgroundImage="/bandeau-urban-wear.webp"
                 scrollTargetId="productGrid"
             />
 
