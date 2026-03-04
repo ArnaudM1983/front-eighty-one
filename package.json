@@ -12,6 +12,8 @@
     "@paypal/react-paypal-js": "^8.9.2",
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.6.0",
+    "@types/dompurify": "^3.2.0",
+    "dompurify": "^3.3.1",
     "embla-carousel-react": "^8.6.0",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
