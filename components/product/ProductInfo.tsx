@@ -82,7 +82,12 @@ const ProductInfo = ({ product, isUrbanWear }: Props) => {
         <h2 className="text-3xl font-bold text-gray-900">{product.name}</h2>
       </div>
 
-      {product.excerpt && <p className="text-gray-600 leading-relaxed">{product.excerpt}</p>}
+      {product.excerpt && (
+        <div 
+          className="text-gray-600 leading-relaxed whitespace-normal editor-content"
+          dangerouslySetInnerHTML={{ __html: product.excerpt }} 
+        />
+      )}
       <p className="text-4xl text-gray-900 font-bold">{product.price} €</p>
 
       <div className="mt-4">
