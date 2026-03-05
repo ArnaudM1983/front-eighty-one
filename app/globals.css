@@ -105,4 +105,13 @@ h5 {
     border-radius: 10px;
 }
 
+/* Désactive l'interaction avec les éléments dans les slides cachés ou clonés */
+.slick-slide[aria-hidden="true"] a,
+.slick-slide[aria-hidden="true"] button,
+.slick-slide[aria-hidden="true"] select,
+.slick-slide[aria-hidden="true"] input {
+  tab-index: -1 !important;
+  pointer-events: none;
+}
+
 

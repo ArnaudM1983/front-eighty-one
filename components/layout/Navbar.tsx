@@ -101,7 +101,7 @@ const Navbar = (props: Props) => {
             href="/accessoires-equipements"
             items={[
               { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
-              { label: "Stickers & Books", href: "/accessoires-equipements/stickers-books" },
+              { label: "Stickers", href: "/accessoires-equipements/stickers-books" },
               { label: "Books", href: "/accessoires-equipements/books" }
             ]}
           />
@@ -205,7 +205,7 @@ const Navbar = (props: Props) => {
             title: "Accessoires & équipements",
             items: [
               { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
-              { label: "Stickers & Books", href: "/accessoires-equipements/stickers-books" },
+              { label: "Stickers", href: "/accessoires-equipements/stickers-books" },
               { label: "Books", href: "/accessoires-equipements/books" }
             ],
           },

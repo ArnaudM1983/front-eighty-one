@@ -24,14 +24,14 @@ export const CategoryCard = ({ name, href, image }: Props) => (
 
                 <h3 className="text-center mb-4 uppercase">{name}</h3>
 
-                <button
+                <span
                     className="group inline-block px-6 py-2 font-normal rounded-4xl border
-                    border-(--primary) bg-(--primary) text-white
-                    hover:bg-white hover:text-(--primary) hover:border-(--primary)
-                    transition-colors duration-200 cursor-pointer"
+    border-(--primary) bg-(--primary) text-white
+    hover:bg-white hover:text-(--primary) hover:border-(--primary)
+    transition-colors duration-200 cursor-pointer"
                 >
                     Voir plus
-                </button>
+                </span>
             </div>
 
         </div>
