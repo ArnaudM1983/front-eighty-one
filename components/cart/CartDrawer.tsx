@@ -35,10 +35,11 @@ export default function CartDrawer({ isOpen, close }: Props) {
       >
         {/* Close button */}
         <button
-          className="absolute top-4 right-4 text-gray-500 hover:text-red-700 cursor-pointer"
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-700 cursor-pointer p-2"
           onClick={close}
+          aria-label="Fermer le panier" 
         >
-          <X className="w-6 h-6" strokeWidth={1} />
+          <X className="w-6 h-6" strokeWidth={1} aria-hidden="true" />
         </button>
 
         <div className="p-6 h-full flex flex-col">
