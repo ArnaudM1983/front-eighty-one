@@ -12,41 +12,50 @@ const GoogleReviews = (props: Props) => {
       const container = document.querySelector(widgetId);
       if (!container) return;
 
-      // 1. SEO & Accessibilité : Remplir les alt vides (Lighthouse déteste les alt="")
-      container.querySelectorAll('img').forEach((img, i) => {
-        if (!img.getAttribute('alt')) {
-          img.setAttribute('alt', `Photo client avis Google ${i + 1}`);
+      // 1. FIX BOUTONS FLÈCHES 
+      container.querySelectorAll('button').forEach((btn) => {
+        if (!btn.getAttribute('aria-label')) {
+          const desc = btn.getAttribute('data-featurable-description')?.toLowerCase() || "";
+          const isLeft = desc.includes('left') || btn.classList.contains('carousel__btn--left');
+          const isRight = desc.includes('right') || btn.classList.contains('carousel__btn--right');
+          
+          if (isLeft) btn.setAttribute('aria-label', "Avis précédent");
+          else if (isRight) btn.setAttribute('aria-label', "Avis suivant");
+          else btn.setAttribute('aria-label', "En savoir plus"); 
         }
       });
 
-      // 2. Accessibilité : Nommer les boutons (flèches du slider)
-      container.querySelectorAll('button:not([aria-label])').forEach((btn) => {
-        const isLeft = btn.classList.contains('carousel__btn--left') || btn.innerHTML.includes('left');
-        btn.setAttribute('aria-label', isLeft ? "Avis précédent" : "Avis suivant");
+      // 2. FIX IMAGES (Avatars clients)
+      container.querySelectorAll('img:not([alt])').forEach((img, i) => {
+        img.setAttribute('alt', `Client Eightyone Store ${i + 1}`);
       });
 
-      // 3. ARIA : Empêcher le focus sur les slides invisibles (Slick Clones)
-      const focusablesHidden = container.querySelectorAll('[aria-hidden="true"] a, [aria-hidden="true"] button');
-      focusablesHidden.forEach((el) => {
-        el.setAttribute('tabindex', '-1');
+      // 3. FIX DESCENDANTS SÉLECTIONNABLES 
+      // On cible tous les éléments interactifs à l'intérieur de zones aria-hidden
+      const hiddenRegions = container.querySelectorAll('[aria-hidden="true"]');
+      hiddenRegions.forEach(region => {
+        const focusables = region.querySelectorAll('button, a, [tabindex="0"]');
+        focusables.forEach(el => {
+          el.setAttribute('tabindex', '-1');
+        });
       });
     };
 
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(() => {
       fixAccessibility();
     });
 
-    // On observe le body au cas où le container n'est pas encore rendu par React
     observer.observe(document.body, { childList: true, subtree: true });
 
     if (!document.querySelector('#featurable-script')) {
       const script = document.createElement("script");
       script.src = "https://featurable.com/assets/v2/carousel_default.min.js";
-      // On utilise defer pour ne pas bloquer le thread principal (Améliore le TBT)
       script.defer = true;
       script.id = "featurable-script";
       document.body.appendChild(script);
     }
+
+    setTimeout(fixAccessibility, 1000);
 
     return () => observer.disconnect();
   }, []);
@@ -58,15 +67,11 @@ const GoogleReviews = (props: Props) => {
           Témoignages Clients
         </h2>
 
-        {/* FIX CLS : On définit une hauteur minimale pour "réserver" la place.
-            Sans cela, la div fait 0px puis saute à 400px d'un coup.
-        */}
         <div
           id="featurable-71c4534e-1fe6-44ae-b3a4-4c907149a04a"
           data-featurable-async
           data-location-code="fr"
-          className="min-h-[450px] md:min-h-[380px] w-full transition-all duration-300"
-          style={{ containIntrinsicSize: '450px', contentVisibility: 'auto' }}
+          className="min-h-[500px] md:min-h-[400px] w-full transition-all"
         ></div>
       </div>
     </section>
