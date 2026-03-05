@@ -80,7 +80,7 @@ const ProductInfo = ({ product, isUrbanWear }: Props) => {
     <div className="flex flex-col gap-8">
       <div>
         <p className="uppercase text-gray-500 text-sm font-semibold tracking-wide mb-1">{brand}</p>
-        <h2 className="text-3xl font-bold text-gray-900">{product.name}</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{product.name}</h2> 
       </div>
 
       {product.excerpt && (

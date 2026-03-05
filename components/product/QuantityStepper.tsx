@@ -47,6 +47,7 @@ export default function QuantityStepper({
                 className="cursor-pointer text-sm px-2 disabled:opacity-40"
                 onClick={() => handleUpdate(quantity - 1)}
                 disabled={disableDecrement}
+                aria-label="Diminuer la quantité"
             >
                 - </button>
 
@@ -57,6 +58,7 @@ export default function QuantityStepper({
                 className="cursor-pointer text-sm px-2 disabled:opacity-40"
                 onClick={() => handleUpdate(quantity + 1)}
                 disabled={disableIncrement}
+                aria-label="Augmenter la quantité"
             >
                 +
             </button>

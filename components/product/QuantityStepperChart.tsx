@@ -58,6 +58,7 @@ const QuantityStepperChart = ({
         type="button"
         disabled={currentQty <= 1}
         onClick={decrement}
+        aria-label="Diminuer la quantité"
         className="cursor-pointer text-sm px-2 disabled:opacity-40"
       >
         -
@@ -67,6 +68,7 @@ const QuantityStepperChart = ({
         type="button"
         disabled={currentQty >= stock}
         onClick={increment}
+        aria-label="Augmenter la quantité"
         className="cursor-pointer text-sm px-2 disabled:opacity-40"
       >
         +

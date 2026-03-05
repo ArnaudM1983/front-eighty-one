@@ -20,17 +20,21 @@ export default async function Page() {
   ];
 
   return (
-    <div>
+    <>
       <div className="max-w-6xl mx-auto pt-8 px-6">
-        <Breadcrumbs crumbs={crumbs} />
+        {/* Utilisation de la balise <nav> avec aria-label pour l'accessibilité du fil d'Ariane */}
+        <nav aria-label="Fil d'Ariane">
+          <Breadcrumbs crumbs={crumbs} />
+        </nav>
       </div>
 
-      <CategoryHero
-        title="Bombes de peinture"
-        description="Eightyone Store propose un large choix de bombes de peinture, allant des incontournables à solvant aux bombes acryliques. Nous proposons aussi une large gamme de bombes techniques (vernis, apprêts) ainsi que des bombes à effets pour diversifier vos rendus!"
-        backgroundImage="/bandeau-spray-global.webp"
-        scrollTargetId="subCategoriesFirst"
-      />
+      <main>
+        <CategoryHero
+          title="Bombes de peinture"
+          description="Eightyone Store propose un large choix de bombes de peinture, allant des incontournables à solvant aux bombes acryliques. Nous proposons aussi une large gamme de bombes techniques (vernis, apprêts) ainsi que des bombes à effets pour diversifier vos rendus!"
+          backgroundImage="/bandeau-spray-global.webp"
+          scrollTargetId="subCategoriesFirst"
+        />
 
       {/* Bombes classiques */}
       <SubCategoriesSection
@@ -80,6 +84,7 @@ export default async function Page() {
       />
 
       <InstagramFeed />
-    </div>
+      </main>
+    </>
   );
 }

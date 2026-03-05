@@ -15,17 +15,20 @@ export default async function Page() {
   ];
 
   return (
-    <div>
+    <>
       <div className="max-w-6xl mx-auto pt-8 px-6">
-        <Breadcrumbs crumbs={crumbs} />
+        <nav aria-label="Fil d'Ariane">
+          <Breadcrumbs crumbs={crumbs} />
+        </nav>
       </div>
 
-      <CategoryHero
-        title="Marqueurs & encres"
-        description="Large choix disponible, du marqueur au squeezer, qu’il soit plein ou vide, de différentes tailles et diamètres . Vous trouverez aussi les encres adaptées au remplissage, toutes testées par nos soins et approuvées pour leur résistance et leurs qualités !"
-        backgroundImage="/bandeau-encres.png"
-        scrollTargetId="subCategoriesFirst"
-      />
+      <main>
+        <CategoryHero
+          title="Marqueurs & encres"
+          description="Large choix disponible, du marqueur au squeezer, qu’il soit plein ou vide, de différentes tailles et diamètres . Vous trouverez aussi les encres adaptées au remplissage, toutes testées par nos soins et approuvées pour leur résistance et leurs qualités !"
+          backgroundImage="/bandeau-encres.png"
+          scrollTargetId="subCategoriesFirst"
+        />
 
       {/* Les encres */}
       <SubCategoriesSection
@@ -84,6 +87,7 @@ export default async function Page() {
       />
 
       <InstagramFeed />
-    </div>
+      </main>
+    </>
   );
 }
