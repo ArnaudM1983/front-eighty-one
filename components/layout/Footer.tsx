@@ -23,9 +23,18 @@ const Footer = (props: Props) => {
               </Link>
             </div>
 
-            <Link href="https://www.instagram.com/81store/?hl=fr" target="blank">
+            <Link
+              href="https://www.instagram.com/81store/?hl=fr"
+              target="_blank"             
+              rel="noopener noreferrer"    
+              aria-label="Suivre Eighty One Store sur Instagram" 
+            >
               <div className="mt-4">
-                <Instagram className="h-6 w-6 hover:text-(--primary)" strokeWidth={1} />
+                <Instagram
+                  className="h-6 w-6 hover:text-(--primary)"
+                  strokeWidth={1}
+                  aria-hidden="true"
+                />
               </div>
             </Link>
 
@@ -66,7 +75,8 @@ const Footer = (props: Props) => {
               </a>
               <ul className="mt-6 space-y-4 text-sm">
                 <li><a href="/accessoires-equipements/protections-equipements" className="text-gray-700 transition hover:opacity-75">Protections & équipements</a></li>
-                <li><a href="/accessoires-equipements/stickers-books" className="text-gray-700 transition hover:opacity-75">Stickers & books</a></li>
+                <li><a href="/accessoires-equipements/stickers-books" className="text-gray-700 transition hover:opacity-75">Stickers</a></li>
+                <li><a href="/accessoires-equipements/books" className="text-gray-700 transition hover:opacity-75">Books</a></li>
               </ul>
             </div>
 

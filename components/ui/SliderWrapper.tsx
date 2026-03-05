@@ -13,7 +13,7 @@ type Props = {
 };
 
 const SlickArrowFix = ({ onClick }: { onClick?: () => void }) => (
-  <button type="button" onClick={onClick} className="hidden" />
+  <button type="button" onClick={onClick} className="hidden" aria-label="Bouton technique" />
 );
 
 export default function SliderWrapper({
@@ -89,6 +89,7 @@ export default function SliderWrapper({
         <button
           onClick={() => sliderRef.current?.slickPrev()}
           className="hover:scale-110 transition-transform cursor-pointer"
+          aria-label="Afficher l'élément précédent"
         >
           <CircleArrowLeft size={35} color="#333333" strokeWidth={1.2} />
         </button>
@@ -96,6 +97,7 @@ export default function SliderWrapper({
         <button
           onClick={() => sliderRef.current?.slickNext()}
           className="hover:scale-110 transition-transform cursor-pointer"
+          aria-label="Afficher l'élément suivant"
         >
           <CircleArrowRight size={35} color="#333333" strokeWidth={1.2} />
         </button>
