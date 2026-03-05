@@ -53,6 +53,7 @@ const ProductGallery = ({ mainImage, images, alt }: Props) => {
         <button
           onClick={prevImage}
           className="absolute top-1/2 left-2 -translate-y-1/2 z-10 bg-white/70 p-1 rounded-full md:hidden"
+          aria-label="Image précédente"
         >
           <ChevronLeft size={24} />
         </button>
@@ -61,6 +62,7 @@ const ProductGallery = ({ mainImage, images, alt }: Props) => {
         <button
           onClick={nextImage}
           className="absolute top-1/2 right-2 -translate-y-1/2 z-10 bg-white/70 p-1 rounded-full md:hidden"
+          aria-label="Image suivante"
         >
           <ChevronRight size={24} />
         </button>
