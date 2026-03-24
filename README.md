@@ -61,6 +61,10 @@ Le processus de commande est le cœur de l'application. Voici son déroulement :
 *   Node.js & npm (ou yarn/pnpm)
 *   PHP & Composer
 *   Un serveur de base de données (ex: MySQL, PostgreSQL)
+*   Clés API pour Stripe, PayPal, Mondial Relay (pour le backend)
+*   Clés API pour Google Maps (si utilisée pour les points relais sur le frontend)
+*   Un compte Instagram (pour le feed)
+*   Un compte Google My Business (pour les avis)
 
 ### 1. Backend (Symfony)
 ```bash
@@ -71,7 +75,13 @@ cd ../api
 composer install
 
 # 3. Configurer les variables d'environnement
-# Créez un fichier .env.local et configurez la base de données, les clés API Stripe/PayPal, etc.
+# Créez un fichier .env.local et configurez les variables suivantes :
+# DATABASE_URL="mysql://user:password@127.0.0.1:3306/database_name?serverVersion=5.7&charset=utf8mb4"
+# STRIPE_SECRET_KEY="sk_test_..."
+# PAYPAL_CLIENT_ID="AZY..."
+# PAYPAL_SECRET="EGY..."
+# MONDIAL_RELAY_API_KEY="YOUR_MONDIAL_RELAY_API_KEY"
+# INSTAGRAM_ACCESS_TOKEN="YOUR_INSTAGRAM_ACCESS_TOKEN"
 cp .env .env.local
 
 # 4. Mettre en place la base de données
