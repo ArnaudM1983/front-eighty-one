@@ -15,6 +15,7 @@ type ProductVariant = {
   stock: number;
   image: string | null;
   attributes: Record<string, any>;
+  active: boolean;
 };
 
 type Props = {
@@ -25,15 +26,16 @@ type Props = {
 
 const ColorChart = ({ productId, variants, title }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const visibleVariants = variants.filter(v => v.active !== false);
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
-    () => Object.fromEntries(variants.map((v) => [v.id, 0]))
+    () => Object.fromEntries(visibleVariants.map((v) => [v.id, 0]))
   );
 
   const { refreshCart } = useCart(); 
 
-  if (!variants || variants.length === 0) return null;
+  if (!visibleVariants || visibleVariants.length === 0) return null;
 
-  const filteredVariants = variants.filter((variant) =>
+  const filteredVariants = visibleVariants.filter((variant) =>
     variant.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
