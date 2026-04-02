@@ -52,6 +52,7 @@ const Footer = (props: Props) => {
                 <li><a href="/bombes-de-peinture/techniques" className="text-gray-700 transition hover:opacity-75">Techniques</a></li>
                 <li><a href="/bombes-de-peinture/effets" className="text-gray-700 transition hover:opacity-75">Effets</a></li>
                 <li><a href="/bombes-de-peinture/caps" className="text-gray-700 transition hover:opacity-75">Caps</a></li>
+                <li><a href="/bombes-de-peinture/collector" className="text-gray-700 transition hover:opacity-75">Collectors</a></li>
               </ul>
             </div>
 
