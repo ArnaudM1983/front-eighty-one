@@ -87,7 +87,7 @@ export default async function Page() {
       <SubCategoriesSection
         title="Les Collectors - Editions limitées"
         categorySlug="collector-editions-limitees"
-        description="Des plus petits aux plus diffus, le choix des caps est important dans la technique,  et vous aidera à obtenir une plus grande précision d’exécution."
+        description="Découvrez nos séries limitées et collaborations exclusives. Véritables objets de collection, ces bombes célèbrent l'art urbain à travers des designs uniques créés par des artistes de renommée internationale."
         buttonLabel="Voir plus"
         buttonHref="/bombes-de-peinture/collector"
       />
