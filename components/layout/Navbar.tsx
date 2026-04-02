@@ -74,6 +74,7 @@ const Navbar = (props: Props) => {
               { label: "Techniques", href: "/bombes-de-peinture/techniques" },
               { label: "Effets", href: "/bombes-de-peinture/effets" },
               { label: "Caps", href: "/bombes-de-peinture/caps" },
+              { label: "Collectors", href: "/bombes-de-peinture/collector" }
             ]}
           />
           <Dropdown
@@ -181,6 +182,7 @@ const Navbar = (props: Props) => {
               { label: "Techniques", href: "/bombes-de-peinture/techniques" },
               { label: "Effets", href: "/bombes-de-peinture/effets" },
               { label: "Caps", href: "/bombes-de-peinture/caps" },
+              { label: "Collectors", href: "/bombes-de-peinture/collector" }
             ],
           },
           {

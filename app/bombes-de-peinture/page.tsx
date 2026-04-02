@@ -83,6 +83,15 @@ export default async function Page() {
         buttonHref="/bombes-de-peinture/caps"
       />
 
+      {/* Collector */}
+      <SubCategoriesSection
+        title="Les Collectors - Editions limitées"
+        categorySlug="collector-editions-limitees"
+        description="Des plus petits aux plus diffus, le choix des caps est important dans la technique,  et vous aidera à obtenir une plus grande précision d’exécution."
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/collector"
+      />
+
       <InstagramFeed />
       </main>
     </>
