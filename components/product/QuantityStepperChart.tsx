@@ -28,7 +28,7 @@ const QuantityStepperChart = ({
   }, [stock]);
 
   const decrement = () => {
-    const newQty = Math.max(1, currentQty - 1);
+    const newQty = Math.max(0, currentQty - 1);
     setCurrentQty(newQty);
     onChange?.(newQty);
   };
@@ -56,7 +56,7 @@ const QuantityStepperChart = ({
     <div className={`${commonClasses} border border-gray-400 bg-white`} style={{ height, minWidth }}>
       <button
         type="button"
-        disabled={currentQty <= 1}
+        disabled={currentQty <= 0}
         onClick={decrement}
         aria-label="Diminuer la quantité"
         className="cursor-pointer text-sm px-2 disabled:opacity-40"
