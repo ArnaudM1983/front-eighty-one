@@ -14,6 +14,7 @@ type ProductVariant = {
     stock: number;
     image: string | null;
     attributes: Record<string, any>;
+    active: boolean;
 };
 
 type ProductCategory = {
