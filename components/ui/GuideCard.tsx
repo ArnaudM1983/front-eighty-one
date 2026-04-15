@@ -11,7 +11,14 @@ interface GuideCardProps {
   guide: Guide;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_SYMFONY_API_URL?.replace(/\/$/, '') || '';
+
 export default function GuideCard({ guide }: GuideCardProps) {
+  
+  const imageUrl = guide.image 
+    ? `${API_URL}${guide.image.startsWith('/') ? '' : '/'}${guide.image}` 
+    : "/api/placeholder/800/350";
+
   return (
     <Link href={`/guides/${guide.slug}`} className="group">
       <div className="bg-white border border-gray-100 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg flex flex-col h-full">
@@ -20,7 +27,7 @@ export default function GuideCard({ guide }: GuideCardProps) {
         <div className="aspect-[21/9] bg-gray-200 relative overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src={guide.image || "/api/placeholder/800/350"} 
+            src={imageUrl} 
             alt={guide.title}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
           />
