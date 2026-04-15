@@ -35,7 +35,7 @@ export default async function GuidesPage() {
 
       <main>
         <CategoryHero
-          title="Guides d'Expertise"
+          title="Guides d'expertise"
           description="Choisir le bon outil est la moitié du travail, savoir s'en servir est l'autre. De la préparation des supports à la gestion de la pression, l'équipe Eightyone décortique pour vous le matériel pro."
           backgroundImage="/bandeau-guides.webp"
           scrollTargetId="guidesStart"
