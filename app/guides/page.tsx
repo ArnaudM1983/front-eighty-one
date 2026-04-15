@@ -5,7 +5,8 @@ import { Metadata } from "next";
 
 async function getGuides() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/guides`, {
-    next: { revalidate: 3600 } 
+    method: "GET",
+    cache: "no-store",
   });
   if (!res.ok) return [];
   return res.json();
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default async function GuidesPage() {
-  const guides = await getGuides(); 
+  const guides = await getGuides();
 
   const crumbs = [
     { label: "Accueil", href: "/" },
@@ -36,13 +37,13 @@ export default async function GuidesPage() {
         <CategoryHero
           title="Guides d'Expertise"
           description="Choisir le bon outil est la moitié du travail, savoir s'en servir est l'autre. De la préparation des supports à la gestion de la pression, l'équipe Eightyone décortique pour vous le matériel pro."
-          backgroundImage="/bandeau-guides.webp" 
+          backgroundImage="/bandeau-guides.webp"
           scrollTargetId="guidesStart"
         />
 
         <section id="guidesStart" className="px-8 pt-16 pb-24 bg-(--background-secondary)">
           <div className="max-w-6xl mx-auto">
-            
+
             <div className="mb-12">
               <h2 className="text-3xl font-extrabold uppercase tracking-tighter">Tous nos guides</h2>
             </div>
@@ -55,7 +56,7 @@ export default async function GuidesPage() {
             </div>
 
             {guides.length === 0 && (
-                <p className="text-center text-gray-500 py-10">Aucun guide n'est disponible pour le moment.</p>
+              <p className="text-center text-gray-500 py-10">Aucun guide n'est disponible pour le moment.</p>
             )}
 
           </div>

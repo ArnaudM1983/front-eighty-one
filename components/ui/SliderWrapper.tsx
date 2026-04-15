@@ -80,7 +80,7 @@ export default function SliderWrapper({
   }
 
   return (
-    <div className="relative group px-1">
+    <div className="relative px-1">
       <Slider ref={sliderRef} {...settings} key={currentSlidesToShow}>
         {children}
       </Slider>

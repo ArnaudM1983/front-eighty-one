@@ -31,21 +31,20 @@ const RelatedProductsSection = ({
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-6">
                     <div className="flex-1">
-                        <div className="text-[var(--primary)] text-[10px] font-black uppercase tracking-[0.3em] mb-3">
+                        <div className="text-(--primary) text-[10px] font-black uppercase tracking-[0.3em] mb-3">
                             Equipement recommandé
                         </div>
                         <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-black mb-4">
                             {title}
                         </h2>
                         {description && (
-                            <p className="text-gray-600 max-w-2xl italic border-l-2 border-[var(--primary)] pl-4 text-sm md:text-base">
+                            <p className="text-gray-600 max-w-2xl italic border-l-2 border-(--primary) pl-4 text-sm md:text-base">
                                 {description}
                             </p>
                         )}
                     </div>
                     <ButtonLink 
-                        href="/shop" 
-                        className="whitespace-nowrap bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--primary)] hover:text-black transition-all duration-300"
+                        href="/" 
                     >
                         Voir tout le shop
                     </ButtonLink>
@@ -140,18 +139,18 @@ export default async function GuideDetailPage({ params }: Props) {
                 <div className="pt-8"><Breadcrumbs crumbs={crumbs} /></div>
 
                 <header className="pt-12 pb-12">
-                    <div className="text-[var(--primary)] text-xs font-bold uppercase tracking-[0.2em] mb-4">
+                    <div className="text-(--primary) text-xs font-bold uppercase tracking-[0.2em] mb-4">
                         Tuto & Expertise Eightyone
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6 text-black">
+                    <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6 text-black">
                         {guide.title}
                     </h1>
-                    <p className="text-lg text-gray-600 max-w-3xl italic border-l-4 border-[var(--primary)] pl-6">
+                    <p className="text-lg text-gray-600 max-w-3xl italic border-l-4 border-(--primary) pl-6">
                         {guide.description}
                     </p>
                 </header>
 
-                <div className="mb-16 aspect-[21/9] w-full overflow-hidden rounded-2xl bg-gray-100 shadow-xl border border-gray-100">
+                <div className="mb-16 aspect-21/9 w-full overflow-hidden rounded-2xl bg-gray-100 shadow-xl border border-gray-100">
                     <img src={heroImage} alt={guide.title} className="w-full h-full object-cover" />
                 </div>
 
@@ -175,22 +174,22 @@ export default async function GuideDetailPage({ params }: Props) {
                         </div>
                     </div>
 
-                    <div className="bg-black text-white p-10 md:p-14 relative overflow-hidden border-t-8 border-[var(--primary)] transition-all duration-300 group-hover:translate-y-[-5px]">
-                        <div className="absolute -bottom-10 -right-10 p-8 opacity-15 font-black text-9xl text-[var(--primary)] leading-none rotate-[-10deg] pointer-events-none">81</div>
-                        <div className="text-[var(--primary)] font-bold uppercase tracking-[0.2em] text-[11px] mb-5 relative z-10">Le réflexe pro</div>
+                    <div className="bg-black text-white p-10 md:p-14 relative overflow-hidden border-t-8 border-(--primary) transition-all duration-300 group-hover:translate-y-[-5px]">
+                        <div className="absolute -bottom-10 -right-10 p-8 opacity-15 font-black text-9xl text-(--primary) leading-none rotate-[-10deg] pointer-events-none">81</div>
+                        <div className="text-(--primary) font-bold uppercase tracking-[0.2em] text-[11px] mb-5 relative z-10">Le réflexe pro</div>
                         <p className="text-3xl font-black uppercase tracking-tighter mb-8 relative z-10 leading-none text-white">
                             {guide.switcher?.expert?.title}
                         </p>
                         <div className="space-y-6 relative z-10">
                             {guide.switcher?.expert?.points?.map((point: any, index: number) => (
                                 <div key={index} className="flex gap-4">
-                                    <div className="bg-[var(--primary)] h-6 w-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                                    <div className="bg-(--primary) h-6 w-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-black">
                                             <path fillRule="evenodd" d="M16.704 4.176a.75.75 0 0 1 .143 1.045l-7.225 10.081a.75.75 0 0 1-1.138.085l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.894 3.894 6.721-9.366a.75.75 0 0 1 1.045-.143Z" clipRule="evenodd" />
                                         </svg>
                                     </div>
                                     <p className="text-gray-300 text-sm leading-relaxed">
-                                        <strong className="text-[var(--primary)] block mb-1 font-bold">{point.subtitle}</strong>
+                                        <strong className="text-(--primary) block mb-1 font-bold">{point.subtitle}</strong>
                                         {point.description}
                                     </p>
                                 </div>
@@ -203,7 +202,7 @@ export default async function GuideDetailPage({ params }: Props) {
                     <main className="lg:col-span-8">
                         <div
                             className="prose prose-zinc max-w-none text-left
-                            [&_p]:mb-6 [&_p]:text-gray-600 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:text-[var(--primary)] [&_h2]:mt-12 [&_h2]:mb-6 [&_h2]:border-l-4 [&_h2]:border-black [&_h2]:pl-4
+                            [&_p]:mb-6 [&_p]:text-gray-600 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:text-(--primary) [&_h2]:mt-12 [&_h2]:mb-6 [&_h2]:border-l-4 [&_h2]:border-black [&_h2]:pl-4
                             [&_p:first-of-type]:text-xl [&_p:first-of-type]:text-black [&_p:first-of-type]:font-medium [&_p:first-of-type]:border-b [&_p:first-of-type]:pb-6
                             [&_ol]:list-decimal [&_ol]:pl-6 [&_ol_li]:mb-4 [&_ol_li]:text-gray-700
                             [&_ul]:list-disc [&_ul]:pl-6 [&_ul_li]:mb-4 [&_ul_li]:text-gray-700"
@@ -212,13 +211,13 @@ export default async function GuideDetailPage({ params }: Props) {
 
                         {/* FAQ */}
                         <section className="bg-gray-50 py-10 px-8 rounded-2xl mt-16 border border-gray-100">
-                            <h2 className="text-2xl font-black uppercase text-black mb-8 border-none !pl-0">Les questions posées au shop</h2>
+                            <h2 className="text-2xl font-black uppercase text-black mb-8 border-none pl-0!">Les questions posées au shop</h2>
                             <div className="space-y-3">
                                 {guide.faq?.map((item: any, index: number) => (
                                     <details key={index} className="group bg-white rounded-lg border border-gray-100 overflow-hidden shadow-sm">
                                         <summary className="flex cursor-pointer items-center justify-between p-5 font-bold text-gray-800 list-none">
                                             <span>{item.question}</span>
-                                            <span className="text-[var(--primary)] transition-transform duration-300 group-open:rotate-180">↓</span>
+                                            <span className="text-(--primary) transition-transform duration-300 group-open:rotate-180">↓</span>
                                         </summary>
                                         <div className="px-5 pb-5 text-gray-600 text-sm italic border-t border-gray-50 pt-4">{item.answer}</div>
                                     </details>
@@ -237,7 +236,7 @@ export default async function GuideDetailPage({ params }: Props) {
                                 ))}
                             </div>
                         </div>
-                        <div className="bg-[var(--primary)] text-white rounded-3xl p-6 relative overflow-hidden">
+                        <div className="bg-(--primary) text-white rounded-3xl p-6 relative overflow-hidden">
                             <div className="relative z-10">
                                 <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 opacity-80">L'avis Eightyone</p>
                                 <p className="text-sm font-bold leading-snug">Une question technique ? Nos experts vous conseillent directement au shop de Lyon.</p>
@@ -249,8 +248,8 @@ export default async function GuideDetailPage({ params }: Props) {
             </div>
 
             <RelatedProductsSection
-                title={hasExpertProducts ? "L'Arsenal de l'Expert" : "Le matos indispensable"}
-                description={hasExpertProducts ? "Retrouvez les aérosols et accessoires utilisés dans ce guide." : "Les incontournables du shop pour réussir votre projet."}
+                title={hasExpertProducts ? "La sélection Pro" : "Le matos indispensable"}
+                description={hasExpertProducts ? "Retrouvez le matériel utilisé dans ce guide." : "Les incontournables du shop pour réussir votre projet."}
                 products={finalProducts}
             />
         </article>
