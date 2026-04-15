@@ -35,7 +35,7 @@ export default function GuideCard({ guide }: GuideCardProps) {
 
         {/* Contenu textuel */}
         <div className="p-6 flex flex-col flex-grow">
-          <div className="text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-2">
+          <div className="text-(--primary) text-[10px] font-bold uppercase tracking-widest mb-2">
             Expertise Eightyone
           </div>
           

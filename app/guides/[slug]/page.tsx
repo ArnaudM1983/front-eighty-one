@@ -97,7 +97,7 @@ async function fetchExpertProducts(slugs: string[]) {
  * Fallback si aucun produit n'est lié
  */
 const FALLBACK_PRODUCTS = [
-    { id: "f1", name: "MTN 94 - Basse Pression", slug: "mtn-94-400ml", price: 4.30, main_image: "/api/placeholder/400/400" },
+    { id: "f1", name: "Montana BLACK", slug: "mtn-blk-400ml", price: 4.30, main_image: "/api/placeholder/400/400" },
     { id: "f2", name: "Apprêt Universel", slug: "appret-universel-mtn", price: 8.50, main_image: "/api/placeholder/400/400" },
 ];
 
@@ -107,10 +107,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!guide) return { title: "Guide introuvable | Eightyone" };
 
+    const heroImage = guide.image ? `${API_URL}/${guide.image}` : `${BASE_URL}/default-og-image.jpg`;
+
     return {
         title: `${guide.title} | Expertise Eightyone Store Lyon`,
         description: guide.description,
         alternates: { canonical: `${BASE_URL}/guides/${slug}` },
+        openGraph: {
+            title: guide.title,
+            description: guide.description,
+            url: `${BASE_URL}/guides/${slug}`,
+            siteName: 'Eightyone Store',
+            images: [
+                {
+                    url: heroImage,
+                    width: 1200,
+                    height: 630,
+                    alt: guide.title,
+                },
+            ],
+            type: 'article',
+        },
+        // Optionnel : Pour Twitter/X
+        twitter: {
+            card: 'summary_large_image',
+            title: guide.title,
+            description: guide.description,
+            images: [heroImage],
+        },
     };
 }
 
