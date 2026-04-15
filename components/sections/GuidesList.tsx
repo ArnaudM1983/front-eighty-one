@@ -30,7 +30,7 @@ export default function GuidesList({ initialGuides }: { initialGuides: any[] }) 
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Un problème technique ? (ex: vélo, marqueur, coulure...)"
+            placeholder="Un conseil ? Un problème technique ? (ex: vélo, marqueur, coulure...)"
             className="w-full pl-10 bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none caret-black text-md"
           />
         </div>
