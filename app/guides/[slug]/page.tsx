@@ -177,7 +177,7 @@ export default async function GuideDetailPage({ params }: Props) {
                     <div className="bg-black text-white p-10 md:p-14 relative overflow-hidden border-t-8 border-(--primary) transition-all duration-300 group-hover:translate-y-[-5px]">
                         <div className="absolute -bottom-10 -right-10 p-8 opacity-15 font-black text-9xl text-(--primary) leading-none rotate-[-10deg] pointer-events-none">81</div>
                         <div className="text-(--primary) font-bold uppercase tracking-[0.2em] text-[11px] mb-5 relative z-10">Le réflexe pro</div>
-                        <p className="text-3xl font-black uppercase tracking-tighter mb-8 relative z-10 leading-none text-white">
+                        <p className="text-4xl font-black uppercase tracking-tighter mb-8 relative z-10 leading-none text-white">
                             {guide.switcher?.expert?.title}
                         </p>
                         <div className="space-y-6 relative z-10">
