@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react"; // Assure-toi d'avoir installé lucide-react
-
+import { Search } from "lucide-react"; 
 type Props = {
     placeholder?: string;
     onSearch: (query: string) => void;
