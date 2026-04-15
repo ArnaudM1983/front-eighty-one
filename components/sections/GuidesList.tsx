@@ -1,20 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Search } from "lucide-react";
 import GuideCard from "@/components/ui/GuideCard";
+
+// Fonction utilitaire pour nettoyer les chaînes de caractères (minuscules + sans accents)
+const normalizeString = (str: string) => {
+  if (!str) return "";
+  return str
+    .normalize("NFD") // Sépare les lettres de leurs accents
+    .replace(/[\u0300-\u036f]/g, "") // Supprime les accents
+    .toLowerCase()
+    .trim();
+};
 
 export default function GuidesList({ initialGuides }: { initialGuides: any[] }) {
   const [search, setSearch] = useState("");
 
-  // Filtrage intelligent : vérifie dans le titre OU la description
-  const filteredGuides = initialGuides.filter((guide) => {
-    const searchLower = search.toLowerCase();
-    const titleMatch = guide.title?.toLowerCase().includes(searchLower) || false;
-    const descMatch = guide.description?.toLowerCase().includes(searchLower) || false;
-    
-    return titleMatch || descMatch;
-  });
+  const filteredGuides = useMemo(() => {
+    const searchTerms = normalizeString(search)
+      .split(/\s+/) // Sépare par les espaces
+      .filter((term) => term.length > 0); // Enlève les mots vides
+
+    if (searchTerms.length === 0) return initialGuides;
+
+    return initialGuides.filter((guide) => {
+      const titleClean = normalizeString(guide.title);
+      const descClean = normalizeString(guide.description);
+      const combinedText = `${titleClean} ${descClean}`; 
+
+      // Vérification que TOUS les mots recherchés sont présents dans le texte (dans n'importe quel ordre)
+      return searchTerms.every((term) => combinedText.includes(term));
+    });
+  }, [search, initialGuides]);
 
   return (
     <div>
