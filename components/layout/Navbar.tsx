@@ -109,6 +109,9 @@ const Navbar = (props: Props) => {
           <Link href="/shop" className="hover:opacity-70 uppercase font-normal">
             Le shop
           </Link>
+          <Link href="/guides" className="hover:opacity-70 uppercase font-normal">
+            Guides
+          </Link>
         </nav>
 
         {/* Icônes droite + Burger */}
@@ -212,6 +215,7 @@ const Navbar = (props: Props) => {
             ],
           },
           { title: "Le shop", href: "/shop" },
+          { title: "Guides", href: "/guides" },
         ]}
       />
 
