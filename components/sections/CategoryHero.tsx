@@ -38,7 +38,7 @@ const CategoryHero = ({ title, description, backgroundImage, scrollTargetId }: P
       {/* Texte */}
       <div className="absolute inset-0 z-20 max-w-6xl mx-auto px-6 flex flex-col h-full justify-start">
         <div className="text-left mt-6">
-          <h1 className="text-black mb-4">{title}</h1>
+          <h1 className="text-black mb-4 text-6xl font-bold">{title}</h1>
           <p className="text-sm lg:text-xl text-black mb-6">{description}</p>
         </div>
       </div>
