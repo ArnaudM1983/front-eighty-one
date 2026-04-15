@@ -15,14 +15,14 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyone-stor
 /**
  * Composant : Slider des produits recommandés en bas de page
  */
-const RelatedProductsSection = ({ 
-    title, 
-    products, 
-    description 
-}: { 
-    title: string; 
-    products: any[]; 
-    description?: string 
+const RelatedProductsSection = ({
+    title,
+    products,
+    description
+}: {
+    title: string;
+    products: any[];
+    description?: string
 }) => {
     if (!products || products.length === 0) return null;
 
@@ -43,8 +43,8 @@ const RelatedProductsSection = ({
                             </p>
                         )}
                     </div>
-                    <ButtonLink 
-                        href="/" 
+                    <ButtonLink
+                        href="/"
                     >
                         Voir tout le shop
                     </ButtonLink>
@@ -67,7 +67,8 @@ const RelatedProductsSection = ({
  */
 async function getGuide(slug: string) {
     const res = await fetch(`${API_URL}/api/guides/slug/${slug}`, {
-        next: { revalidate: 3600 } 
+        method: "GET",
+        cache: "no-store",
     });
     if (!res.ok) return null;
     return res.json();
@@ -103,9 +104,9 @@ const FALLBACK_PRODUCTS = [
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
     const guide = await getGuide(slug);
-    
+
     if (!guide) return { title: "Guide introuvable | Eightyone" };
-    
+
     return {
         title: `${guide.title} | Expertise Eightyone Store Lyon`,
         description: guide.description,
