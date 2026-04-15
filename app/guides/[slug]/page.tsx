@@ -189,7 +189,7 @@ export default async function GuideDetailPage({ params }: Props) {
                                             <path fillRule="evenodd" d="M16.704 4.176a.75.75 0 0 1 .143 1.045l-7.225 10.081a.75.75 0 0 1-1.138.085l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.894 3.894 6.721-9.366a.75.75 0 0 1 1.045-.143Z" clipRule="evenodd" />
                                         </svg>
                                     </div>
-                                    <p className="text-gray-300 text-sm leading-relaxed">
+                                    <p className="text-white text-sm leading-relaxed">
                                         <strong className="text-(--primary) block mb-1 font-bold">{point.subtitle}</strong>
                                         {point.description}
                                     </p>
