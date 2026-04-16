@@ -13,11 +13,15 @@ type Props = {
   title: string;
   href: string;
   items: DropdownItem[];
+  description?: string; // Prop optionnelle pour personnaliser le texte
 };
 
-export default function Dropdown({ title, href, items }: Props) {
+export default function Dropdown({ title, href, items, description }: Props) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+
+  // Texte par défaut si aucune description spécifique n'est passée
+  const fallbackDescription = `Sélection premium Eightyone Store. Retrouvez les meilleures références de ${title.toLowerCase()} pour vos projets artistiques, du matériel pro au lifestyle.`;
 
   return (
     <div className="static group flex items-center h-full">
@@ -48,14 +52,13 @@ export default function Dropdown({ title, href, items }: Props) {
           
           {/* 1. Ligne du haut : Infos Catégorie */}
           <div className="mb-8 pb-6 border-b border-gray-500/20">
-            {/* Titre avec !important pour écraser le CSS global */}
             <h3 className={`text-2xl font-bold uppercase tracking-tighter ${isHome ? "text-white!" : "text-black!"}`}>
               {title}
             </h3>
             
             <div className="flex justify-between items-end gap-10 mt-2">
               <p className={`text-sm max-w-2xl leading-relaxed ${isHome ? "text-gray-400" : "text-gray-500"}`}>
-                Sélection premium Eightyone Store. Retrouvez les meilleures références de {title.toLowerCase()} pour vos projets artistiques, du matériel pro au lifestyle.
+                {description || fallbackDescription}
               </p>
               <Link 
                 href={href} 
