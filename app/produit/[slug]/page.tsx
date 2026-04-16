@@ -179,7 +179,7 @@ export default async function ProductPage({ params }: Props) {
                             <div
                                 className="prose prose-zinc max-w-none text-left
             [&_p]:mb-6 [&_p]:text-gray-600 
-            [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:text-(--primary) [&_h2]:mt-12 [&_h2]:mb-6 [&_h2]:border-l-4 [&_h2]:border-(--primary) [&_h2]:pl-4
+            [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:text-(--primary) [&_h2]:mt-2 [&_h2]:mb-6 [&_h2]:border-l-4 [&_h2]:border-(--primary) [&_h2]:pl-4
             [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-black [&_h3]:mt-8 [&_h3]:mb-4
             [&_ol]:list-decimal [&_ol]:pl-6 [&_ol_li]:mb-4 [&_ol_li]:text-gray-700
             [&_ul]:list-disc [&_ul]:pl-6 [&_ul_li]:mb-4 [&_ul_li]:text-gray-700
@@ -204,18 +204,12 @@ export default async function ProductPage({ params }: Props) {
 
                     {/* SIDEBAR : RÉASSURANCE */}
                     <aside className="lg:col-span-4 lg:sticky lg:top-32 space-y-8">
-                        <div className="bg-black text-white rounded-3xl p-6 relative overflow-hidden shadow-xl">
+                        <div className="bg-(--primary) text-white rounded-3xl p-6 relative overflow-hidden">
                             <div className="relative z-10">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-(--primary)">
-                                    Dispo au Shop
-                                </p>
-                                <p className="text-sm font-bold leading-snug">
-                                    Une question technique sur ce produit ? Passez nous voir au 21 Rue des Capucins, Lyon 1er.
-                                </p>
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 opacity-80">Dispo au Shop</p>
+                                <p className="text-sm font-bold leading-snug">Une question technique sur ce produit ? Passez nous voir au 21 Rue des Capucins, Lyon 1er.</p>
                             </div>
-                            <div className="absolute -bottom-4 -right-4 text-6xl font-black opacity-20 text-white pointer-events-none">
-                                81
-                            </div>
+                            <div className="absolute -bottom-4 -right-4 text-6xl font-black opacity-20 text-white">81</div>
                         </div>
                     </aside>
 
