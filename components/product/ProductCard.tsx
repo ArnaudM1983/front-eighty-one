@@ -10,7 +10,6 @@ type Product = {
   featured?: boolean;
   has_variants?: boolean;
   variants_count?: number;
-  category_slugs?: string[]; // Ajouté pour filtrer les badges par catégorie
 };
 
 type Props = {
@@ -18,7 +17,6 @@ type Props = {
 };
 
 export default function ProductCard({ product }: Props) {
-  // --- Logique pour extraire la marque ---
   const words = product.name.split(" ");
   let brand = words[0];
 
@@ -26,19 +24,9 @@ export default function ProductCard({ product }: Props) {
     brand = `${words[0]} ${words[1]}`;
   }
 
-  // --- Logique de stock ---
   const isOutOfStock = product.stock !== undefined && product.stock !== null && product.stock <= 0;
 
-  // --- Logique d'affichage du badge de variantes ---
-  // On vérifie si "urban-wear" est présent dans les catégories du produit
-  const isUrbanWear = product.category_slugs?.includes("urban-wear");
-  
-  // On affiche le badge si le produit a des variantes ET n'est pas de l'urban-wear
-  const showVariantsCount = 
-    product.has_variants && 
-    product.variants_count && 
-    product.variants_count > 0 && 
-    !isUrbanWear;
+  const showVariantsCount = product.has_variants && product.variants_count && product.variants_count > 0;
 
   return (
     <Link href={`/produit/${product.slug}`} className="group">
@@ -46,7 +34,7 @@ export default function ProductCard({ product }: Props) {
 
         <div className="w-full h-78 flex items-center justify-center overflow-hidden bg-white relative">
 
-          {/* BADGE RUPTURE (Affiche "Rupture" si stock <= 0) */}
+          {/* BADGE RUPTURE (Haut Droite) */}
           {isOutOfStock && (
             <div className="absolute top-3 right-3 z-10 px-3 py-1 bg-red-50 backdrop-blur-sm border border-red-100 rounded-lg shadow-sm">
               <span className="text-[10px] font-bold uppercase tracking-widest text-red-600">
@@ -75,10 +63,10 @@ export default function ProductCard({ product }: Props) {
           <div className="mt-2 flex items-center justify-between gap-2">
             <p className="font-bold text-xl">{product.price} €</p>
 
-            {/* BADGE VARIANTES (Masqué si Urban Wear) */}
+            {/* BADGE VARIANTES */}
             {showVariantsCount && (
               <div className="px-2 py-1 bg-(--secondary) border-gray-100 rounded-md ">
-                <span className="text-xs font-light text-black whitespace-nowrap">
+                <span className="text-xs font-light text-black  whitespace-nowrap">
                   +{product.variants_count} couleurs
                 </span>
               </div>
