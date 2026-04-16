@@ -14,12 +14,10 @@ const QuantityStepperChart = ({
   onChange }: Props) => {
   const [currentQty, setCurrentQty] = useState(quantity);
 
-  // Sync le set du parent
   useEffect(() => {
     setCurrentQty(quantity);
   }, [quantity]);
 
-  // Reset si rupture
   useEffect(() => {
     if (stock <= 0) {
       setCurrentQty(0);
@@ -63,7 +61,16 @@ const QuantityStepperChart = ({
       >
         -
       </button>
-      <span className="px-2">{currentQty}</span>
+      
+      <span 
+        className={`
+          mx-1 px-2 py-0.5 min-w-[24px] rounded-sm transition-colors duration-200
+          ${currentQty > 0 ? 'bg-(--secondary) text-black' : 'bg-transparent text-gray-900'}
+        `}
+      >
+        {currentQty}
+      </span>
+
       <button
         type="button"
         disabled={currentQty >= stock}

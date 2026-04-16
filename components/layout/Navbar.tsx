@@ -51,9 +51,9 @@ const Navbar = (props: Props) => {
       </div>
 
       {/* Navbar */}
-      <div className="w-full px-6 lg:px-16 py-4 flex items-center justify-between">
+      <div className="w-full px-6 lg:px-16 py-0 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" aria-label="Retour à la page d'accueil - Eightyone Store">
+        <Link href="/" aria-label="Retour à la page d'accueil - Eightyone Store" className="py-4">
           <Image
             src="/logo-81.png"
             alt="Logo Eightyone Store"
@@ -64,7 +64,8 @@ const Navbar = (props: Props) => {
         </Link>
 
         {/* Menu Desktop */}
-        <nav className="hidden lg:flex gap-8 text-sm font-medium">
+        {/* IMPORTANT : L'ajout de 'static' permet au Mega Menu de prendre 100% de la largeur de l'écran */}
+        <nav className="hidden lg:flex items-center gap-8 text-sm font-medium static h-full">
           <Dropdown
             title="Bombes de peinture"
             href="/bombes-de-peinture"
@@ -106,16 +107,18 @@ const Navbar = (props: Props) => {
               { label: "Books", href: "/accessoires-equipements/books" }
             ]}
           />
-          <Link href="/shop" className="hover:opacity-70 uppercase font-normal">
+          
+          {/* Liens alignés : flex items-center et py-6 pour matcher avec la zone de survol des Dropdowns */}
+          <Link href="/shop" className="hover:opacity-70 uppercase font-normal flex items-center h-full py-6">
             Le shop
           </Link>
-          <Link href="/guides" className="hover:opacity-70 uppercase font-normal">
+          <Link href="/guides" className="hover:opacity-70 uppercase font-normal flex items-center h-full py-6">
             Guides
           </Link>
         </nav>
 
         {/* Icônes droite + Burger */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8 py-4">
           <div className="flex items-center gap-4">
             {/* Recherche */}
             <button
