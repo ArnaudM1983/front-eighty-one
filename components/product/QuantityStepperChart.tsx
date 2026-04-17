@@ -51,21 +51,25 @@ const QuantityStepperChart = ({
   }
 
   return (
-    <div className={`${commonClasses} border border-gray-400 bg-white`} style={{ height, minWidth }}>
+    <div 
+      className={`${commonClasses} border border-gray-400 bg-white overflow-hidden`} 
+      style={{ height, minWidth }}
+    >
       <button
         type="button"
         disabled={currentQty <= 0}
         onClick={decrement}
         aria-label="Diminuer la quantité"
-        className="cursor-pointer text-sm px-2 disabled:opacity-40"
+        className="h-full cursor-pointer text-sm px-2 disabled:opacity-40 hover:bg-gray-50 transition-colors"
       >
         -
       </button>
       
+      {/* Badge qui prend toute la hauteur */}
       <span 
         className={`
-          mx-1 px-2 py-0.5 min-w-[24px] rounded-sm transition-colors duration-200
-          ${currentQty > 0 ? 'bg-(--secondary) text-black' : 'bg-transparent text-gray-900'}
+          flex-1 h-full flex items-center justify-center transition-all duration-300 font-bold
+          ${currentQty > 0 ? 'bg-[#1A1A1A] text-white' : 'bg-transparent text-gray-900'}
         `}
       >
         {currentQty}
@@ -76,7 +80,7 @@ const QuantityStepperChart = ({
         disabled={currentQty >= stock}
         onClick={increment}
         aria-label="Augmenter la quantité"
-        className="cursor-pointer text-sm px-2 disabled:opacity-40"
+        className="h-full cursor-pointer text-sm px-2 disabled:opacity-40 hover:bg-gray-50 transition-colors"
       >
         +
       </button>
