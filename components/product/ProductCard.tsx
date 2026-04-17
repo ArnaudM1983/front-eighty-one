@@ -54,25 +54,44 @@ export default function ProductCard({ product }: Props) {
           />
         </div>
 
-        <div className="px-8 flex flex-col justify-between pt-4 pb-4">
-          <div>
-            <p className="uppercase font-bold text-(--text-secondary)">{brand}</p>
-            <p className="text-(--text-secondary) truncate">{product.name}</p>
+        <div className="px-6 flex flex-col justify-between pt-5 pb-5">
+          <div className="space-y-1">
+            <p className="uppercase text-[11px] font-black tracking-widest text-gray-400">{brand}</p>
+            <p className="text-gray-800 font-medium truncate text-sm leading-tight">{product.name}</p>
           </div>
 
-          <div className="mt-2 flex items-center justify-between gap-2">
-            <p className="font-bold text-xl">{product.price} €</p>
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex flex-col">
+              <p className="font-black text-xl tracking-tight text-gray-900">{product.price} €</p>
+            </div>
 
-            {/* BADGE VARIANTES */}
-            {showVariantsCount && (
-              <div className="px-2 py-1 bg-(--secondary) border-gray-100 rounded-md ">
-                <span className="text-xs font-light text-black  whitespace-nowrap">
-                  +{product.variants_count} couleurs
-                </span>
-              </div>
-            )}
+            {/* INDICATEUR DE VARIANTES */}
+            <div className="relative flex items-center justify-center">
+              {showVariantsCount && !isOutOfStock ? (
+                <div className="relative flex items-center">
+                  {/* Tooltip qui apparaît au survol de la card */}
+                  <span className="absolute right-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-[10px] font-bold text-gray-400 whitespace-nowrap uppercase tracking-tighter">
+                    {product.variants_count} teintes
+                  </span>
+
+                  {/* Disque de couleur (Cercle Chromatique) */}
+                  <div className="w-9 h-9 rounded-full p-[2px] bg-white border border-gray-100 shadow-sm transition-transform duration-500 group-hover:rotate-180">
+                    <div
+                      className="w-full h-full rounded-full"
+                      style={{
+                        background: 'conic-gradient(#d46a6a, #d4c86a, #6ad471, #6ad4cf, #6a71d4, #cf6ad4, #d46a6a)'
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                /* Indicateur par défaut pour les produits sans variantes */
+                <div className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-(--primary) group-hover:text-white transition-colors duration-300">
+                  <span className="text-lg font-light">+</span>
+                </div>
+              )}
+            </div>
           </div>
-
         </div>
       </div>
     </Link>
