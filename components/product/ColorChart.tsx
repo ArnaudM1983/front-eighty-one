@@ -95,6 +95,11 @@ const ColorChart = ({ productId, variants, title }: Props) => {
           })}
         </div>
       )}
+      {filteredVariants.length > 0 && (
+        <div className="flex justify-center mb-12 mt-12">
+          <AddToCartButton stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0} onAdd={handleAddAllToCart} />
+        </div>
+      )}
     </div>
   );
 };
