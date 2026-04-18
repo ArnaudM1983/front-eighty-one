@@ -108,7 +108,7 @@ const Navbar = () => {
         {/* Icônes droite + Burger */}
         <div className="flex items-center gap-8 py-4">
           <div className="flex items-center gap-4">
-            <button aria-label="Rechercher" className="hover:opacity-70" onClick={() => setSearchOpen(!searchOpen)}>
+            <button aria-label="Rechercher" className="hover:opacity-70 hidden" onClick={() => setSearchOpen(!searchOpen)}>
               <Search className="w-7 h-7 cursor-pointer" strokeWidth={1} />
             </button>
 
