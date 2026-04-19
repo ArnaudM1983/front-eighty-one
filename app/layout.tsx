@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Eightyone Store - Matériel de graffiti et d'arts graphiques à Lyon",
-  description: "Matériel de graffiti et d'arts graphiques à Lyon",
+  description: "81 Store : Expert graffiti & arts depuis 2008. Bombes de peinture Montana, marqueurs et matériel pro au meilleur prix. Livraison rapide ou retrait à Lyon. Le shop n°1.",
 };
 
 export default function RootLayout({
