@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from "@/context/CartContext";
 import CookieBanner from "@/components/layout/CookieBanner";
+import MaintenanceMode from "@/components/layout/MaintenanceMode"; // Importez le nouveau composant
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -33,26 +34,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Vérification du mode maintenance
+  const isMaintenance = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+
   return (
     <html lang="fr">
       <body className={`${roboto.variable} font-sans min-h-screen flex flex-col antialiased`}>
-        <CartProvider>
-          <Navbar />
-          <Main>{children}</Main>
-          <Footer />
-          {/* Toasts */}
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick
-            pauseOnHover
-            draggable
-            theme="light"
-          />
-          <CookieBanner />
-        </CartProvider>
+        {isMaintenance ? (
+          <MaintenanceMode />
+        ) : (
+          <CartProvider>
+            <Navbar />
+            <Main>{children}</Main>
+            <Footer />
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              pauseOnHover
+              draggable
+              theme="light"
+            />
+            <CookieBanner />
+          </CartProvider>
+        )}
       </body>
     </html>
   );
