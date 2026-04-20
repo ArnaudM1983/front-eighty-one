@@ -51,7 +51,7 @@ export default async function Caps() {
                 scrollTargetId="productGrid"
             />
 
-            <ProductGrid products={products} title="Les Effets" />
+            <ProductGrid products={products} title="Les Caps" />
 
         </div>
     );
