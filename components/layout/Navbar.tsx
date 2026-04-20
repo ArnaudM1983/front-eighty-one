@@ -43,8 +43,8 @@ const Navbar = () => {
           <Image
             src={isHome ? "/logo-81.png" : "/logo-81-nb.png"}
             alt="Logo Eightyone Store"
-            width={30}
-            height={30}
+            width={25}
+            height={25}
             className="object-contain"
           />
         </Link>
