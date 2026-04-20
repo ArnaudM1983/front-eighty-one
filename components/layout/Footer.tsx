@@ -16,7 +16,7 @@ const Footer = (props: Props) => {
           <div className="lg:col-span-1">
             <Link href="/">
               <Image
-                src="/logo-81.png"
+                src="/logo-81-nb.png"
                 alt="Logo Eightyone Store"
                 width={60} 
                 height={60}

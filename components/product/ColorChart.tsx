@@ -70,26 +70,39 @@ const ColorChart = ({ productId, variants, title }: Props) => {
       {filteredVariants.length === 0 ? (
         <p className="text-center text-gray-500 mt-4">Aucun résultat trouvé</p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-8 lg:grid-cols-12">
+        <div className="grid grid-cols-1 md:gap-4 mt-4 md:grid-cols-8 lg:grid-cols-12">
           {filteredVariants.map((variant) => {
             const words = variant.name.split(" ");
             const lastWord = words[words.length - 1];
 
             return (
-              <div key={variant.id} className="col-span-12 md:col-span-1 flex flex-col items-center justify-between h-40">
+              <div 
+                key={variant.id} 
+                className="col-span-12 md:col-span-1 flex flex-row items-center justify-between h-auto py-2 md:flex-col md:py-0 md:h-40"
+              >
                 {variant.image && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}${variant.image}`}
                     alt={variant.name}
-                    className="w-full max-w-[100px] max-h-[100px] object-cover rounded"
+                    // Mobile: largeur 48px, h-auto, ne coupe pas l'image.
+                    // Bureau (md): EXACTEMENT tes classes d'origine.
+                    className="w-12 h-auto object-contain shrink-0 md:w-full md:max-w-[100px] md:max-h-[100px] md:object-cover rounded"
                   />
                 )}
-                <p className="text-xs text-center mt-2 wrap-break-word whitespace-normal w-full">{lastWord}</p>
-                <QuantityStepperChart
-                  stock={variant.stock}
-                  quantity={quantities[variant.id] ?? 0}
-                  onChange={(qty) => setQuantities((prev) => ({ ...prev, [variant.id]: qty }))}
-                />
+                <p 
+                  // Mobile: aligné à gauche, prend la place centrale (flex-1).
+                  // Bureau (md): EXACTEMENT tes classes d'origine.
+                  className="text-xs text-left flex-1 px-3 mt-0 md:text-center md:flex-none md:px-0 md:mt-2 wrap-break-word whitespace-normal w-full"
+                >
+                  {lastWord}
+                </p>
+                <div className="shrink-0">
+                  <QuantityStepperChart
+                    stock={variant.stock}
+                    quantity={quantities[variant.id] ?? 0}
+                    onChange={(qty) => setQuantities((prev) => ({ ...prev, [variant.id]: qty }))}
+                  />
+                </div>
               </div>
             );
           })}
