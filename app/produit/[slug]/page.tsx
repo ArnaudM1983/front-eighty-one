@@ -74,9 +74,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         const product = await fetchProduct(slug);
 
         // Nettoyage du HTML pour la meta description
-        const cleanDescription = product.description
-            ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 160)
-            : product.excerpt?.substring(0, 160) || `Découvrez ${product.name} sur Eightyone Store.`;
+        const cleanDescription = product.excerpt
+            ? product.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 160)
+            : product.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
 
         return {
             title: `${product.name} | Eightyone Store`,

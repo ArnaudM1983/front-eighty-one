@@ -41,7 +41,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link href="/" aria-label="Retour à la page d'accueil - Eightyone Store" className="py-4">
           <Image
-            src="/logo-81.png"
+            src={isHome ? "/logo-81.png" : "/logo-81-nb.png"}
             alt="Logo Eightyone Store"
             width={30}
             height={30}
