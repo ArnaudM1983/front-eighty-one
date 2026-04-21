@@ -1,5 +1,6 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import Input from '../ui/Input';
+import Textarea from '../ui/Textarea';
 
 export type PUDOInfo = {
     id: string;
@@ -19,6 +20,7 @@ type FormData = {
     city: string;
     country: string;
     phone: string;
+    instructions: string;
 };
 
 type FormErrors = { [key in keyof FormData]?: string };
@@ -46,7 +48,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
 
     const [formData, setFormData] = useState<FormData>({
         email: '', firstName: '', lastName: '', address: '',
-        postalCode: '', city: '', country: '', phone: ''
+        postalCode: '', city: '', country: '', phone: '', instructions: ''
     });
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -104,6 +106,10 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         // Valider les longueurs 
         if (data.address.length > 255) errors.address = "L'adresse est trop longue.";
 
+        if (data.instructions && data.instructions.length > 1000) {
+            errors.instructions = "Les instructions sont trop longues (max 1000 caractères).";
+        }
+
         return errors;
     };
 
@@ -139,6 +145,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             country: formData.country,
             phone: formData.phone,
             email: formData.email,
+            instructions: formData.instructions,
 
             shippingMethod: shippingMethod,
             shippingCost: shippingCost.toFixed(2),
@@ -158,7 +165,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
             const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/${orderId}/shipping`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', 
+                credentials: 'include',
                 body: JSON.stringify(payload),
             });
             // ... (reste de la gestion de réponse)
@@ -232,6 +239,25 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
 
                 {/* Ligne 5: Téléphone */}
                 {renderInput('phone', 'Téléphone *', 'tel', 'col-span-6 md:col-span-3')}
+
+                {/* Ligne 6: Instructions */}
+                <div className="col-span-6 mt-2">
+                    <Textarea
+                        label="Instructions de livraison (optionnel)"
+                        name="instructions"
+                        placeholder="Code porte, étage, bâtiment..."
+                        rows={3}
+                        value={formData.instructions}
+                        onChange={(e) => setFormData(prev => ({ ...prev, instructions: e.target.value }))}
+                        className={formErrors.instructions ? 'border-red-500' : ''}
+                    />
+                    <div className="flex justify-between px-1">
+                        {formErrors.instructions && <p className="text-red-500 text-sm">{formErrors.instructions}</p>}
+                        <p className="text-gray-400 text-xs ml-auto">
+                            {formData.instructions.length} / 1000
+                        </p>
+                    </div>
+                </div>
             </div>
 
             {/* Rendu du Point Relais si sélectionné et requis */}
