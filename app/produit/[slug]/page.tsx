@@ -51,7 +51,7 @@ type Props = {
 };
 
 const API_URL = process.env.NEXT_PUBLIC_SYMFONY_API_URL;
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyone-store.fr';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyonestore.com/';
 
 // --- FETCH DATA ---
 async function fetchProduct(slug: string): Promise<Product> {
