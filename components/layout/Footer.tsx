@@ -25,7 +25,7 @@ const Footer = (props: Props) => {
             </Link>
 
             <p className="mt-4 max-w-[200px] text-[13px] leading-relaxed text-gray-500 italic">
-              Le shop de référence graffiti et urban wear à Lyon depuis plus de 20 ans.
+              Le shop de référence graffiti et urban wear à Lyon depuis plus de 15 ans.
             </p>
 
             <Link
