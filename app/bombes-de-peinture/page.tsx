@@ -6,10 +6,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   // 1. TITRE : Mots-clés importants + Nom de marque
-  title: "Bombes de peinture & Spray Graffiti | Eightyone Store",
+  title: "Bombes de Peinture Graffiti & Déco au Meilleur Prix | Eightyone Store Lyon",
   
   // 2. DESCRIPTION : ~150-160 caractères. 
-  description: "Achetez vos bombes de peinture en ligne. Large choix de sprays acryliques, solvantés, techniques et caps pour le graffiti et les beaux-arts. Livraison rapide.",
+  description: "Large choix de bombes de peinture : Montana Black, Double-A et NBQ au meilleur prix. Matériel graffiti, beaux-arts et déco. Livraison 24/48h ou retrait shop à Lyon !",
   
 };
 
