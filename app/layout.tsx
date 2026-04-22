@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CartProvider } from "@/context/CartContext";
 import CookieBanner from "@/components/layout/CookieBanner";
 import MaintenanceMode from "@/components/layout/MaintenanceMode"; // Importez le nouveau composant
+import { Analytics } from "@vercel/analytics/next";
 
 const roboto = Roboto({
   variable: "--font-roboto-sans",
@@ -60,6 +61,8 @@ export default function RootLayout({
             <CookieBanner />
           </CartProvider>
         )}
+
+        <Analytics />
       </body>
     </html>
   );
