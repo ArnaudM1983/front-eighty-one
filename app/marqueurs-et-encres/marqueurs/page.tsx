@@ -1,10 +1,28 @@
 import ProductGrid from "@/components/product/ProductGrid";
 import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
+import CategoryFAQ from "@/components/ui/CategoryFAQ";
 
-/**
- * Fetch products from the Symfony API for the "marqueurs" category.
- */
+// FAQ optimisée pour les marqueurs (Montana Bold, OTR, Sakura, Uni Pin)
+const FAQ_MARQUEURS = [
+    {
+        question: "Quelle est la particularité des marqueurs Montana BOLD ?",
+        answer: "La gamme Montana BOLD (disponible en 8mm et 15mm à 8.50€) contient une encre 'ultra-ink' noire profonde, indélébile et extrêmement résistante aux UV et aux solvants. Sa pointe haute densité assure un débit régulier pour un marquage permanent sur presque toutes les surfaces."
+    },
+    {
+        question: "Pourquoi utiliser un marqueur OTR (On The Run) ?",
+        answer: "Les marqueurs OTR comme le 060 ou le 160 (pointes de 15mm) sont des classiques du graffiti. Ils sont rechargeables et leurs pointes sont remplaçables. Le modèle OTR Metal Tip (4.50€) est quant à lui idéal pour écrire sur des surfaces rugueuses, rouillées ou grasses grâce à sa pointe bille en acier."
+    },
+    {
+        question: "C'est quoi un 'Solid Marker' comme le Sakura ?",
+        answer: "Le Sakura Solid Marker (7.00€) est un marqueur de peinture solide sous forme de bâton. Il écrit sous l'eau, sur le gras, la rouille et même à travers la boue. Une fois sec, il est permanent et ne s'écaille pas, ce qui en fait l'outil ultime pour le marquage industriel ou urbain extrême."
+    },
+    {
+        question: "Quels feutres choisir pour le dessin de précision ?",
+        answer: "Pour les croquis, le noir de précision ou l'illustration, nous recommandons les stylos Uni Pin (2.90€). Ils utilisent une encre pigmentée résistante à l'eau et à la lumière, idéale pour tracer des contours nets qui ne bavent pas si vous repassez par-dessus avec des marqueurs à l'alcool."
+    }
+];
+
 async function getProducts() {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/category/marqueurs`,
@@ -23,7 +41,7 @@ async function getProducts() {
 
 export const metadata = {
     title: "Marqueurs Peinture & Feutres Graffiti au Meilleur Prix | Eightyone Store",
-    description: "Vente de marqueurs peinture acrylique, encre et feutres tous supports (Montana, On The Run). Pour dessin, custom et tag. Livraison 24/48h ou retrait à Lyon !"
+    description: "Large choix de marqueurs : Montana Bold, On The Run (OTR), Sakura Solid et stylos Uni Pin. Pour le tag, la custom ou le dessin de précision à Lyon !"
 };
 
 export default async function MarqueursPage() {
@@ -35,37 +53,48 @@ export default async function MarqueursPage() {
 
     const products = await getProducts();
 
-    // --- DONNÉES STRUCTURÉES (JSON-LD) ---
     const jsonLd = {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": metadata.title,
-      "description": metadata.description,
-      "url": "https://www.eightyonestore.com/marqueurs-et-encres/marqueurs",
-      "numberOfItems": products.length,
-      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "item": {
-          "@type": "Product",
-          "name": product.name,
-          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
-          "image": product.main_image || product.imageMain,
-          "description": `Marqueur de peinture ${product.name} haute qualité pour tous supports.`,
-          "offers": {
-            "@type": "Offer",
-            "price": product.price,
-            "priceCurrency": "EUR",
-            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-            "itemCondition": "https://schema.org/NewCondition"
-          }
+      "@graph": [
+        {
+          "@type": "ItemList",
+          "name": metadata.title,
+          "description": metadata.description,
+          "url": "https://www.eightyone-store.fr/marqueurs-et-encres/marqueurs",
+          "numberOfItems": products.length,
+          "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Product",
+              "name": product.name,
+              "url": `https://www.eightyone-store.fr/produit/${product.slug}`,
+              "image": product.main_image || product.imageMain,
+              "offers": {
+                "@type": "Offer",
+                "price": product.price,
+                "priceCurrency": "EUR",
+                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+              }
+            }
+          }))
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": FAQ_MARQUEURS.map(item => ({
+            "@type": "Question",
+            "name": item.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": item.answer
+            }
+          }))
         }
-      }))
+      ]
     };
 
     return (
         <div>
-            {/* Injection du JSON-LD */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -84,6 +113,12 @@ export default async function MarqueursPage() {
                 />
 
                 <ProductGrid products={products} title="Les Marqueurs" />
+
+                <CategoryFAQ 
+                    items={FAQ_MARQUEURS} 
+                    subtitle="Outils de marquage" 
+                    title="Choisir son marqueur ou feutre"
+                />
             </main>
         </div>
     );
