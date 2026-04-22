@@ -3,8 +3,7 @@ import CategoryHero from "@/components/sections/CategoryHero";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
- * Fetch products from the Symfony API for the "classiques" category.
- * This function runs on the server-side (Server Component) in Next.js App Router.
+ * Fetch products from the Symfony API for the "montana-cans" (wear) category.
  */
 async function getProducts() {
     const res = await fetch(
@@ -16,7 +15,6 @@ async function getProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -24,35 +22,69 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Montana Cans | Urban Wear & Streetwear Lyon",
-    description: "Découvrez la gamme de vêtements Montana Cans chez Eightyone Store. Hoodies, t-shirts et collaborations exclusives avec les meilleurs graffeurs mondiaux."
+    title: "Vêtements Montana Cans : Hoodies, T-shirts & Streetwear | Eightyone Store",
+    description: "Retrouvez la collection Urban Wear Montana Cans à Lyon. T-shirts, hoodies et accessoires textiles de haute qualité issus de la culture graffiti mondiale."
 };
 
-export default async function Classiques() {
+export default async function MontanaWearPage() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Urban Wear", href: "/urban-wear" },
         { label: "Montana Cans" }
     ];
 
-    // Fetch products from the API before rendering
     const products = await getProducts();
+
+    // --- DONNÉES STRUCTURÉES (JSON-LD) ---
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": metadata.title,
+      "description": metadata.description,
+      "url": "https://www.eightyonestore.com/urban-wear/montana-cans",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+          "image": product.main_image || product.imageMain,
+          "description": `${product.name} - Vêtement Streetwear Montana Cans.`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "EUR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      }))
+    };
 
     return (
         <div>
+            {/* Injection du JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
             </div>
 
-            <CategoryHero
-                title="Montana Cans"
-                description="La gamme wear de Montana propose des vêtements simples mais très qualitatifs ou des collaborations régulières avec les meilleurs artistes / graffeurs européens et mondiaux."
-                backgroundImage="/bandeau-urban-wear.webp"
-                scrollTargetId="productGrid"
-            />
+            <main>
+                <CategoryHero
+                    title="Montana Cans Urban Wear"
+                    description="Plus qu'une marque de peinture, Montana Cans est un pilier de la culture Streetwear. Découvrez notre sélection de vêtements : des hoodies confortables, des t-shirts en coton de qualité supérieure et des collaborations exclusives avec les plus grands graffeurs mondiaux. Des coupes modernes et des designs inspirés de l'art urbain pour un style authentique au quotidien."
+                    backgroundImage="/bandeau-urban-wear.webp"
+                    scrollTargetId="productGrid"
+                />
 
-            <ProductGrid products={products} title="Montana Cans" />
-
+                <ProductGrid products={products} title="Collection Montana Cans" />
+            </main>
         </div>
     );
 }

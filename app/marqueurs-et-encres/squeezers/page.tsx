@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
  * Fetch products from the Symfony API for the "squeezers" category.
- * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
@@ -16,7 +15,6 @@ async function getProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -24,35 +22,69 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Squeezers Graffiti & Marqueurs Mop (Drips) | Eightyone Store",
-    description: "Réalisez des tags avec des coulures parfaites grâce à nos squeezers. Marqueurs rechargeables avec peinture ultra-couvrante pour un rendu authentique."
+    title: "Squeezers Graffiti & Marqueurs Mop : OTR & Infamy | Eightyone Store",
+    description: "Réalisez des tags avec des coulures (drips) parfaites. Large choix de squeezers On The Run et Infamy. Marqueurs rechargeables à Lyon !"
 };
 
-export default async function Squeezers() {
+export default async function SqueezersPage() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
         { label: "Les squeezers" }
     ];
 
-    // Fetch products from the API before rendering
     const products = await getProducts();
+
+    // --- DONNÉES STRUCTURÉES (JSON-LD) ---
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": metadata.title,
+      "description": metadata.description,
+      "url": "https://www.eightyonestore.com/marqueurs-et-encres/squeezers",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+          "image": product.main_image || product.imageMain,
+          "description": `Marqueur squeezer rechargeable ${product.name} pour coulures et tags.`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "EUR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      }))
+    };
 
     return (
         <div>
+            {/* Injection du JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
             </div>
 
-            <CategoryHero
-                title="Squeezers"
-                description="Cette sélection de marqueurs déjà remplis vous permettra de tracer, écrire ou dessiner sur tout types de surfaces, quels que soient vos besoins."
-                backgroundImage="/squeezers.webp"
-                scrollTargetId="productGrid"
-            />
+            <main>
+                <CategoryHero
+                    title="Squeezers & Marqueurs Mops"
+                    description="Indispensables pour un tag authentique, nos squeezers et mops sont conçus pour offrir des coulures (drips) maîtrisées et une opacité totale. Retrouvez les références On The Run (OTR) et Infamy. Dotés de pointes en mohair résistantes, ces marqueurs souples et rechargeables permettent de varier la pression pour un débit d'encre sur-mesure sur toutes les surfaces lisses."
+                    backgroundImage="/squeezers.webp"
+                    scrollTargetId="productGrid"
+                />
 
-            <ProductGrid products={products} title="Les Squeezers" />
-
+                <ProductGrid products={products} title="Les Squeezers" />
+            </main>
         </div>
     );
 }

@@ -81,7 +81,7 @@ export default async function Page() {
       <SubCategoriesSection
         title="Les Posca & Uni Paint"
         categorySlug="posca-uni-paint"
-        description="Faciles à remplir et de très bonne qualité, notre séléction de squeezers vides vous offres ce qu’il se fait de mieux sur le marché."
+        description="Référence mondiale du dessin et de la personnalisation, les marqueurs Posca à base d’eau et les Uni Paint à base d'huile sont indispensables pour vos créations. Que ce soit pour dessiner sur textile, customiser des baskets, peindre sur bois, métal ou verre, ces feutres de peinture permanents offrent une opacité exceptionnelle et une résistance aux UV."
         buttonLabel="Voir plus"
         buttonHref="/marqueurs-et-encres/posca-uni-paint"
       />

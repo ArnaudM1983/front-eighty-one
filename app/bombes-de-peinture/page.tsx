@@ -41,7 +41,7 @@ export default async function Page() {
         id="subCategoriesFirst"
         title="Les Classiques"
         categorySlug="classiques"
-        description="Bombes de peinture originales, les classiques sont des sprays au solvant offrant un très large choix de couleurs. Proposant un fort pouvoir couvrant et une grande durabilité, elles sont idéales pour les applications extérieures/intérieures sur tout types de surfaces."
+        description="Référence du milieu graffiti, nos bombes de peinture classiques au solvant offrent un choix de couleurs inégalé. Que ce soit pour une utilisation artistique, du bricolage ou de la décoration, ces sprays haute pression garantissent un fort pouvoir couvrant sur tous supports (métal, béton, bois)."
         buttonLabel="Voir plus"
         buttonHref="/bombes-de-peinture/classiques"
       />
@@ -60,7 +60,7 @@ export default async function Page() {
       <SubCategoriesSection
         title="Les Techniques"
         categorySlug="techniques"
-        description="Indispensable pour la finition ou la préparation, les bombes techniques offrent une qualité de travail incomparable et un rendu optimal."
+        description="Préparez vos supports et protégez vos créations avec nos bombes de peinture techniques. Que vous cherchiez un vernis mat ou brillant pour fixer vos couleurs, un apprêt (primer) pour une meilleure adhérence, ou de l'acétone pour nettoyer vos caps, Eightyone Store a sélectionné le meilleur du matériel pro."
         buttonLabel="Voir plus"
         buttonHref="/bombes-de-peinture/techniques"
       />

@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
  * Fetch products from the Symfony API for the "acryliques" category.
- * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
@@ -16,7 +15,6 @@ async function getProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -24,8 +22,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Bombes de Peinture Acrylique & Base Eau (Sans Odeur) | Eightyone Store",
-    description: "Découvrez nos bombes de peinture acryliques à base d'eau. Idéales pour un usage intérieur sans odeur, résistance durable !"
+    title: "Bombes de Peinture Acrylique & Base Eau au Meilleur Prix | Eightyone Store",
+    description: "Large choix de bombes de peinture acryliques sans solvant (Water Based). Idéales pour l'intérieur, les ateliers et les beaux-arts. Livraison France ou retrait à Lyon !"
 };
 
 export default async function Acryliques() {
@@ -35,24 +33,56 @@ export default async function Acryliques() {
         { label: "Les acryliques" }
     ];
 
-    // Fetch products from the API before rendering
     const products = await getProducts();
+
+    // --- DONNÉES STRUCTURÉES (Nested Products) ---
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": metadata.title,
+      "description": metadata.description,
+      "url": "https://www.eightyonestore.com/bombes-de-peinture/acryliques",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+          "image": product.main_image || product.imageMain,
+          "description": `Acheter ${product.name} chez Eightyone Store Lyon.`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "EUR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      }))
+    };
 
     return (
         <div>
+            {/* Injection du JSON-LD optimisé */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
             </div>
 
             <CategoryHero
-                title="Acryliques"
-                description="Bombes de peinture sans solvant et à base d’eau, les bombes de peinture acryliques sont idéales pour un usage intérieur ou ludique, du fait de son absence d’odeur. Sa couvrance et sa résistance sont équivalentes aux bombes de peinture classiques."
+                title="Bombes de Peinture Acryliques"
+                description="Parfaites pour un usage en intérieur, les bombes de peinture acryliques (Water Based) sont sans solvant et quasiment sans odeur. Idéales pour les ateliers avec enfants, les travaux de beaux-arts ou la décoration, ces sprays à base d'eau offrent une couvrance pro et une résistance durable sur tous supports une fois secs."
                 backgroundImage="/acryliques.webp"
                 scrollTargetId="productGrid"
             />
 
             <ProductGrid products={products} title="Les Acryliques" />
-
         </div>
     );
 }

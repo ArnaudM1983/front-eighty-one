@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
  * Fetch products from the Symfony API for the "mines-de-rechange" category.
- * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
@@ -16,7 +15,6 @@ async function getProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -24,35 +22,69 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Mines de Rechange & Pointes pour Marqueurs | Eightyone Store",
-    description: "Donnez une seconde vie à vos marqueurs et squeezers. Large choix de mines de rechange de toutes tailles pour un tracé précis et un matériel comme neuf."
+    title: "Mines de Rechange & Pointes Montana, Uni Posca | Eightyone Store Lyon",
+    description: "Remplacez vos pointes usées avec nos mines de rechange Montana et Uni Posca. Toutes tailles disponibles pour marqueurs et feutres peinture. Matériel pro à Lyon !"
 };
 
-export default async function Squeezers() {
+export default async function MinesPage() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
         { label: "Les mines de rechange" }
     ];
 
-    // Fetch products from the API before rendering
     const products = await getProducts();
+
+    // --- DONNÉES STRUCTURÉES (JSON-LD) ---
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": metadata.title,
+      "description": metadata.description,
+      "url": "https://www.eightyonestore.com/marqueurs-et-encres/mines-de-rechange",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+          "image": product.main_image || product.imageMain,
+          "description": `Pointe de remplacement ${product.name} pour marqueur peinture.`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "EUR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      }))
+    };
 
     return (
         <div>
+            {/* Injection du JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
             </div>
 
-            <CategoryHero
-                title="Mines de rechange"
-                description="Indispensables pour assurer une plus grande durée de vie à son marqueur ou son squeezer préféré, vous trouverez ici toutes les tailles de mines de rechanges pour repartir avec un marqueur comme neuf !"
-                backgroundImage="/bandeau-mines.png"
-                scrollTargetId="productGrid"
-            />
+            <main>
+                <CategoryHero
+                    title="Mines de Rechange & Pointes"
+                    description="Ne jetez plus vos marqueurs ! Prolongez la durée de vie de vos outils préférés avec nos mines de rechange. Que vous cherchiez des pointes de remplacement pour vos feutres Uni Posca ou des mines en fibre pour vos marqueurs Montana Cans, nous proposons toutes les tailles : extra-fines, rondes, biseautées ou XL. Idéal pour retrouver un tracé net et un débit d'encre fluide comme au premier jour."
+                    backgroundImage="/bandeau-mines.png"
+                    scrollTargetId="productGrid"
+                />
 
-            <ProductGrid products={products} title="Les Mines de rechange" />
-
+                <ProductGrid products={products} title="Les Mines de rechange" />
+            </main>
         </div>
     );
 }

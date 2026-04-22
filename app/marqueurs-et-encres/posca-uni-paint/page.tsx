@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
  * Fetch products from the Symfony API for the "posca-uni-paint" category.
- * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
@@ -16,7 +15,6 @@ async function getProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -24,35 +22,69 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Marqueurs Posca & Uni Paint : Peinture Acrylique et Huile | Eightyone Store",
-    description: "Retrouvez toute la gamme Posca et Uni Paint. Les marqueurs de référence pour dessiner sur textile, bois, métal et verre avec une couvrance pro."
+    title: "Marqueurs Posca & Uni Paint au Meilleur Prix | Eightyone Store Lyon",
+    description: "Toute la gamme Posca (acrylique) et Uni Paint (huile) en stock. Feutres peinture pour dessin, textile, custom de baskets, bois et verre. Livraison 24/48h ou retrait à Lyon !"
 };
 
-export default async function Squeezers() {
+export default async function PoscaUniPaintPage() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Marqueurs & encres", href: "/marqueurs-et-encres" },
         { label: "Les Posca & Uni Paint" }
     ];
 
-    // Fetch products from the API before rendering
     const products = await getProducts();
+
+    // --- DONNÉES STRUCTURÉES (JSON-LD) ---
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": metadata.title,
+      "description": metadata.description,
+      "url": "https://www.eightyonestore.com/marqueurs-et-encres/posca-uni-paint",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+          "image": product.main_image || product.imageMain,
+          "description": `Marqueur peinture ${product.name} multi-supports.`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "EUR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      }))
+    };
 
     return (
         <div>
+            {/* Injection du JSON-LD pour les Rich Snippets Google */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
             </div>
 
-            <CategoryHero
-                title="Posca & Uni Paint"
-                description="Le marqueur incontournable pour tous les travaux d’arts graphiques ! Décliné en de nombreuses couleurs, ce marqueur permanent possède un fort pouvoir couvrant."
-                backgroundImage="/bandeau-poscaunipaint.png"
-                scrollTargetId="productGrid"
-            />
+            <main>
+                <CategoryHero
+                    title="Marqueurs Posca & Uni Paint"
+                    description="Références mondiales de la customisation et du dessin pro, les marqueurs Posca (base eau) et Uni Paint (base huile) s'adaptent à toutes vos envies créatives. Que ce soit pour dessiner sur textile, personnaliser des baskets, peindre sur bois, métal ou verre, ces feutres de peinture permanents offrent une opacité exceptionnelle. Retrouvez toutes les tailles de pointes, du PC-1MR au PC-8K, ainsi que les mythiques Uni Paint PX-20 et PX-30."
+                    backgroundImage="/bandeau-poscaunipaint.png"
+                    scrollTargetId="productGrid"
+                />
 
-            <ProductGrid products={products} title="Les Posca & Uni Paint" />
-
+                <ProductGrid products={products} title="Les Posca & Uni Paint" />
+            </main>
         </div>
     );
 }

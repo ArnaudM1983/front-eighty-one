@@ -4,7 +4,6 @@ import Breadcrumbs from "@/components/ui/Breadcrumb";
 
 /**
  * Fetch products from the Symfony API for the "classiques" category.
- * This function runs on the server-side (Server Component) in Next.js App Router.
  */
 async function getProducts() {
     const res = await fetch(
@@ -16,7 +15,6 @@ async function getProducts() {
     );
 
     if (!res.ok) {
-        // Throw an error to trigger error.tsx
         throw new Error(`Failed to fetch products: ${res.status}`);
     }
 
@@ -24,8 +22,8 @@ async function getProducts() {
 }
 
 export const metadata = {
-    title: "Bombes de Peinture Classiques & Graffiti | Eightyone Store",
-    description: "Découvrez nos bombes de peinture classiques. Un choix immense de couleurs, un fort pouvoir couvrant pour tous vos projets graffiti et déco."
+    title: "Bombes de Peinture Classiques & Graffiti au Meilleur Prix | Eightyone Store",
+    description: "Large choix de bombes de peinture classiques (solvantées) : Montana Black, Double-A et NBQ. Haute couvrance, séchage rapide et stock réel à Lyon !"
 };
 
 export default async function Classiques() {
@@ -35,24 +33,56 @@ export default async function Classiques() {
         { label: "Les classiques" }
     ];
 
-    // Fetch products from the API before rendering
     const products = await getProducts();
+
+    // --- DONNÉES STRUCTURÉES (JSON-LD) ---
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": metadata.title,
+      "description": metadata.description,
+      "url": "https://www.eightyonestore.com/bombes-de-peinture/classiques",
+      "numberOfItems": products.length,
+      "itemListElement": products.slice(0, 30).map((product: any, index: number) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": product.name,
+          "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+          "image": product.main_image || product.imageMain,
+          "description": `Bombe de peinture spray ${product.name} haute pression.`,
+          "offers": {
+            "@type": "Offer",
+            "price": product.price,
+            "priceCurrency": "EUR",
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      }))
+    };
 
     return (
         <div>
+            {/* Injection du JSON-LD pour Google */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
             </div>
 
             <CategoryHero
-                title="Classiques"
-                description="Les bombes de peinture originales, les classiques sont des sprays au solvant offrant un très large choix de couleurs. Proposant un fort pouvoir couvrant et une grande durabilité, elles sont idéales pour les applications extérieures/intérieures sur tout types de surfaces."
+                title="Bombes de Peinture Classiques"
+                description="Véritables références du graffiti et de l'art urbain, nos bombes de peinture classiques au solvant offrent une couvrance exceptionnelle et une durabilité maximale. Que vous soyez artiste ou adepte du DIY, retrouvez les gammes Montana Black, Double-A ou NBQ pour peindre sur métal, béton, bois ou plastique avec une pression maîtrisée."
                 backgroundImage="/classiques.webp"
                 scrollTargetId="productGrid"
             />
 
             <ProductGrid products={products} title="Les Classiques" />
-
         </div>
     );
 }
