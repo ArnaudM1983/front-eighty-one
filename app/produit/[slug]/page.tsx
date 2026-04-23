@@ -37,6 +37,7 @@ type Product = {
     images: { id: number; url: string; alt?: string }[];
     variants: ProductVariant[];
     categories: ProductCategory[];
+    faq?: { question: string; answer: string }[]; // Ajout de la FAQ ici
     related_products?: {
         id: number;
         name: string;
@@ -200,6 +201,25 @@ export default async function ProductPage({ params }: Props) {
                                 </p>
                             </div>
                         )}
+
+                        {/* --- SECTION FAQ --- */}
+                        {product.faq && product.faq.length > 0 && (
+                            <section className="bg-gray-50 py-10 px-8 rounded-2xl mt-16 border border-gray-100">
+                                <h2 className="text-2xl font-black uppercase text-black mb-8 border-none pl-0!">Les questions posées au shop</h2>
+                                <div className="space-y-3">
+                                    {product.faq.map((item, index) => (
+                                        <details key={index} className="group bg-white rounded-lg border border-gray-100 overflow-hidden shadow-sm">
+                                            <summary className="flex cursor-pointer items-center justify-between p-5 font-bold text-gray-800 list-none">
+                                                <span>{item.question}</span>
+                                                <span className="text-(--primary) transition-transform duration-300 group-open:rotate-180">↓</span>
+                                            </summary>
+                                            <div className="px-5 pb-5 text-gray-600 text-sm italic border-t border-gray-50 pt-4">{item.answer}</div>
+                                        </details>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
                     </main>
 
                     {/* SIDEBAR : RÉASSURANCE */}
