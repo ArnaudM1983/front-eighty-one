@@ -4,6 +4,7 @@ import { Categories } from "@/components/sections/Categories"
 import GoogleReviews from "@/components/sections/GoogleReviews"
 import Hero from "@/components/sections/Hero"
 import InstagramFeed from "@/components/sections/InstagramFeed"
+import HomeSEOContent from "@/components/sections/HomeSEOContent";
 
 export const metadata: Metadata = {
   title: "Eightyone Store | Bombes de Peinture Graffiti & Arts à Lyon et en Ligne",
@@ -44,6 +45,7 @@ export default function Page() {
       <BestSellers />
       <InstagramFeed />
       <GoogleReviews />
+      <HomeSEOContent />
     </main>
   )
 }
