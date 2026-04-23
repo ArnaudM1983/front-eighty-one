@@ -5,6 +5,7 @@ import GoogleReviews from "@/components/sections/GoogleReviews"
 import Hero from "@/components/sections/Hero"
 import InstagramFeed from "@/components/sections/InstagramFeed"
 import HomeSEOContent from "@/components/sections/HomeSEOContent";
+import HomeGuidesSection from "@/components/sections/HomeGuidesSection";
 
 export const metadata: Metadata = {
   title: "Eightyone Store | Bombes de Peinture Graffiti & Arts à Lyon et en Ligne",
@@ -18,11 +19,11 @@ export default function Page() {
     "@context": "https://schema.org",
     "@type": "Store",
     "name": "Eightyone Store",
-    "image": "https://www.eightyonestore.com/logo-81.png", 
+    "image": "https://www.eightyonestore.com/logo-81.png",
     "description": "Magasin spécialisé en graffiti et arts graphiques à Lyon et vente en ligne dans toute la France.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "21 Rue des Capucins", 
+      "streetAddress": "21 Rue des Capucins",
       "addressLocality": "Lyon",
       "postalCode": "69001",
       "addressCountry": "FR"
@@ -45,6 +46,10 @@ export default function Page() {
       <BestSellers />
       <InstagramFeed />
       <GoogleReviews />
+      <HomeGuidesSection
+        title="L'Atelier Eightyone : Conseils & Tutos"
+        description="Maîtrisez les techniques de peinture, le choix des caps et l'entretien de vos marqueurs avec nos experts."
+      />
       <HomeSEOContent />
     </main>
   )
