@@ -6,20 +6,22 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      // On autorise tout le site par défaut
       allow: '/',
-      // On interdit l'indexation des pages sensibles ou inutiles pour Google
       disallow: [
         '/admin',      
-        '/compte',     // Espace client
-        '/panier',     // Panier d'achat
-        '/paiement',   // Tunnel de commande
-        '/success',    // Page de confirmation de paiement (très important pour le SEO)
-        '/api/',       // Routes API Next.js internes
-        '/*?*',        // Optionnel : interdit l'indexation des URLs avec paramètres (filtres, recherche) pour éviter le duplicate content
+        '/compte',     
+        '/panier',     
+        '/paiement',   
+        '/success',    
+        '/api/',       
+        '/*?*',        
+        // --- Ajouts pour nettoyer l'ancien WooCommerce ---
+        '/wp-content/',
+        '/wp-includes/',
+        '/wp-admin/',
+        '/wp-*.php',
       ],
     },
-    // Indique explicitement l'emplacement du sitemap à Google
     sitemap: `${BASE_URL}/sitemap.xml`,
   };
 }

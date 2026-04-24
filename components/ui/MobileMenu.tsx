@@ -24,10 +24,13 @@ export default function MobileMenu({
         <nav
             className={`
                 lg:hidden fixed top-0 left-0 w-full h-full z-40 
-                flex flex-col pt-24 px-6 gap-4
+                flex flex-col pt-24 px-6 gap-4 overflow-y-auto
                 ${isHome ? "bg-black text-white" : "bg-white text-black"}
-                transform transition-transform duration-500 ease-out
-                ${isOpen ? "translate-y-0" : "-translate-y-full"}
+                transition-all duration-500 ease-out
+                ${isOpen 
+                    ? "translate-y-0 opacity-100 visible pointer-events-auto" 
+                    : "-translate-y-full opacity-0 invisible pointer-events-none"
+                }
             `}
         >
             {sections.map((section, index) => (
