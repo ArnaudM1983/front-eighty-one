@@ -58,7 +58,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyonestore
 async function fetchProduct(slug: string): Promise<Product> {
     const res = await fetch(
         `${API_URL}/api/products/slug/${slug}`,
-        { cache: "no-store" }
+        { next: { revalidate: 3600 } }
     );
 
     if (res.status === 404) notFound();
@@ -103,7 +103,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // --- PAGE PRINCIPALE ---
 export default async function ProductPage({ params }: Props) {
     const { slug } = await params;
-    const product = await fetchProduct(slug);
+    let product;
+    try {
+        product = await fetchProduct(slug);
+    } catch (error) {
+        console.error("Erreur Fetch Product:", error);
+        notFound(); // Renvoie une 404 propre au lieu d'une erreur serveur 500
+    }
 
     // Détection Urban Wear
     const isUrbanWear = product.categories.some(cat => cat.slug === 'urban-wear');
