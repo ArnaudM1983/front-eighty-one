@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import redirectsData from "./redirects.json";
 
 const nextConfig: NextConfig = {
   typescript: {
