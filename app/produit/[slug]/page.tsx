@@ -5,6 +5,7 @@ import BuyTogether from "@/components/sections/BuyTogether";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import sanitizeHtml from "sanitize-html"; 
 
 // --- TYPES ---
 type ProductVariant = {
@@ -37,7 +38,7 @@ type Product = {
     images: { id: number; url: string; alt?: string }[];
     variants: ProductVariant[];
     categories: ProductCategory[];
-    faq?: { question: string; answer: string }[]; // Ajout de la FAQ ici
+    faq?: { question: string; answer: string }[];
     related_products?: {
         id: number;
         name: string;
@@ -51,20 +52,35 @@ type Props = {
     params: Promise<{ slug: string }>;
 };
 
+// Configuration globale du nettoyage HTML
+const sanitizeOptions = {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'details', 'summary', 'br']),
+    allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        '*': ['class', 'style'],
+        'img': ['src', 'alt', 'width', 'height']
+    }
+};
+
 const API_URL = process.env.NEXT_PUBLIC_SYMFONY_API_URL;
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyonestore.com';
 
 // --- FETCH DATA ---
-async function fetchProduct(slug: string): Promise<Product> {
-    const res = await fetch(
-        `${API_URL}/api/products/slug/${slug}`,
-        { cache: "no-store" }
-    );
+async function fetchProduct(slug: string): Promise<Product | null> {
+    try {
+        const res = await fetch(
+            `${API_URL}/api/products/slug/${slug}`,
+            { cache: "no-store" }
+        );
 
-    if (res.status === 404) notFound();
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+        if (res.status === 404) return null;
+        if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
-    return res.json();
+        return res.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération du produit:", error);
+        return null;
+    }
 }
 
 // --- METADATA (SEO) ---
@@ -73,8 +89,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     try {
         const product = await fetchProduct(slug);
+        if (!product) return { title: "Produit introuvable - Eightyone Store" };
 
-        // Nettoyage du HTML pour la meta description
         const cleanDescription = product.excerpt
             ? product.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 160)
             : product.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
@@ -82,9 +98,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         return {
             title: `${product.name} | Eightyone Store`,
             description: cleanDescription,
-            alternates: {
-                canonical: `${BASE_URL}/produit/${slug}`,
-            },
+            alternates: { canonical: `${BASE_URL}/produit/${slug}` },
             openGraph: {
                 title: `${product.name} - Eightyone Store`,
                 description: cleanDescription,
@@ -96,7 +110,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             },
         };
     } catch (error) {
-        return { title: "Produit introuvable - Eightyone Store" };
+        return { title: "Erreur - Eightyone Store" };
     }
 }
 
@@ -105,10 +119,12 @@ export default async function ProductPage({ params }: Props) {
     const { slug } = await params;
     const product = await fetchProduct(slug);
 
-    // Détection Urban Wear
+    if (!product) {
+        notFound();
+    }
+
     const isUrbanWear = product.categories.some(cat => cat.slug === 'urban-wear');
 
-    // Fil d'Ariane
     const crumbs: { label: string; href?: string }[] = [{ label: "Accueil", href: "/" }];
     let currentPath = "";
     product.categories.forEach((cat) => {
@@ -117,7 +133,6 @@ export default async function ProductPage({ params }: Props) {
     });
     crumbs.push({ label: product.name });
 
-    // Schema.org (JSON-LD)
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
@@ -137,8 +152,6 @@ export default async function ProductPage({ params }: Props) {
         }
     };
 
-    // --- VÉRIFICATION INTELLIGENTE DU CONTENU WYSIWYG ---
-    // Retire toutes les balises HTML pour voir s'il reste du vrai texte
     const rawText = product.description ? product.description.replace(/<[^>]*>?/gm, '').trim() : '';
     const hasLongDescription = rawText.length > 0;
 
@@ -149,7 +162,6 @@ export default async function ProductPage({ params }: Props) {
             <div className="max-w-6xl mx-auto pt-8 px-6">
                 <Breadcrumbs crumbs={crumbs} />
 
-                {/* BLOC HAUT : GALERIE & ACHAT RAPIDE */}
                 <header className="flex flex-col md:flex-row md:items-start gap-10 pt-12 pb-16">
                     <div className="md:w-3/5">
                         <ProductGallery mainImage={product.main_image} images={product.images} alt={product.name} />
@@ -159,7 +171,6 @@ export default async function ProductPage({ params }: Props) {
                     </div>
                 </header>
 
-                {/* NUANCIER / TAILLES */}
                 <div className="pb-16">
                     <ColorChart
                         productId={product.id}
@@ -168,27 +179,23 @@ export default async function ProductPage({ params }: Props) {
                     />
                 </div>
 
-                {/* LIGNE DE SÉPARATION */}
                 <hr className="border-t border-gray-100 my-8" />
 
-                {/* BLOC BAS : DESCRIPTION SEO "EXPERT" & SIDEBAR */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pb-24 pt-8">
 
-                    {/* MAIN : CONTENU RICHE OU MESSAGE PAR DÉFAUT */}
                     <main className="lg:col-span-8">
                         {hasLongDescription ? (
                             <div
                                 className="prose prose-zinc max-w-none text-left
-            [&_p]:mb-6 [&_p]:text-gray-600 
-            [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:text-(--primary) [&_h2]:mt-2 [&_h2]:mb-6 [&_h2]:border-l-4 [&_h2]:border-(--primary) [&_h2]:pl-4
-            [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-black [&_h3]:mt-8 [&_h3]:mb-4
-            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol_li]:mb-4 [&_ol_li]:text-gray-700
-            [&_ul]:list-disc [&_ul]:pl-6 [&_ul_li]:mb-4 [&_ul_li]:text-gray-700
-            [&_strong]:text-black [&_strong]:font-bold"
-                                dangerouslySetInnerHTML={{ __html: product.description }}
+                                [&_p]:mb-6 [&_p]:text-gray-600 
+                                [&_h2]:text-2xl [&_h2]:font-black [&_h2]:uppercase [&_h2]:text-(--primary) [&_h2]:mt-2 [&_h2]:mb-6 [&_h2]:border-l-4 [&_h2]:border-(--primary) [&_h2]:pl-4
+                                [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-black [&_h3]:mt-8 [&_h3]:mb-4
+                                [&_ol]:list-decimal [&_ol]:pl-6 [&_ol_li]:mb-4 [&_ol_li]:text-gray-700
+                                [&_ul]:list-disc [&_ul]:pl-6 [&_ul_li]:mb-4 [&_ul_li]:text-gray-700
+                                [&_strong]:text-black [&_strong]:font-bold"
+                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description, sanitizeOptions) }}
                             />
                         ) : (
-                            // MESSAGE PAR DÉFAUT SI LE CHAMP EST VIDE
                             <div className="bg-gray-50 p-8 md:p-12 rounded-3xl border border-gray-100 text-center">
                                 <h3 className="text-xl font-black uppercase tracking-tighter text-gray-800 mb-3">
                                     L'expertise Eightyone arrive...
@@ -196,13 +203,9 @@ export default async function ProductPage({ params }: Props) {
                                 <p className="text-gray-500 leading-relaxed max-w-lg mx-auto">
                                     Notre équipe rédige actuellement les conseils techniques et astuces d'utilisation pour <strong>{product.name}</strong>.
                                 </p>
-                                <p className="text-sm font-bold text-(--primary) mt-6 uppercase tracking-widest">
-                                    Besoin d'infos urgentes ? Appelez le shop !
-                                </p>
                             </div>
                         )}
 
-                        {/* --- SECTION FAQ --- */}
                         {product.faq && product.faq.length > 0 && (
                             <section className="bg-gray-50 py-10 px-8 rounded-2xl mt-16 border border-gray-100">
                                 <h2 className="text-2xl font-black uppercase text-black mb-8 border-none pl-0!">Les questions posées au shop</h2>
@@ -213,16 +216,17 @@ export default async function ProductPage({ params }: Props) {
                                                 <span>{item.question}</span>
                                                 <span className="text-(--primary) transition-transform duration-300 group-open:rotate-180">↓</span>
                                             </summary>
-                                            <div className="px-5 pb-5 text-gray-600 text-sm italic border-t border-gray-50 pt-4">{item.answer}</div>
+                                            <div 
+                                                className="px-5 pb-5 text-gray-600 text-sm italic border-t border-gray-50 pt-4"
+                                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.answer, sanitizeOptions) }}
+                                            />
                                         </details>
                                     ))}
                                 </div>
                             </section>
                         )}
-
                     </main>
 
-                    {/* SIDEBAR : RÉASSURANCE */}
                     <aside className="lg:col-span-4 lg:sticky lg:top-32 space-y-8">
                         <div className="bg-(--primary) text-white rounded-3xl p-6 relative overflow-hidden">
                             <div className="relative z-10">
@@ -232,11 +236,9 @@ export default async function ProductPage({ params }: Props) {
                             <div className="absolute -bottom-4 -right-4 text-6xl font-black opacity-20 text-white">81</div>
                         </div>
                     </aside>
-
                 </div>
             </div>
 
-            {/* SECTION "BUY TOGETHER" GLOBALE */}
             <BuyTogether products={product.related_products} />
         </article>
     );
