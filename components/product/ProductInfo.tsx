@@ -6,7 +6,7 @@ import AddToCartButton from "./AddToCartButton";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { addToCart } from "@/lib/cartApi";
 import { useCart } from "@/context/CartContext";
-import DOMPurify from 'dompurify';
+import sanitizeHtml from "sanitize-html"; 
 
 type ProductVariant = {
   id: number;
@@ -86,7 +86,15 @@ const ProductInfo = ({ product, isUrbanWear }: Props) => {
       {product.excerpt && (
         <div
           className="editor-content"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.excerpt) }}
+          dangerouslySetInnerHTML={{ 
+            __html: sanitizeHtml(product.excerpt, {
+                allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'br']),
+                allowedAttributes: {
+                    ...sanitizeHtml.defaults.allowedAttributes,
+                    '*': ['class', 'style']
+                }
+            }) 
+          }}
         />
       )}
       <p className="text-4xl text-gray-900 font-bold">{product.price} €</p>
