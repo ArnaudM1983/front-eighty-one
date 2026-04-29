@@ -85,7 +85,7 @@ export default function SliderWrapper({
         {children}
       </Slider>
 
-      <div className="flex gap-3 mt-4 justify-end">
+      <div className="flex gap-3 mt-4 justify-end min-h-[50px]">
         <button
           onClick={() => sliderRef.current?.slickPrev()}
           className="hover:scale-110 transition-transform cursor-pointer"
