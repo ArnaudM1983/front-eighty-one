@@ -29,6 +29,7 @@ export default function GuideCard({ guide }: GuideCardProps) {
           <img 
             src={imageUrl} 
             alt={guide.title}
+            loading="lazy"
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
           />
         </div>
