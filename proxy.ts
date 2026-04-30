@@ -33,6 +33,9 @@ export const config = {
     '/produit/:path*',
     '/categorie-produit/:path*',
     '/marques/:path*',
-    '/test-seo'
+    '/test-seo',
+    '/page-daccueil/:path*', 
+    '/wp-content/:path*',    
+    '/mentions-legales/'     
   ],
 };
