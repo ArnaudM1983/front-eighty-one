@@ -600,11 +600,6 @@
     "permanent": true
   },
   {
-    "source": "/produit/mine-montana-round-type/",
-    "destination": "/produit/mine-10mm-squeezer-montana",
-    "permanent": true
-  },
-  {
     "source": "/produit/molotow-covers-all-acrylic-pure-black/",
     "destination": "/produit/molotow-covers-all-acrylic",
     "permanent": true
