@@ -62,7 +62,7 @@ export default function SearchBarOverlay({ isOpen, isHome, onClose }: Props) {
       setLoading(true);
       try {
         const apiUrl = process.env.NEXT_PUBLIC_SYMFONY_API_URL;
-        const res = await fetch(`${apiUrl}/api/products/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`${apiUrl}/api/products?q=${encodeURIComponent(query)}`);
 
         if (res.ok) {
           const data = await res.json();
