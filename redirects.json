@@ -165,6 +165,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/on-the-run-metal-tip-orange",
+    "destination": "/produit/on-the-run-metal-tip",
+    "permanent": true
+  },
+  {
     "source": "/produit/otr-006-soultip-baby-blue/",
     "destination": "/produit/otr-006-soultip",
     "permanent": true
@@ -205,12 +210,22 @@
     "permanent": true
   },
   {
+    "source": "/produit/posca-pc8k-jaune-paille",
+    "destination": "/produit/posca-pc8k",
+    "permanent": true
+  },
+  {
     "source": "/produit/posca-pc8k-ivoire/",
     "destination": "/produit/posca-pc8k",
     "permanent": true
   },
   {
     "source": "/produit/sakura-solid-marker-bleu/",
+    "destination": "/produit/sakura-solid-marker",
+    "permanent": true
+  },
+  {
+    "source": "/produit/sakura-solid-marker-jaune",
     "destination": "/produit/sakura-solid-marker",
     "permanent": true
   },
@@ -232,6 +247,11 @@
   {
     "source": "/categorie-produit/marqueurs-et-encres/mines-de-rechange/feed/",
     "destination": "/marqueurs-et-encres/mines-de-rechange",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/marqueurs-et-encres/marqueurs-squeezers-vides",
+    "destination": "/marqueurs-et-encres/marqueurs-squeezers-vides",
     "permanent": true
   },
   {
@@ -655,6 +675,21 @@
     "permanent": true
   },
   {
+    "source": "/produit/montana-blk-400ml-pimp-violet/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-blk-400ml-shark/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-blk-400ml-true-magenta/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/montana-blk-400ml-beige/",
     "destination": "/produit/montana-black-400ml",
     "permanent": true
@@ -937,6 +972,16 @@
   {
     "source": "/produit/montana-blk-extended-600ml-code-red/",
     "destination": "/produit/montana-blk-extended-600ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-blk-extended-600ml-shark/",
+    "destination": "/produit/montana-blk-extended-600ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-crackle-effect-bronze/",
+    "destination": "/produit/montana-crackle-effect",
     "permanent": true
   },
   {
@@ -1236,6 +1281,11 @@
   },
   {
     "source": "/produit/posca-pc-1mr-blanc/",
+    "destination": "/produit/posca-pc-1mr",
+    "permanent": true
+  },
+  {
+    "source": "/produit/posca-pc-1mr-argent/",
     "destination": "/produit/posca-pc-1mr",
     "permanent": true
   },
