@@ -36,7 +36,7 @@ function SearchContent() {
       setLoading(true);
       try {
         const apiUrl = process.env.NEXT_PUBLIC_SYMFONY_API_URL;
-        const res = await fetch(`${apiUrl}/api/products/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`${apiUrl}/api/products?q=${encodeURIComponent(query)}`);
         if (res.ok) {
           const data = await res.json();
           setProducts(data);
@@ -85,7 +85,7 @@ function SearchContent() {
 // Il enveloppe le tout dans Suspense pour que Vercel accepte le build
 export default function SearchPage() {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-8">
+    <div className="py-8">
       <Suspense fallback={<div className="text-gray-500">Chargement de la recherche...</div>}>
         <SearchContent />
       </Suspense>
