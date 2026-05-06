@@ -6,7 +6,7 @@ type Props = {
   title: string;
   description: string;
   backgroundImage: string;
-  scrollTargetId?: string; 
+  scrollTargetId?: string;
 };
 
 const CategoryHero = ({ title, description, backgroundImage, scrollTargetId }: Props) => {
@@ -33,7 +33,7 @@ const CategoryHero = ({ title, description, backgroundImage, scrollTargetId }: P
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-white via-white/50 to-black z-10" />
+      <div className="absolute inset-0 bg-linear-to-b from-white via-white/80 via-70% to-black/40 sm:via-white/50 sm:via-50% z-10" />
 
       {/* Texte */}
       <div className="absolute inset-0 z-20 max-w-6xl mx-auto px-6 flex flex-col h-full justify-start">
