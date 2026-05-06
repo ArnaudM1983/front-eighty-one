@@ -5,7 +5,7 @@ import BuyTogether from "@/components/sections/BuyTogether";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import sanitizeHtml from "sanitize-html"; 
+import sanitizeHtml from "sanitize-html";
 
 // --- TYPES ---
 type ProductVariant = {
@@ -133,6 +133,11 @@ export default async function ProductPage({ params }: Props) {
     });
     crumbs.push({ label: product.name });
 
+    const prices = product.variants?.map(v => parseFloat(v.price)) || [];
+    const minPrice = prices.length > 0 ? Math.min(...prices) : parseFloat(product.price);
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : parseFloat(product.price);
+    const totalStock = product.variants?.reduce((acc, v) => acc + v.stock, 0) || product.stock;
+
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
@@ -141,7 +146,14 @@ export default async function ProductPage({ params }: Props) {
         "description": product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 200) : product.name,
         "sku": product.variants[0]?.sku || `EO-${product.id}`,
         "brand": { "@type": "Brand", "name": "Eightyone Store" },
-        "offers": {
+        "offers": product.variants && product.variants.length > 1 ? {
+            "@type": "AggregateOffer",
+            "priceCurrency": "EUR",
+            "lowPrice": minPrice,
+            "highPrice": maxPrice,
+            "offerCount": product.variants.length,
+            "availability": totalStock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+        } : {
             "@type": "Offer",
             "url": `${BASE_URL}/produit/${slug}`,
             "priceCurrency": "EUR",
@@ -216,7 +228,7 @@ export default async function ProductPage({ params }: Props) {
                                                 <span>{item.question}</span>
                                                 <span className="text-(--primary) transition-transform duration-300 group-open:rotate-180">↓</span>
                                             </summary>
-                                            <div 
+                                            <div
                                                 className="px-5 pb-5 text-gray-600 text-sm italic border-t border-gray-50 pt-4"
                                                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.answer, sanitizeOptions) }}
                                             />
