@@ -140,30 +140,69 @@ export default async function ProductPage({ params }: Props) {
 
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "Product",
-        "name": product.name,
-        "image": product.main_image,
-        "description": (product.excerpt || product.description || product.name)
-        .replace(/<[^>]*>?/gm, '')
-        .substring(0, 200),
-        "sku": product.variants[0]?.sku || `EO-${product.id}`,
-        "brand": { "@type": "Brand", "name": "Eightyone Store" },
-        "offers": product.variants && product.variants.length > 1 ? {
-            "@type": "AggregateOffer",
-            "priceCurrency": "EUR",
-            "lowPrice": minPrice,
-            "highPrice": maxPrice,
-            "offerCount": product.variants.length,
-            "availability": totalStock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-        } : {
-            "@type": "Offer",
-            "url": `${BASE_URL}/produit/${slug}`,
-            "priceCurrency": "EUR",
-            "price": product.price,
-            "itemCondition": "https://schema.org/NewCondition",
-            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-            "seller": { "@type": "Organization", "name": "Eightyone Store" }
-        }
+        "@graph": [
+            // LE PRODUIT
+            {
+                "@type": "Product",
+                "name": product.name,
+                "image": product.main_image,
+                "description": (product.excerpt || product.description || product.name)
+                    .replace(/<[^>]*>?/gm, '')
+                    .substring(0, 250),
+                "sku": product.variants[0]?.sku || `EO-${product.id}`,
+                "mpn": product.id.toString(),
+                "brand": {
+                    "@type": "Brand",
+                    "name": "Eightyone Store"
+                },
+                "offers": product.variants && product.variants.length > 1 ? {
+                    "@type": "AggregateOffer",
+                    "priceCurrency": "EUR",
+                    "lowPrice": minPrice,
+                    "highPrice": maxPrice,
+                    "offerCount": product.variants.length,
+                    "availability": totalStock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                    "url": `${BASE_URL}/produit/${slug}`
+                } : {
+                    "@type": "Offer",
+                    "url": `${BASE_URL}/produit/${slug}`,
+                    "priceCurrency": "EUR",
+                    "price": product.price,
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                    "seller": {
+                        "@type": "Organization",
+                        "name": "Eightyone Store"
+                    }
+                },
+                // On lie le produit aux catégories pour l'IA
+                "category": product.categories.map(c => c.name).join(', ')
+            },
+
+            // LE FIL D'ARIANE (Aide l'IA à comprendre l'arborescence)
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": crumbs.map((crumb, index) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "name": crumb.label,
+                    "item": crumb.href ? `${BASE_URL}${crumb.href}` : undefined
+                }))
+            },
+
+            // LA FAQ (Pour apparaître dans les réponses de type ChatGPT/Perplexity)
+            ...(product.faq && product.faq.length > 0 ? [{
+                "@type": "FAQPage",
+                "mainEntity": product.faq.map(item => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer.replace(/<[^>]*>?/gm, '').trim()
+                    }
+                }))
+            }] : [])
+        ]
     };
 
     const rawText = product.description ? product.description.replace(/<[^>]*>?/gm, '').trim() : '';

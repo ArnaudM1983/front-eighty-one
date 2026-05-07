@@ -158,8 +158,48 @@ export default async function GuideDetailPage({ params }: Props) {
     // Construction de l'URL d'image absolue
     const heroImage = guide.image ? `${API_URL}/${guide.image}` : "/api/placeholder/1600/700";
 
+    // --- JSON-LD ---
+    const guideJsonLd = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "TechArticle",
+                "headline": guide.title,
+                "description": guide.description,
+                "image": heroImage,
+                "datePublished": guide.createdAt,
+                "dateModified": guide.updatedAt || guide.createdAt,
+                "author": {
+                    "@type": "Organization",
+                    "name": "Eightyone Store",
+                    "url": "https://www.eightyonestore.com"
+                },
+                "publisher": {
+                    "@id": "https://www.eightyonestore.com/#organization"
+                },
+                "articleBody": guide.description
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": guide.faq?.map((item: any) => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer
+                    }
+                }))
+            }
+        ]
+    };
+
     return (
         <article className="min-h-screen bg-white text-left">
+            {/* --- SCRIPT POUR GOOGLE --- */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(guideJsonLd) }}
+            />
             <div className="max-w-6xl mx-auto px-6">
                 <div className="pt-8"><Breadcrumbs crumbs={crumbs} /></div>
 

@@ -17,20 +17,79 @@ export default function Page() {
   // Définition du schéma JSON-LD
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Store",
-    "name": "Eightyone Store",
-    "image": "https://www.eightyonestore.com/logo-81.png",
-    "description": "Magasin spécialisé en graffiti et arts graphiques à Lyon et vente en ligne dans toute la France.",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "21 Rue des Capucins",
-      "addressLocality": "Lyon",
-      "postalCode": "69001",
-      "addressCountry": "FR"
-    },
-    "priceRange": "€€",
-    "telephone": "04 78 91 18 52",
-    "url": "https://www.eightyonestore.com"
+    "@graph": [
+      {
+        "@type": "Store",
+        "@id": "https://www.eightyonestore.com/#organization",
+        "name": "Eightyone Store",
+        "url": "https://www.eightyonestore.com",
+        "logo": "https://www.eightyonestore.com/logo-81.png",
+        "image": "https://www.eightyonestore.com/store-front.webp", // Photo réelle du shop 
+        "description": "Le spécialiste graffiti à Lyon depuis 2008. Vente de bombes de peinture (Montana, Double-A), marqueurs, encres et matériel d'art.",
+        "telephone": "+33478911852",
+        "priceRange": "€€",
+        "currenciesAccepted": "EUR",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "21 Rue des Capucins",
+          "addressLocality": "Lyon",
+          "postalCode": "69001",
+          "addressCountry": "FR"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 45.7694,
+          "longitude": 4.8345
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "11:00",
+            "closes": "19:00"
+          }
+        ],
+        // PREUVE SOCIALE : Reseaux sociaux
+        "sameAs": [
+          "https://www.instagram.com/81store/",
+          "https://www.facebook.com/eighty-one-store",
+          "https://maps.app.goo.gl/pXLeBiCaUixvJLJn9" // Lien Google Business
+        ],
+        // EXPERTISE : Indique explicitement ce que l'IA doit savoir
+        "knowsAbout": [
+          "Culture Graffiti et Street Art",
+          "Technologie des bombes de peinture : Haute et Basse Pression",
+          "Gamme Montana Cans (Black, Gold, Tech, Effect)",
+          "Chimie des encres et marqueurs : Alcool, Acrylique, Base eau",
+          "Outils spécialisés Posca, On The Run, Uni-paint, Infamy et Molotow",
+          "Choix de buses et caps pour aérosols",
+          "Techniques de Street Art : Pochoir, Wildstyle, Handstyle",
+          "Préparation de supports pour fresques murales",
+          "Équipements de protection et sécurité pour graffeurs",
+          "Customisation de baskets et vêtements urbains"
+        ],
+        // SERVICE CLIENTS
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+33478911852",
+          "contactType": "customer service",
+          "areaServed": "FR",
+          "availableLanguage": "French"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.eightyonestore.com/#website",
+        "url": "https://www.eightyonestore.com",
+        "name": "Eightyone Store",
+        "publisher": { "@id": "https://www.eightyonestore.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.eightyonestore.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
   };
 
   return (
