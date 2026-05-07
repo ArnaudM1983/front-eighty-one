@@ -167,8 +167,8 @@ export default async function GuideDetailPage({ params }: Props) {
                 "headline": guide.title,
                 "description": guide.description,
                 "image": heroImage,
-                "datePublished": guide.createdAt,
-                "dateModified": guide.updatedAt || guide.createdAt,
+                "datePublished": guide.created_at,
+                "dateModified": guide.updated_at || guide.created_at,
                 "author": {
                     "@type": "Organization",
                     "name": "Eightyone Store",
