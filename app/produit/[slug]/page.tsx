@@ -143,7 +143,9 @@ export default async function ProductPage({ params }: Props) {
         "@type": "Product",
         "name": product.name,
         "image": product.main_image,
-        "description": product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 200) : product.name,
+        "description": (product.excerpt || product.description || product.name)
+        .replace(/<[^>]*>?/gm, '')
+        .substring(0, 200),
         "sku": product.variants[0]?.sku || `EO-${product.id}`,
         "brand": { "@type": "Brand", "name": "Eightyone Store" },
         "offers": product.variants && product.variants.length > 1 ? {
