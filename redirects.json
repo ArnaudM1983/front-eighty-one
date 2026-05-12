@@ -320,11 +320,6 @@
     "permanent": true
   },
   {
-    "source": "/produit/cap-original/",
-    "destination": "/produit/cap-original",
-    "permanent": true
-  },
-  {
     "source": "/produit/double-a-400ml-14thstreetpink/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
