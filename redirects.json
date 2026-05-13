@@ -315,11 +315,6 @@
     "permanent": true
   },
   {
-    "source": "/produit/book-molotow-a5/",
-    "destination": "/produit/book-molotow-a5",
-    "permanent": true
-  },
-  {
     "source": "/produit/double-a-400ml-14thstreetpink/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
