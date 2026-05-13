@@ -600,11 +600,6 @@
     "permanent": true
   },
   {
-    "source": "/produit/infamy-squeezer-18mm-red/",
-    "destination": "/produit/infamy-squeezer-18mm-red",
-    "permanent": true
-  },
-  {
     "source": "/produit/mine-10mm-squeezer-molotow/",
     "destination": "/produit/mine-10mm-squeezer-montana",
     "permanent": true
@@ -1392,11 +1387,6 @@
   {
     "source": "/produit/posca-pc8k-orange/",
     "destination": "/produit/posca-pc8k",
-    "permanent": true
-  },
-  {
-    "source": "/produit/russian-roulette-200ml/",
-    "destination": "/produit/russian-roulette-200ml",
     "permanent": true
   },
   {

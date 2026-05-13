@@ -83,7 +83,7 @@ const Navbar = () => {
             description="Protégez-vous et optimisez votre pratique. Retrouvez masques, gants, stickers et blackbooks pour vos sessions."
             items={[
               { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
-              { label: "Stickers", href: "/accessoires-equipements/stickers-books" },
+              { label: "Stickers", href: "/accessoires-equipements/stickers-book" },
               { label: "Books", href: "/accessoires-equipements/books" }
             ]}
           />
@@ -149,7 +149,7 @@ const Navbar = () => {
               { label: "Techniques", href: "/bombes-de-peinture/techniques" },
               { label: "Effets", href: "/bombes-de-peinture/effets" },
               { label: "Caps", href: "/bombes-de-peinture/caps" },
-              { label: "Collectors", href: "/bombes-de-peinture/collector" }
+              { label: "Collectors", href: "/bombes-de-peinture/collector-editions-limitees" }
             ],
           },
           {
@@ -174,7 +174,7 @@ const Navbar = () => {
             title: "Accessoires & équipements",
             items: [
               { label: "Protections & équipements", href: "/accessoires-equipements/protections-equipements" },
-              { label: "Stickers", href: "/accessoires-equipements/stickers-books" },
+              { label: "Stickers", href: "/accessoires-equipements/stickers-book" },
               { label: "Books", href: "/accessoires-equipements/books" }
             ],
           },
