@@ -61,7 +61,7 @@ const Navbar = () => {
               { label: "Techniques", href: "/bombes-de-peinture/techniques" },
               { label: "Effets", href: "/bombes-de-peinture/effets" },
               { label: "Caps", href: "/bombes-de-peinture/caps" },
-              { label: "Collectors", href: "/bombes-de-peinture/collector" }
+              { label: "Collectors", href: "/bombes-de-peinture/collector-editions-limitees" }
             ]}
           />
           <Dropdown
