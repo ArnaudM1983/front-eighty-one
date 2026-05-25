@@ -11,6 +11,13 @@ export function proxy(request: NextRequest) {
 
   console.log('Middleware check pour :', pathname);
 
+  if (pathname.match(/^\/wp-.*\.php$/)) {
+    console.log(`Sécurité WP déclenchée : ${pathname} -> /`);
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url, 301);
+  }
+
   const destination = redirectsMap.get(pathname) || redirectsMap.get(`${pathname}/`);
 
   if (destination) {
@@ -36,6 +43,17 @@ export const config = {
     '/test-seo',
     '/page-daccueil/:path*', 
     '/wp-content/:path*',    
-    '/mentions-legales/'     
+    '/mentions-legales/:path*',
+    '/marqueurs-encres',
+    '/marqueurs-encres/:path*',
+    '/le-shop',  
+    '/le-shop/:path*',
+    '/classiques',               
+    '/classiques/:path*',
+    '/marqueurs-squeezers-vides',         
+    '/marqueurs-squeezers-vides/:path*',
+    '/caps',                             
+    '/caps/:path*',
+    '/:file.php' 
   ],
 };

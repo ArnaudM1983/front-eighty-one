@@ -45,6 +45,16 @@
     "permanent": true
   },
   {
+    "source": "/produit/flame-blue-lighting-blue/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-ocean-blue/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/flame-blue-cherry-dark/",
     "destination": "/produit/flame-blue-400-ml",
     "permanent": true
@@ -135,6 +145,16 @@
     "permanent": true
   },
   {
+    "source": "/produit/montana-blk-400ml-ant/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-blk-400ml-toad/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/montana-blk-x-most/",
     "destination": "/produit/montana-black-400ml",
     "permanent": true
@@ -215,11 +235,6 @@
     "permanent": true
   },
   {
-    "source": "/produit/posca-pc8k-ivoire/",
-    "destination": "/produit/posca-pc8k",
-    "permanent": true
-  },
-  {
     "source": "/produit/sakura-solid-marker-bleu/",
     "destination": "/produit/sakura-solid-marker",
     "permanent": true
@@ -270,8 +285,23 @@
     "permanent": true
   },
   {
+    "source": "/marques/otr/",
+    "destination": "/marqueurs-et-encres",
+    "permanent": true
+  },
+  {
     "source": "/marques/posca/",
     "destination": "/marqueurs-et-encres/posca-uni-paint",
+    "permanent": true
+  },
+  {
+    "source": "/marques/flame/",
+    "destination": "/bombes-de-peinture/classiques",
+    "permanent": true
+  },
+  {
+    "source": "/marques/molotow/",
+    "destination": "/marqueurs-et-encres",
     "permanent": true
   },
   {
@@ -325,7 +355,7 @@
     "permanent": true
   },
   {
-    "source": "/produit/double-a-400ml-apricot/",
+    "source": "/produit/double-a-400ml-anonymous/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
   },
@@ -610,6 +640,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/molotow-covers-all-acrylic-toast-signal-black/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
     "source": "/produit/molotow-covers-all-acrylic-purple-violet/",
     "destination": "/produit/molotow-covers-all-acrylic",
     "permanent": true
@@ -656,6 +691,11 @@
   },
   {
     "source": "/produit/montana-blk-400ml-acid/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-blk-400ml-black/",
     "destination": "/produit/montana-black-400ml",
     "permanent": true
   },
@@ -1420,6 +1460,16 @@
     "permanent": true
   },
   {
+    "source": "/produit/double-a-400ml-suppliesblue/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-nonamesgreen/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/double-a-400ml-moccachino/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
@@ -1460,23 +1510,18 @@
     "permanent": true
   },
   {
+    "source": "/produit/molotow-covers-all-acrylic-currant/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
     "source": "/produit/molotow-covers-all-acrylic-avocado/",
     "destination": "/produit/molotow-covers-all-acrylic",
     "permanent": true
   },
   {
-    "source": "/produit/double-a-400ml-apricot/",
-    "destination": "/produit/double-a-400ml",
-    "permanent": true
-  },
-  {
     "source": "/produit/posca-pc8k-ivoire/",
     "destination": "/produit/posca-pc8k",
-    "permanent": true
-  },
-  {
-    "source": "/produit/flame-blue-dark-grey-neutral/",
-    "destination": "/produit/flame-blue-400-ml",
     "permanent": true
   },
   {
@@ -1546,6 +1591,86 @@
   },
   {
     "source": "/page-daccueil/",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/accessoires-equipements/protections-equipements",
+    "destination": "/accessoires-equipements/protections-equipements",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/marqueurs-et-encres/squeezers/",
+    "destination": "/marqueurs-et-encres/squeezers/",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/marqueurs-et-encres/marqueurs/",
+    "destination": "/marqueurs-et-encres/marqueurs",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/marqueurs-et-encres/posca-uni-paint/",
+    "destination": "/marqueurs-et-encres/posca-uni-paint",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/accessoires-equipements/streetwear/",
+    "destination": "/urban-wear",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/marqueurs-et-encres/mines-de-rechange/",
+    "destination": "/marqueurs-et-encres/mines-de-rechange",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/bombes-de-peinture/caps/",
+    "destination": "/bombes-de-peinture/caps/",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/bombes-de-peinture/effets/",
+    "destination": "/bombes-de-peinture/effets/",
+    "permanent": true
+  },
+  {
+    "source": "/marqueurs-encres",
+    "destination": "/marqueurs-et-encres/",
+    "permanent": true
+  },
+  {
+    "source": "/le-shop",
+    "destination": "/shop/",
+    "permanent": true
+  },
+  {
+    "source": "/classiques",
+    "destination": "/bombes-de-peinture/classiques",
+    "permanent": true
+  },
+  {
+    "source": "/marqueurs-squeezers-vides",
+    "destination": "/marqueurs-et-encres/marqueurs-squeezers-vides",
+    "permanent": true
+  },
+  {
+    "source": "/caps",
+    "destination": "/bombes-de-peinture/caps",
+    "permanent": true
+  },
+  {
+    "source": "/mentions-legales/eightyone@hotmail.fr",
+    "destination": "/mentions-legales/",
+    "permanent": true
+  },
+  {
+    "source": "/wp-login.php",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/wp-cron.php",
     "destination": "/",
     "permanent": true
   }
