@@ -100,6 +100,26 @@
     "permanent": true
   },
   {
+    "source": "/produit/molotow-covers-all-acrylic-blackberry/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-cadmium-yellow/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-riviera-pastel/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-stone-grey-light/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
     "source": "/produit/molotow-covers-all-acrylic-fuchsia-pink/",
     "destination": "/produit/molotow-covers-all-acrylic",
     "permanent": true
@@ -1536,6 +1556,26 @@
   },
   {
     "source": "/produit/flame-blue-turquoise/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-ruby-red/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-skin-light/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-violet-grey/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-terracotta-grey-light/",
     "destination": "/produit/flame-blue-400-ml",
     "permanent": true
   },
