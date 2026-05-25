@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   const crumbs = [
     { label: "Accueil", href: "/" },
-    { label: "Bombes de peinture" }
+    { label: "Bombes de peinture & pots" }
   ];
 
   return (
@@ -30,8 +30,8 @@ export default async function Page() {
 
       <main>
         <CategoryHero
-          title="Bombes de peinture"
-          description="Eightyone Store propose un large choix de bombes de peinture, allant des incontournables à solvant aux bombes acryliques. Nous proposons aussi une large gamme de bombes techniques (vernis, apprêts) ainsi que des bombes à effets pour diversifier vos rendus!"
+          title="Bombes de peinture & Pots"
+          description="Eightyone Store propose un large choix de bombes de peinture, allant des incontournables à solvant aux bombes acryliques. Nous proposons aussi une large gamme de bombes techniques (vernis, apprêts), des bombes à effets pour diversifier vos rendus, des bombes collector et des pots de peinture !"
           backgroundImage="/bandeau-spray-global.webp"
           scrollTargetId="subCategoriesFirst"
         />
@@ -69,7 +69,7 @@ export default async function Page() {
       <SubCategoriesSection
         title="Les Effets"
         categorySlug="effets"
-        description="Les gammes Effets offrent des rendus originaux et novateurs dans la pratique des arts graphiques."
+        description="Les gammes Effets offrent des rendus originaux et novateurs dans la pratique des arts graphiques (effets chromes, métallisés, pailletés ou phosphorescents)."
         buttonLabel="Voir plus"
         buttonHref="/bombes-de-peinture/effets"
       />
@@ -78,9 +78,18 @@ export default async function Page() {
       <SubCategoriesSection
         title="Les Caps"
         categorySlug="caps"
-        description="Des plus petits aux plus diffus, le choix des caps est important dans la technique,  et vous aidera à obtenir une plus grande précision d’exécution."
+        description="Du Skinny cap pour les détails fins au Fat cap pour les lignes larges, le choix de vos diffuseurs est capital pour obtenir une plus grande précision d’exécution."
         buttonLabel="Voir plus"
         buttonHref="/bombes-de-peinture/caps"
+      />
+
+      {/* Pots de peinture */}
+      <SubCategoriesSection
+        title="Les Pots de peinture"
+        categorySlug="pots-de-peinture"
+        description="Conçus par et pour les artistes urbains, découvrez nos pots de peinture au latex haute viscosité. Idéaux pour réaliser des fonds de fresques et blockbusters massifs au rouleau, ces pots offrent un pouvoir opacifiant extrême pour bloquer les murs et préparer vos supports avant le passage des bombes."
+        buttonLabel="Voir plus"
+        buttonHref="/bombes-de-peinture/pots-de-peinture"
       />
 
       {/* Collector */}

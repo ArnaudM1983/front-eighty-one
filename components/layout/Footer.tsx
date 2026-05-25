@@ -44,12 +44,14 @@ const Footer = (props: Props) => {
             
             {/* 1. Bombes de peinture */}
             <div>
-              <p className="font-bold text-gray-900 uppercase text-[10px] tracking-widest">Bombes</p>
+              <p className="font-bold text-gray-900 uppercase text-[10px] tracking-widest">Bombes & Pots</p>
               <ul className="mt-6 space-y-4 text-sm">
                 <li><Link href="/bombes-de-peinture/classiques" className="text-gray-600 transition hover:text-(--primary)">Classiques</Link></li>
                 <li><Link href="/bombes-de-peinture/acryliques" className="text-gray-600 transition hover:text-(--primary)">Acryliques</Link></li>
                 <li><Link href="/bombes-de-peinture/techniques" className="text-gray-600 transition hover:text-(--primary)">Techniques</Link></li>
                 <li><Link href="/bombes-de-peinture/effets" className="text-gray-600 transition hover:text-(--primary)">Effets</Link></li>
+                <li><Link href="/bombes-de-peinture/caps" className="text-gray-600 transition hover:text-(--primary)">Caps</Link></li>
+                <li><Link href="/bombes-de-peinture/pots-de-peinture" className="text-gray-600 transition hover:text-(--primary)">Pots</Link></li>
                 <li><Link href="/bombes-de-peinture/collector" className="text-gray-600 transition hover:text-(--primary)">Collectors</Link></li>
               </ul>
             </div>

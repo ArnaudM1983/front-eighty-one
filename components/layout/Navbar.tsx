@@ -52,7 +52,7 @@ const Navbar = () => {
         {/* Menu Desktop */}
         <nav className="hidden lg:flex items-center gap-8 text-sm font-medium static h-full">
           <Dropdown
-            title="Bombes de peinture"
+            title="Bombes de peinture & Pots"
             href="/bombes-de-peinture"
             description="Un large choix de sprays. Retrouvez les gammes leaders pour vos projets artistiques, du matériel pro aux éditions collectors."
             items={[
@@ -61,7 +61,8 @@ const Navbar = () => {
               { label: "Techniques", href: "/bombes-de-peinture/techniques" },
               { label: "Effets", href: "/bombes-de-peinture/effets" },
               { label: "Caps", href: "/bombes-de-peinture/caps" },
-              { label: "Collectors", href: "/bombes-de-peinture/collector-editions-limitees" }
+              { label: "Collectors", href: "/bombes-de-peinture/collector-editions-limitees" },
+              { label: "Pots de peinture", href: "/bombes-de-peinture/pots-de-peinture" },
             ]}
           />
           <Dropdown
@@ -149,6 +150,7 @@ const Navbar = () => {
               { label: "Techniques", href: "/bombes-de-peinture/techniques" },
               { label: "Effets", href: "/bombes-de-peinture/effets" },
               { label: "Caps", href: "/bombes-de-peinture/caps" },
+              { label: "Pots de peinture", href: "/bombes-de-peinture/pots-de-peinture" },
               { label: "Collectors", href: "/bombes-de-peinture/collector-editions-limitees" }
             ],
           },
