@@ -5,6 +5,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/005-otr-soultip-paint-gold/",
+    "destination": "/produit/005-otr-soultip-paint",
+    "permanent": true
+  },
+  {
     "source": "/produit/005-otr-soultip-paint-petrol/",
     "destination": "/produit/005-otr-soultip-paint",
     "permanent": true
@@ -30,7 +35,42 @@
     "permanent": true
   },
   {
+    "source": "/produit/double-a-400ml-arctic/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-lightmelon/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-lightmistyrose/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/double-a-400ml-malachit/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-pastelarctic/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-suppliesblue/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-tortilla/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-yolk/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
   },
@@ -170,6 +210,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/montana-blk-400ml-power-green/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/montana-blk-400ml-toad/",
     "destination": "/produit/montana-black-400ml",
     "permanent": true
@@ -181,6 +226,11 @@
   },
   {
     "source": "/produit/montana-marble-effect-or/",
+    "destination": "/produit/montana-marble-effect",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-marble-effect-noir/",
     "destination": "/produit/montana-marble-effect",
     "permanent": true
   },
@@ -215,6 +265,16 @@
     "permanent": true
   },
   {
+    "source": "/produit/otr-001-soultip-black/",
+    "destination": "/produit/otr-001-soultip",
+    "permanent": true
+  },
+  {
+    "source": "/produit/otr-001-soultip-hot-pink/",
+    "destination": "/produit/otr-001-soultip",
+    "permanent": true
+  },
+  {
     "source": "/produit/paint-px20-gris/",
     "destination": "/produit/paint-px20",
     "permanent": true
@@ -236,6 +296,16 @@
   },
   {
     "source": "/produit/posca-pc3m-fuchsia/",
+    "destination": "/produit/posca-pc3m",
+    "permanent": true
+  },
+  {
+    "source": "/produit/posca-pc3m-blanc/",
+    "destination": "/produit/posca-pc3m",
+    "permanent": true
+  },
+  {
+    "source": "/produit/posca-pc3m-vert-d-eau/",
     "destination": "/produit/posca-pc3m",
     "permanent": true
   },
@@ -326,6 +396,11 @@
   },
   {
     "source": "/marques/mefians-ink/",
+    "destination": "/marqueurs-et-encres",
+    "permanent": true
+  },
+  {
+    "source": "/marques/mefians-ink-violet/",
     "destination": "/marqueurs-et-encres",
     "permanent": true
   },
@@ -1145,6 +1220,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/otr-006-soultip-white/",
+    "destination": "/produit/otr-006-soultip",
+    "permanent": true
+  },
+  {
     "source": "/produit/otr-006-soultip-blazing-red/",
     "destination": "/produit/otr-006-soultip",
     "permanent": true
@@ -1246,6 +1326,16 @@
   },
   {
     "source": "/produit/otr-901-paint-200ml-blue/",
+    "destination": "/produit/otr-901-paint-200ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/otr-901-paint-200ml-orange/",
+    "destination": "/produit/otr-901-paint-200ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/otr-901-paint-200ml-light-blue/",
     "destination": "/produit/otr-901-paint-200ml",
     "permanent": true
   },
@@ -1435,6 +1525,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/posca-pc8k-marron/",
+    "destination": "/produit/posca-pc8k",
+    "permanent": true
+  },
+  {
     "source": "/produit/posca-pc8k-bleu-fonce/",
     "destination": "/produit/posca-pc8k",
     "permanent": true
@@ -1520,11 +1615,6 @@
     "permanent": true
   },
   {
-    "source": "/produit/otr-001-soultip-hot-pink/",
-    "destination": "/produit/otr-001-soultip",
-    "permanent": true
-  },
-  {
     "source": "/produit/molotow-covers-all-acrylic-marble/",
     "destination": "/produit/molotow-covers-all-acrylic",
     "permanent": true
@@ -1547,11 +1637,6 @@
   {
     "source": "/marques/montana/",
     "destination": "/marqueurs-et-encres",
-    "permanent": true
-  },
-  {
-    "source": "/produit/otr-001-soultip-hot-pink/",
-    "destination": "/produit/otr-001-soultip",
     "permanent": true
   },
   {
