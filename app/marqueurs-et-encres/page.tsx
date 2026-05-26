@@ -54,7 +54,7 @@ export default async function Page() {
       <SubCategoriesSection
         title="Les Marqueurs"
         categorySlug="marqueurs"
-        description="Cette selection de marqueurs déjà remplies vous permettra de traçer, écrire et plus sur tout types de surfaces, quelques soit vos besoins."
+        description="Cette sélection de marqueurs déjà remplis vous permettra de traçer, écrire et plus sur tout types de surfaces, quelques soit vos besoins."
         buttonLabel="Voir plus"
         buttonHref="/marqueurs-et-encres/marqueurs"
       />
