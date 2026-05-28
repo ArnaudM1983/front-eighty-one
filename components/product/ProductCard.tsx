@@ -5,6 +5,10 @@ type Product = {
   name: string;
   slug: string;
   price: number | string;
+  sale_price?: number | string | null;
+  final_price?: number | string;
+  is_on_sale?: boolean;
+  discount_label?: string | null;
   stock?: number;
   main_image: string | null;
   featured?: boolean;
@@ -57,7 +61,21 @@ export default function ProductCard({ product }: Props) {
 
           <div className="mt-4 flex items-center justify-between">
             <div className="flex flex-col">
-              <p className="font-black text-xl tracking-tight text-gray-900">{product.price} €</p>
+              {product.is_on_sale ? (
+                <>
+                  <div className="flex items-center gap-2">
+                    <p className="font-black text-xl tracking-tight text-red-600">{product.final_price} €</p>
+                    {product.discount_label && (
+                      <span className="bg-red-100 text-red-600 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md whitespace-nowrap">
+                        {product.has_variants ? "Jusqu'à " : ""}{product.discount_label}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-gray-400 line-through font-bold">{product.price} €</p>
+                </>
+              ) : (
+                <p className="font-black text-xl tracking-tight text-gray-900">{product.price} €</p>
+              )}
             </div>
 
             {/* SYSTÈME CONDITIONNEL : COULEUR vs TAILLE */}

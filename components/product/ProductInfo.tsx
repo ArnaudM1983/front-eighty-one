@@ -29,6 +29,10 @@ type Product = {
   name: string;
   slug: string;
   price: string;
+  sale_price?: string | null;
+  final_price?: string;
+  is_on_sale?: boolean;
+  discount_label?: string | null;
   stock: number;
   main_image: string;
   featured: boolean;
@@ -97,7 +101,21 @@ const ProductInfo = ({ product, isUrbanWear }: Props) => {
           }}
         />
       )}
-      <p className="text-4xl text-gray-900 font-bold">{product.price} €</p>
+      <div className="flex items-center gap-4">
+        {product.is_on_sale ? (
+          <>
+            <p className="text-4xl text-red-600 font-bold">{product.final_price} €</p>
+            <p className="text-xl text-gray-400 font-bold line-through">{product.price} €</p>
+            {product.discount_label && (
+              <span className="bg-red-100 text-red-600 font-black uppercase tracking-wider px-3 py-1 rounded-lg">
+                {product.variants.length > 0 ? "Jusqu'à " : ""}{product.discount_label}
+              </span>
+            )}
+          </>
+        ) : (
+          <p className="text-4xl text-gray-900 font-bold">{product.price} €</p>
+        )}
+      </div>
 
       <div className="mt-4">
         {isParentProduct ? (
