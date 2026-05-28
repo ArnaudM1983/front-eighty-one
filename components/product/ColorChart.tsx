@@ -5,7 +5,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import QuantityStepperChart from "./QuantityStepperChart";
 import AddToCartButton from "./AddToCartButton";
 import { addToCart } from "@/lib/cartApi";
-import { useCart } from "@/context/CartContext"; 
+import { useCart } from "@/context/CartContext";
 
 type ProductVariant = {
   id: number;
@@ -16,6 +16,10 @@ type ProductVariant = {
   image: string | null;
   attributes: Record<string, any>;
   active: boolean;
+  sale_price?: string | null;
+  final_price?: string;
+  is_on_sale?: boolean;
+  discount_label?: string | null;
 };
 
 type Props = {
@@ -31,7 +35,7 @@ const ColorChart = ({ productId, variants, title }: Props) => {
     () => Object.fromEntries(visibleVariants.map((v) => [v.id, 0]))
   );
 
-  const { refreshCart } = useCart(); 
+  const { refreshCart } = useCart();
 
   if (!visibleVariants || visibleVariants.length === 0) return null;
 
@@ -76,9 +80,9 @@ const ColorChart = ({ productId, variants, title }: Props) => {
             const lastWord = words[words.length - 1];
 
             return (
-              <div 
-                key={variant.id} 
-                className="col-span-12 md:col-span-1 flex flex-row items-center justify-between h-auto py-2 md:flex-col md:py-0 md:h-40"
+              <div
+                key={variant.id}
+                className="col-span-12 md:col-span-1 flex flex-row items-center justify-between h-auto py-2 md:flex-col md:py-0 md:h-full"
               >
                 {variant.image && (
                   <img
@@ -89,13 +93,21 @@ const ColorChart = ({ productId, variants, title }: Props) => {
                     className="w-12 h-auto object-contain shrink-0 md:w-full md:max-w-[100px] md:max-h-[100px] md:object-cover rounded"
                   />
                 )}
-                <p 
+                <div
                   // Mobile: aligné à gauche, prend la place centrale (flex-1).
                   // Bureau (md): EXACTEMENT tes classes d'origine.
                   className="text-xs text-left flex-1 px-3 mt-0 md:text-center md:flex-none md:px-0 md:mt-2 wrap-break-word whitespace-normal w-full"
                 >
-                  {lastWord}
-                </p>
+                  <p>{lastWord}</p>
+                  {variant.is_on_sale ? (
+                    <div className="flex flex-col items-start md:items-center mt-1">
+                      <span className="text-red-600 font-bold">{variant.final_price} €</span>
+                      <span className="text-gray-400 line-through text-[10px]">{variant.price} €</span>
+                    </div>
+                  ) : (
+                    <p className="font-bold text-gray-700 mt-1">{variant.price} €</p>
+                  )}
+                </div>
                 <div className="shrink-0">
                   <QuantityStepperChart
                     stock={variant.stock}
