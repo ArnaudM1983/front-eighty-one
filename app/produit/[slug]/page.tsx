@@ -284,7 +284,7 @@ export default async function ProductPage({ params }: Props) {
                         <div className="bg-(--primary) text-white rounded-3xl p-6 relative overflow-hidden">
                             <div className="relative z-10">
                                 <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 opacity-80">Dispo au Shop</p>
-                                <p className="text-sm font-bold leading-snug">Une question technique sur ce produit ? Passez nous voir au 21 Rue des Capucins, Lyon 1er.</p>
+                                <p className="text-sm font-bold leading-snug">Une question technique sur ce produit ? Passez nous voir au 21 Rue des Capucins, Lyon 1er, ou appellez-nous directement au <a href="tel:+33478911852" className="text-white">04 78 91 18 52.</a></p>
                             </div>
                             <div className="absolute -bottom-4 -right-4 text-6xl font-black opacity-20 text-white">81</div>
                         </div>
