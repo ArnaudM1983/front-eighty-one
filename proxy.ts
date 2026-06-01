@@ -18,6 +18,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+  const decodedPathname = decodeURIComponent(pathname);
+  
+  if (decodedPathname.includes('*')) {
+    console.log(`URL avec astérisque détectée : ${pathname} -> Redirection /`);
+    const homeUrl = new URL('/', request.url);
+    return NextResponse.redirect(homeUrl, 301);
+  }
+
   const destination = redirectsMap.get(pathname) || redirectsMap.get(`${pathname}/`);
 
   if (destination) {
@@ -54,6 +62,8 @@ export const config = {
     '/marqueurs-squeezers-vides/:path*',
     '/caps',                             
     '/caps/:path*',
-    '/:file.php' 
+    '/:file.php',
+    '/urban-wear/:path*',
+    '/bombes-de-peinture/:path*'
   ],
 };

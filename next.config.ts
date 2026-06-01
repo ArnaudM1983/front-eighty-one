@@ -12,11 +12,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api-eightyone.com', 
+        hostname: 'api-eightyone.com',
       },
       {
         protocol: 'https',
-        hostname: 'eightyonestore.com', 
+        hostname: 'eightyonestore.com',
       },
       // Ajout pour voir les images des produits en local
       {
@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
       }
     ],
   },
-  
+
   // --- LE REVERSE PROXY DYNAMIQUE ---
   async rewrites() {
     // On récupère l'URL de l'API selon l'environnement (Local ou Prod)
@@ -36,10 +36,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api-proxy/:path*',
-        destination: `${apiUrl}/:path*`, 
+        destination: `${apiUrl}/:path*`,
       },
     ]
   },
+
 };
 
 export default nextConfig;

@@ -15,6 +15,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/005-otr-soultip-paint-hot-pink/",
+    "destination": "/produit/005-otr-soultip-paint",
+    "permanent": true
+  },
+  {
     "source": "/produit/005-otr-soultip-paint-royal-blue/",
     "destination": "/produit/005-otr-soultip-paint",
     "permanent": true
@@ -81,6 +86,11 @@
   },
   {
     "source": "/produit/flame-blue-aqua/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-aqua-pastel/",
     "destination": "/produit/flame-blue-400-ml",
     "permanent": true
   },
@@ -1797,6 +1807,81 @@
   {
     "source": "/wp-cron.php",
     "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/categorie-produit/bombes-de-peinture/classiques/",
+    "destination": "/bombes-de-peinture/classiques",
+    "permanent": true
+  },
+  {
+    "source": "/produit/montana-black-400ml-toad/",
+    "destination": "/produit/montana-black-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-acrylic-fern-green/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-acrylic-mad-c-cherry-red/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-acrylic-stone-grey-light/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/posca-pc-1mr-rose/",
+    "destination": "/produit/posca-pc-1mr",
+    "permanent": true
+  },
+  {
+    "source": "/produit/posca-pc3m-gris/",
+    "destination": "/produit/posca-pc3m",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-currant/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/flame-blue-aqua-dark/",
+    "destination": "/produit/flame-blue-400-ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/mefians-ink-violet/",
+    "destination": "/produit/mefians-ink",
+    "permanent": true
+  },
+  {
+    "source": "/produit/mefians-ink-noir/",
+    "destination": "/produit/mefians-ink",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-acrylic-riviera-pastel/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/produit/molotow-covers-all-acrylic-cadmium-yellow/",
+    "destination": "/produit/molotow-covers-all-acrylic",
+    "permanent": true
+  },
+  {
+    "source": "/urban-wear/jacker",
+    "destination": "/urban-wear",
+    "permanent": true
+  },
+  {
+    "source": "/bombes-de-peinture/collector",
+    "destination": "/bombes-de-peinture/collector-editions-limitees",
     "permanent": true
   }
 ]
