@@ -35,7 +35,17 @@
     "permanent": true
   },
   {
+    "source": "/produit/double-a-400ml-ivory/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/double-a-400ml-apricot/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-powerviolet/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
   },
