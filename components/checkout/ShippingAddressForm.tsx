@@ -60,14 +60,15 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
 
     const [formData, setFormData] = useState<FormData>({
         email: '', company: '', firstName: '', lastName: '', address: '',
-        postalCode: '', city: '', country: '', phone: '', instructions: '',
+        postalCode: '', city: '', country: 'France', phone: '', instructions: '',
         isBillingDifferent: false,
         billingCompany: '', billingFirstName: '', billingLastName: '', billingAddress: '',
-        billingPostalCode: '', billingCity: '', billingCountry: 'FR'
+        billingPostalCode: '', billingCity: '', billingCountry: 'France'
     });
     
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [apiErrorMessage, setApiErrorMessage] = useState<string | null>(null);
 
     const currentMethod = shippingMethod || '';
     const requiresPudo = currentMethod.includes('_pr') || currentMethod.includes('_relais');
@@ -105,7 +106,11 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         if (isBlank(data.lastName)) errors.lastName = "Le nom est obligatoire.";
         if (!requiresPudo && isBlank(data.address)) errors.address = "L'adresse est obligatoire.";
         if (isBlank(data.city)) errors.city = "La ville est obligatoire.";
-        if (isBlank(data.country)) errors.country = "Le pays est obligatoire.";
+        if (isBlank(data.country)) {
+            errors.country = "Le pays est obligatoire.";
+        } else if (data.country.trim().toLowerCase() !== 'france' && data.country.trim().toUpperCase() !== 'FR') {
+            errors.country = "Les livraisons physiques sont possibles uniquement en France.";
+        }
         if (isBlank(data.postalCode)) errors.postalCode = "Le code postal est obligatoire.";
         if (isBlank(data.email)) errors.email = "L'e-mail est obligatoire.";
 
@@ -198,6 +203,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         };
 
         try {
+            setApiErrorMessage(null);
             const res = await fetch(`${process.env.NEXT_PUBLIC_PROXY_URL}/api/order/${orderId}/shipping`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -209,6 +215,10 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
                 setStatus('success');
                 return true;
             } else {
+                const errData = await res.json().catch(() => null);
+                if (errData && errData.error) {
+                    setApiErrorMessage(errData.error);
+                }
                 setStatus('error');
                 return false;
             }
@@ -223,7 +233,14 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
     }));
 
     // Ajout de isRequired = true par défaut
-    const renderInput = (name: keyof FormData, label: string, type: string = 'text', gridClasses: string, isRequired: boolean = true) => {
+    const renderInput = (
+        name: keyof FormData,
+        label: string,
+        type: string = 'text',
+        gridClasses: string,
+        isRequired: boolean = true,
+        extraProps: React.InputHTMLAttributes<HTMLInputElement> = {}
+    ) => {
         const inputName = name === 'firstName' ? 'first_name' :
             name === 'lastName' ? 'last_name' :
             name === 'postalCode' ? 'postal_code' :
@@ -245,6 +262,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
                     value={formData[name] as string}
                     onChange={handleChange}
                     className={error ? 'border-red-500' : ''}
+                    {...extraProps}
                 />
                 {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
             </div>
@@ -255,7 +273,9 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
         <form className='shipping-address-form'>
             {status === 'success' && <div className="p-3 mb-4 text-green-700 bg-green-100 rounded">Adresse enregistrée !</div>}
             {status === 'error' && Object.keys(formErrors).length === 0 && (
-                <div className="p-3 mb-4 text-red-700 bg-red-100 rounded">Erreur lors de la sauvegarde.</div>
+                <div className="p-3 mb-4 text-red-700 bg-red-100 rounded">
+                    {apiErrorMessage ? apiErrorMessage : "Erreur lors de la sauvegarde."}
+                </div>
             )}
 
             {/* --- SECTION LIVRAISON --- */}
@@ -270,7 +290,7 @@ const ShippingAddressForm: React.FC<ShippingAddressFormProps> = forwardRef<Shipp
                 {renderInput('address', `Adresse *`, 'text', 'col-span-6')}
                 {renderInput('postalCode', 'Code postal *', 'text', 'col-span-6 md:col-span-2')}
                 {renderInput('city', 'Ville *', 'text', 'col-span-6 md:col-span-2')}
-                {renderInput('country', 'Pays *', 'text', 'col-span-6 md:col-span-2')}
+                {renderInput('country', 'Pays *', 'text', 'col-span-6 md:col-span-2', true, { readOnly: true, className: 'bg-gray-100 font-semibold cursor-not-allowed text-gray-500' })}
                 {renderInput('phone', 'Téléphone *', 'tel', 'col-span-6 md:col-span-3')}
                 
                 <div className="col-span-6 mt-2">
