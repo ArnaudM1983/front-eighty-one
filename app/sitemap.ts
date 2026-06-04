@@ -1,15 +1,16 @@
 import { MetadataRoute } from 'next';
-export const dynamic = 'force-dynamic';
+
+export const revalidate = 14400;
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyonestore.com';
 const API_URL = process.env.NEXT_PUBLIC_SYMFONY_API_URL || 'http://localhost:8000';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  
+
   // 1. ROUTES STATIQUES & CATÉGORIES (Priorité Haute)
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
-    
+
     // BOMBES DE PEINTURE
     { url: `${BASE_URL}/bombes-de-peinture`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE_URL}/bombes-de-peinture/classiques`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
@@ -40,11 +41,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 2. ROUTES DYNAMIQUES (Produits)
   let productRoutes: MetadataRoute.Sitemap = [];
-  
+
   try {
-    // On force un _limit très haut pour récupérer TOUS les produits de Symfony
-    const res = await fetch(`${API_URL}/api/products?_limit=5000`, { 
-        cache: 'no-store' 
+    const res = await fetch(`${API_URL}/api/products?_limit=5000`, {
+      cache: 'force-cache',
+      next: { revalidate: 14400 }
     });
 
     if (res.ok) {
@@ -52,7 +53,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       productRoutes = products.map((product: any) => ({
         url: `${BASE_URL}/produit/${product.slug}`,
-        // Utilise le champ updated_at renvoyé par le sérialiseur Symfony
         lastModified: new Date(product.updated_at || new Date()),
         changeFrequency: 'weekly' as const,
         priority: 0.6,
