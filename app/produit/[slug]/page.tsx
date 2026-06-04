@@ -5,6 +5,7 @@ import BuyTogether from "@/components/sections/BuyTogether";
 import Breadcrumbs from "@/components/ui/Breadcrumb";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
 // --- TYPES ---
@@ -65,12 +66,16 @@ const sanitizeOptions = {
 const API_URL = process.env.NEXT_PUBLIC_SYMFONY_API_URL;
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.eightyonestore.com';
 
-// --- FETCH DATA ---
-async function fetchProduct(slug: string): Promise<Product | null> {
+// --- CONFIGURATION DU CACHE (ISR) ---
+// Le rendu de la page est mis en cache et recalculé au maximum toutes les heures
+export const revalidate = 3600;
+
+// --- FETCH DATA MÉMORISÉ ---
+const fetchProduct = cache(async (slug: string): Promise<Product | null> => {
     try {
         const res = await fetch(
             `${API_URL}/api/products/slug/${slug}`,
-            { cache: "no-store" }
+            { next: { revalidate: 3600 } } // Utilise la même stratégie de cache
         );
 
         if (res.status === 404) return null;
@@ -81,7 +86,7 @@ async function fetchProduct(slug: string): Promise<Product | null> {
         console.error("Erreur lors de la récupération du produit:", error);
         return null;
     }
-}
+});
 
 // --- METADATA (SEO) ---
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -141,7 +146,6 @@ export default async function ProductPage({ params }: Props) {
     const jsonLd = {
         "@context": "https://schema.org",
         "@graph": [
-            // LE PRODUIT
             {
                 "@type": "Product",
                 "name": product.name,
@@ -175,11 +179,8 @@ export default async function ProductPage({ params }: Props) {
                         "name": "Eightyone Store"
                     }
                 },
-                // On lie le produit aux catégories pour l'IA
                 "category": product.categories.map(c => c.name).join(', ')
             },
-
-            // LE FIL D'ARIANE (Aide l'IA à comprendre l'arborescence)
             {
                 "@type": "BreadcrumbList",
                 "itemListElement": crumbs.map((crumb, index) => ({
@@ -189,8 +190,6 @@ export default async function ProductPage({ params }: Props) {
                     "item": crumb.href ? `${BASE_URL}${crumb.href}` : undefined
                 }))
             },
-
-            // LA FAQ (Pour apparaître dans les réponses de type ChatGPT/Perplexity)
             ...(product.faq && product.faq.length > 0 ? [{
                 "@type": "FAQPage",
                 "mainEntity": product.faq.map(item => ({
@@ -235,7 +234,6 @@ export default async function ProductPage({ params }: Props) {
                 <hr className="border-t border-gray-100 my-8" />
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pb-24 pt-8">
-
                     <main className="lg:col-span-8">
                         {hasLongDescription ? (
                             <div
