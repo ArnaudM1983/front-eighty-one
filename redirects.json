@@ -45,6 +45,16 @@
     "permanent": true
   },
   {
+    "source": "/produit/double-a-400ml-aubergine/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-blonde/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/double-a-400ml-powerviolet/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
@@ -1270,6 +1280,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/otr-009-superflow-squeezer-deep-purple/",
+    "destination": "/produit/otr-009-superflow-squeezer",
+    "permanent": true
+  },
+  {
     "source": "/produit/otr-009-superflow-squeezer-cyan/",
     "destination": "/produit/otr-009-superflow-squeezer",
     "permanent": true
@@ -1296,6 +1311,11 @@
   },
   {
     "source": "/produit/otr-060-marqueur-15mm-10/",
+    "destination": "/produit/otr-060-marqueur-15mm",
+    "permanent": true
+  },
+  {
+    "source": "/produit/otr-060-marqueur-15mm-7/",
     "destination": "/produit/otr-060-marqueur-15mm",
     "permanent": true
   },
@@ -1350,6 +1370,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/otr-901-paint-200ml-petrol/",
+    "destination": "/produit/otr-901-paint-200ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/otr-901-paint-200ml-orange/",
     "destination": "/produit/otr-901-paint-200ml",
     "permanent": true
@@ -1390,6 +1415,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/otr-902-paint-200ml-cyan-pastel/",
+    "destination": "/produit/otr-902-paint-200ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/otr-902-paint-100ml-aqua-green",
     "destination": "/produit/otr-902-paint-100ml",
     "permanent": true
@@ -1420,6 +1450,11 @@
     "permanent": true
   },
   {
+    "source": "/produit/paint-px30-argent/",
+    "destination": "/produit/paint-px30",
+    "permanent": true
+  },
+  {
     "source": "/produit/paint-px30-bleu-fonce/",
     "destination": "/produit/paint-px30",
     "permanent": true
@@ -1442,6 +1477,11 @@
   {
     "source": "/produit/posca-pc-1mr-argent/",
     "destination": "/produit/posca-pc-1mr",
+    "permanent": true
+  },
+  {
+    "source": "/produit/posca-pc3m-vert-emeraude/",
+    "destination": "/produit/posca-pc3m",
     "permanent": true
   },
   {
@@ -1590,7 +1630,17 @@
     "permanent": true
   },
   {
+    "source": "/produit/double-a-400ml-strongviola/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
     "source": "/produit/double-a-400ml-madgreen/",
+    "destination": "/produit/double-a-400ml",
+    "permanent": true
+  },
+  {
+    "source": "/produit/double-a-400ml-strongmistyrose/",
     "destination": "/produit/double-a-400ml",
     "permanent": true
   },
