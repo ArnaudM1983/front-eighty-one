@@ -7,6 +7,7 @@ import QuantityStepper from "../product/QuantityStepper";
 type Props = {
   id: number;
   name: string;
+  variantName?: string;
   price: number;
   quantity: number;
   image?: string;
@@ -18,6 +19,7 @@ type Props = {
 export default function CartItem({
   id,
   name,
+  variantName,
   price,
   quantity,
   image,
@@ -43,6 +45,7 @@ export default function CartItem({
 
       <div className="flex flex-col justify-center max-w-[200px]">
         <p className="font-regular text-sm text-black">{name}</p>
+        {variantName && <p className="font-regular text-xs text-gray-500 mb-2">{variantName}</p>}
         <div className="w-[60px] text-black">
           <QuantityStepper
             productId={id}
