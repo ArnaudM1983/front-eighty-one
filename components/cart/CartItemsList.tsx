@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 type CartItemType = {
   id: number;
   name: string;
+  variantName?: string;
   price: number;
   quantity: number;
   image?: string;
@@ -27,6 +28,7 @@ export default function CartItemsList({ cartItems, updateQuantity, removeItem }:
           key={item.id}
           id={item.id}
           name={item.name}
+          variantName={item.variantName}
           price={item.price}
           quantity={item.quantity}
           image={item.image ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}` : undefined}

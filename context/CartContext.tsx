@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 export type CartItemType = {
   id: number;
   name: string;
+  variantName?: string;
   price: number;
   quantity: number;
   image?: string;
@@ -51,6 +52,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         ? data.items.map((i: any) => ({
             id: i.itemId,
             name: i.name,
+            variantName: i.variantName,
             price: parseFloat(i.price),
             quantity: i.quantity,
             image: i.image,
