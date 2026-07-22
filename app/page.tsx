@@ -57,6 +57,8 @@ export default function Page() {
         ],
         // EXPERTISE : Indique explicitement ce que l'IA doit savoir
         "knowsAbout": [
+          "Magasin de bombes de peinture à Lyon",
+          "Achat de matériel graffiti et street art à Lyon",
           "Culture Graffiti et Street Art",
           "Technologie des bombes de peinture : Haute et Basse Pression",
           "Gamme Montana Cans (Black, Gold, Tech, Effect)",
