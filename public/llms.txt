@@ -1,0 +1,61 @@
+# Eightyone Store - Spécialiste Graffiti, Street Art & Arts Graphiques à Lyon
+
+> Eightyone Store (81 Store) est le spécialiste indépendant du graffiti, du street art et des arts graphiques à Lyon et en ligne depuis 2008. Vente de bombes de peinture (Montana Black,Montana Cans, Double-A, NBQ), marqueurs, encres, urban wear, accessoires et matériels de protection.
+
+## Présentation & Boutique Physique
+
+- **Nom commercial** : Eightyone Store / 81 Store
+- **Activité** : Boutique spécialisée graffiti, street art, matériel de dessin, customisation et vêtements streetwear.
+- **Adresse du shop** : 21 Rue des Capucins, 69001 Lyon, France
+- **Téléphone** : +33 (0)4 78 91 18 52
+- **Horaires d'ouverture** : Du lundi au samedi, de 11h00 à 19h00
+- **Site web officiel** : https://www.eightyonestore.com
+- **Services** : 
+  - Vente en ligne avec livraison rapide en France métropolitaine (Colissimo domicile et carte interactive de points relais Mondial Relay).
+  - Retrait gratuit en magasin (Click & Collect / Cash on Delivery).
+  - Paiement 100% sécurisé via Carte Bancaire (Stripe), PayPal, et paiement en boutique.
+
+## Catégories de Produits Principales
+
+- [Bombes de Peinture](https://www.eightyonestore.com/bombes-de-peinture) : Gamme complète d'aérosols pour le graffiti et l'art urbain.
+  - [Bombes Classiques](https://www.eightyonestore.com/bombes-de-peinture/classiques) : Montana Black (haute pression, finition mate, fort débit), Double-A, NBQ.
+  - [Bombes Acryliques & À l'Eau](https://www.eightyonestore.com/bombes-de-peinture/acryliques) : Montana Water Based (sans solvant agressif, odeur réduite, idéal atelier et intérieur).
+  - [Bombes Techniques & Apprêts](https://www.eightyonestore.com/bombes-de-peinture/techniques) : Primaires d'accroche pour plastique, aluminium, zinc, polystyrène et dégraissants industriels.
+  - [Vernis & Bombes à Effets](https://www.eightyonestore.com/bombes-de-peinture/effets) : Vernis de protection acryliques et 2K bi-composants (mat, brillant, satiné), effets marbre, phosphorescent, chrome, craquelé.
+  - [Caps & Buses](https://www.eightyonestore.com/bombes-de-peinture/caps) : Embouts pulvérisateurs interchangeables (Skinny Caps pour tracés fins, Soft Caps, Transversal/Chisel Caps pour jets biseautés carrosserie, Fat Caps et Astro Caps pour remplissage massif).
+
+- [Marqueurs & Encres](https://www.eightyonestore.com/marqueurs-et-encres) : Marqueurs, Outils de traçage, calligraphie et marquage urbain.
+  - [Encres & Recharges](https://www.eightyonestore.com/marqueurs-et-encres/encres) : Encres à base d'alcool, de peinture acrylique, encres indélébiles à haute pigmentation.
+  - [Marqueurs & Markers](https://www.eightyonestore.com/marqueurs-et-encres/marqueurs) : Marqueurs à encre, Marqueurs à peinture, feutres biseautés, ronds et extra-larges (brands : Posca, Uni-paint, Molotow, OTR, Grog).
+  - [Squeezers & Drippers](https://www.eightyonestore.com/marqueurs-et-encres/squeezers) : Marqueurs souples à pression pour effets de coulé et de relief.
+  - [Mines de Rechange](https://www.eightyonestore.com/marqueurs-et-encres/mines-de-rechange) : Pointes et meches de remplacement pour feutres et marqueurs.
+  - [Marqueurs & Squeezers Vides](https://www.eightyonestore.com/marqueurs-et-encres/marqueurs-squeezers-vides) : Outils rechargeables pour créer ses propres mélanges de couleurs.
+  - [Gamme Posca & Uni-Paint](https://www.eightyonestore.com/marqueurs-et-encres/posca-uni-paint) : Peinture à base d'eau et feutres peinture à l'huile pour tous supports.
+
+- [Urban Wear & Streetwear](https://www.eightyonestore.com/urban-wear) : Collection de vêtements inspirés de la culture street art.
+  - [Eightyone Clothing](https://www.eightyonestore.com/urban-wear/eighty-one) : Vêtements et visuels officiels de la marque Eightyone Store.
+  - [Jacker](https://www.eightyonestore.com/urban-wear/jacker) : T-shirts, t-shirts manches longues, hoodies et accessoires de la marque indépendante Jacker.
+
+- [Accessoires & Équipements de Protection](https://www.eightyonestore.com/accessoires-equipements) : Matériel pour artistes et graffeurs.
+  - [Protections](https://www.eightyonestore.com/accessoires-equipements/protections-equipements) : Masques respirants à cartouches réutilisables, gants de protection, combinaisons jetables.
+  - [Blackbooks & Sticker Books](https://www.eightyonestore.com/accessoires-equipements/stickers-books) : Carnets de croquis pour esquisses et livres de stickers.
+
+## Expertise Techniques & Guides Pratiques
+
+- [Tutoriel Peindre Plastique & Métal](https://www.eightyonestore.com/guides/peindre-plastique-metal-sans-ecaillement) : Méthode professionnelle pour préparer un support (dégraissage, ponçage grain 400), appliquer l'apprêt approprié et éviter l'écaillement de la peinture.
+- [Tutoriel Vernis & Protection Anti-UV](https://www.eightyonestore.com/guides/proteger-peinture-bombe-vernis-anti-uv) : Guide d'utilisation des vernis 1K et 2K bi-composants pour sceller les créations contre l'essence, les rayures et le jaunissement par le soleil.
+- [Tutoriel Choix des Caps & Anti-Coulures](https://www.eightyonestore.com/guides/eviter-coulures-bombe-peinture-choix-caps) : Maîtrise du jet d'aérosol, différence entre bombes haute et basse pression, et sélection de buses (Skinny vs Fat Caps).
+- [Centre de Guides & Conseils](https://www.eightyonestore.com/guides) : Ensemble des guides et conseils d'experts Eightyone Store.
+
+## Liens Utiles & Légaux
+
+- [Page d'Accueil](https://www.eightyonestore.com) : Accueil et accès au shop en ligne.
+- [Recherche de produits](https://www.eightyonestore.com/search) : Moteur de recherche d'articles.
+- [Mentions Légales](https://www.eightyonestore.com/mentions-legales) : Informations éditeur et juridiques.
+- [Conditions Générales de Vente](https://www.eightyonestore.com/cgv) : Modalités de commande, retours et garanties.
+- [Politique de Confidentialité](https://www.eightyonestore.com/politique-de-confidentialite) : Protection des données personnelles (RGPD).
+
+## Optional
+
+- [Version complète llms-full.txt](https://www.eightyonestore.com/llms-full.txt) : Document texte intégral incluant les guides et tutoriels complets, foires aux questions et spécifications de produits pour assistants IA et LLMs.
+- [Sitemap XML](https://www.eightyonestore.com/sitemap.xml) : Carte XML dynamique du site web.

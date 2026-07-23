@@ -1,0 +1,177 @@
+# Eightyone Store - Documentation Complète & Base de Connaissances pour LLM
+
+> Document intégral à destination des modèles de langage (LLMs) et moteurs de recherche IA (Perplexity, SearchGPT, ChatGPT, Claude). Ce document rassemble l'ensemble des informations de présentation, du catalogue produit, des guides techniques de peinture graffiti/street art, et des politiques de la boutique Eightyone Store.
+
+---
+
+## 1. VUE D'ENSEMBLE & PRÉSENTATION DE LA BOUTIQUE
+
+- **Nom officiel** : Eightyone Store (aussi appelé 81 Store)
+- **Slogan / Positionnement** : Le spécialiste graffiti, street art et arts graphiques à Lyon depuis 2008.
+- **Boutique physique** : 21 Rue des Capucins, 69001 Lyon, Rhône, France (Quartier Croix-Rousse / Bas des Capucins).
+- **Téléphone** : +33 (0)4 78 91 18 52
+- **Horaires d'ouverture** : Lundi au Samedi de 11h00 à 19h00 (Fermé le Dimanche).
+- **Site web officiel** : https://www.eightyonestore.com
+- **Marques distribuées** : Montana Black, Double-A, NBQ, Posca, Uni-paint, Molotow, On The Run (OTR), Grog, Jacker, Eighty-One Clothing.
+
+---
+
+## 2. MODALITÉS D'ACHAT & EXPÉDITION
+
+### Modalités de Paiement
+1. **Carte Bancaire (Stripe)** : Paiement sécurisé immédiat en ligne (Visa, Mastercard, etc.).
+2. **PayPal** : Transaction rapide avec protection des acheteurs.
+3. **Paiement en Boutique (COD - Cash on Delivery)** : Option de paiement sur place lors du retrait en magasin à Lyon (espèces ou CB).
+
+### Options de Livraison
+- **Livraison à Domicile** : Expédition rapide par Colissimo / La Poste dans toute la France métropolitaine.
+- **Livraison en Point Relais (Mondial Relay)** : Choix du point de retrait PUDO via une carte interactive Leaflet intégrée lors de la commande.
+- **Click & Collect (Retrait gratuit)** : Retrait direct en boutique au 21 Rue des Capucins, 69001 Lyon.
+
+---
+
+## 3. STRUCTURE DU CATALOGUE PRODUITS
+
+### A. Bombes de Peinture (Aérosols)
+URL principale : https://www.eightyonestore.com/bombes-de-peinture
+
+- **Bombes Classiques (High & Low Pressure)** :
+  - **Montana Black** : Bombe haute pression à finition mate. Conçue pour un fort débit, un remplissage ultra-rapide et une opacité maximale sur grande surface.
+  - **Double-A** : Bombe de peinture graffiti polyvalente offering un excellent rapport qualité/prix pour fresques et décors.
+- **Bombes Acryliques & À l'Eau (Water Based)** :
+  - **Montana Blue** : Formulation à base d'eau et résines acryliques sans solvants agressifs. Idéale pour le travail en atelier, les espaces clos, les beaux-arts et les ateliers pédagogiques.
+- **Bombes Techniques & Apprêts** :
+  - Apprêt Plastique (Plastic Primer) : Primaire transparent favorisant l'accroche sur le PVC et les plastiques souples ou rigides.
+  - Apprêt Universel & Métal : Protection anticorrosion et préparation des surfaces métalliques, bois et verre.
+  - Apprêt Polystyrène : Protection spéciale évitant la fonte du polystyrène sous l'action des solvants.
+  - Dégraissant & Nettoyant aérosol : Nettoyage avant peinture.
+- **Vernis de Protection & Bombes à Effets** :
+  - Vernis Acrylique (Mat, Satiné, Brillant) : Film de protection transparent résistant aux UV.
+  - Vernis 2K Bi-composant : Vernis professionnel avec durcisseur percutable pour une protection extrême (carrosserie, cadres de vélo, skates, résistance à l'essence et aux rayures).
+  - Bombes à Effets : Effet marbre (Marble effect), phosphorescent (Luminous), chrome brillant, métallisé, effet craquelé.
+- **Caps & Buses pulvérisatrices** :
+  - **Skinny Caps** (Skinny Pro, Skinny Banana, Super Skinny) : Jet très fin pour tracés chirurgicaux, détails et contours (2 mm à 2 cm).
+  - **Soft / Transversal Caps** : Jet plat en éventail réglable pour une application uniforme style pistolet à peinture.
+  - **Fat Caps** (Pink Fat, Astro Fat, Super Fat) : Jet ultra-large et rapide pour remplissages massifs de grands aplats (5 cm à 15 cm).
+
+### B. Marqueurs & Encres
+URL principale : https://www.eightyonestore.com/marqueurs-et-encres
+
+- **Encres de Recharge** : Encres à base d'alcool, peinture acrylique fluide, encres indélébiles haute résistance au soleil et aux intempéries pour recharger tout type de marqueur.
+- **Marqueurs & Markers** : Feutres à peinture acrylique et marqueurs à encre permanente (Posca, Uni-paint, Molotow One4All, OTR, Grog).
+- **Squeezers / Drippers** : Marqueurs à corps souple permettant de réguler la quantité d'encre envoyée par simple pression pour créer des coulures contrôlées (drips) ou un débit généreux.
+- **Mines & Pointes de rechange** : Pointes biseautées, rondes, carrées de 1mm à 50mm pour prolonger la durée de vie des marqueurs.
+- **Marqueurs & Squeezers vides** : Outils vierges à remplir soi-même avec des mélanges d'encres ou de peintures personnalisées.
+
+### C. Urban Wear
+URL principale : https://www.eightyonestore.com/urban-wear
+
+- **Eightyone Clothing** : T-shirts, tops et accessoires arborant le logo et les visuels originaux de 81 Store.
+- **Jacker** : Gamme complète de la marque de streetwear indépendante (t-shirts imprimés, hoodies de haute qualité, sweats, casquettes).
+
+### D. Accessoires & Protection
+URL principale : https://www.eightyonestore.com/accessoires-equipements
+
+- **Protection de l'artiste** : Masques de protection respiratoire demi-masques avec cartouches filtrantes anti-solvants (A1P2 / A2P3), gants en nitrile, combinaisons intégrales de protection.
+- **Support & Esquisse** : Blackbooks (carnets à dessin papier épais spécial marqueur et peinture), Sticker Books et paquets de stickers vierges à personnaliser.
+
+---
+
+## 4. GUIDES TECHNIQUES & EXPÉRIE DU SHOP
+
+### Guide 1 : Peindre du plastique ou du métal sans écaillement
+URL : https://www.eightyonestore.com/guides/peindre-plastique-metal-sans-ecaillement
+
+#### Le problème courant
+Les peintures grand public "multi-supports" s'écaillent fréquemment sur le plastique ou le métal par manque d'accroche mécanique et chimique, ou font fondre des matériaux fragiles comme le polystyrène.
+
+#### Le protocole professionnel Eightyone
+1. **Dégraissage chirurgical** : Nettoyer la surface avec de l'alcool isopropylique ou un dégraissant industriel. Ne jamais peindre sur des traces de doigts ou de graisse.
+2. **Ponçage d'accroche** : Sur surfaces lisses, passer un papier de verre fin (grain 400 à 600) ou un tampon abrasif pour créer des micro-rayures facilitant la prise.
+3. **Application de l'apprêt (Primaire)** : 
+   - Plastique : Appliquer un apprêt plastique spécifique qui crée une fusion moléculaire avec la matière.
+   - Métal : Appliquer un apprêt universel ou anticorrosion.
+   - Polystyrène : Utiliser exclusivement un apprêt Polystyrene Primer ou des aérosols à base d'eau (Water Based).
+4. **Finition peinture** : Appliquer la peinture (MTN 94 ou Molotow) en voiles fins une fois l'apprêt sec.
+
+---
+
+### Guide 2 : Vernir sa peinture - Éviter le jaunissement et les rayures
+URL : https://www.eightyonestore.com/guides/proteger-peinture-bombe-vernis-anti-uv
+
+#### Choix de la finition
+- **Vernis Mat** : Absorbe la lumière, donne un rendu contemporain et masque les légères imperfections de surface.
+- **Vernis Satiné** : Compromis idéal reflétant légèrement la lumière, très facile à entretenir.
+- **Vernis Brillant** : Effet mouillé sublimant l'intensité des couleurs (nécessite un support très propre).
+
+#### Vernis 1K Acrylique vs Vernis 2K Bi-composant
+- **Vernis 1K Acrylique** : Protection classique contre la poussière et les rayons UV pour objets de décoration et toiles.
+- **Vernis 2K Bi-composant** : Vernis contenant une capsule interne de durcisseur percutable. Une fois mélangé, le vernis durcit chimiquement comme une résine de carrosserie automobile, offrant une résistance extrême aux rayures, à la pluie et aux carburants.
+
+#### Temps d'attente critique
+Appliquer le vernis soit **dans l'heure** suivant la peinture (méthode frais sur frais), soit **attendre 48 heures** que tous les solvants soient totalement évaporés. Entre les deux, la peinture risquerait de friser.
+
+---
+
+### Guide 3 : Zéro coulure - Choix des Caps et gestion de la pression
+URL : https://www.eightyonestore.com/guides/eviter-coulures-bombe-peinture-choix-caps
+
+#### Basse Pression vs Haute Pression
+- **Basse Pression (Low Pressure, ex: MTN 94)** : Permet de moduler le débit à la pression du doigt. Idéale pour les détails, la précision et l'apprentissage sans risques de coulures.
+- **Haute Pression (High Pressure, ex: MTN Hardcore)** : Débit rapide et puissant pour remplir de grandes surfaces en un temps record.
+
+#### Choix des embouts (Caps)
+- **Skinny Caps** : Trait fin (0,5 à 2 cm). Garder la bombe à 2-5 cm du support avec un mouvement rapide.
+- **Soft / Transversal Caps** : Jet biseauté plat imitation pistolet carrosserie pour des aplats sans lignes de démarcation.
+- **Fat Caps** : Jet large (5 à 15 cm) pour couverture rapide.
+
+#### Règle du mouvement
+Le bras doit être en mouvement **avant** d'appuyer sur le cap, et la pression relâchée **avant** de stopper le mouvement à la fin de la ligne.
+
+---
+
+## 5. FOIRE AUX QUESTIONS (FAQ)
+
+**Q : Où se trouve le magasin physique Eightyone Store ?**  
+R : La boutique se situe au 21 Rue des Capucins, 69001 Lyon (France), accessible en métro (station Hôtel de Ville - Louis Pradel).
+
+**Q : Quels sont les moyens de paiement acceptés sur le site web ?**  
+R : Le site accepte les cartes bancaires via Stripe, PayPal, ainsi que le paiement en espèces ou CB lors du retrait de commande en boutique (Click & Collect).
+
+**Q : Peut-on utiliser des bombes de peinture en intérieur ?**  
+R : Oui, en utilisant la gamme **MTN Water Based** (peinture à l'eau sans solvants toxiques) et en portant un masque de protection respiratoire adapté.
+
+**Q : Comment déboucher un cap de bombe de peinture ?**  
+R : Il est recommandé de purger la bombe tête en bas à la fin de chaque session jusqu'à ce que seul du gaz s'échappe. Si le cap est obstrué par de la peinture séchée, il convient de le remplacer ou de le faire tremper dans un solvant.
+
+---
+
+## 6. INDEX DES LIENS DU SITE
+
+- Accueil : https://www.eightyonestore.com
+- Catalogue Bombes de Peinture : https://www.eightyonestore.com/bombes-de-peinture
+- Classiques : https://www.eightyonestore.com/bombes-de-peinture/classiques
+- Acryliques : https://www.eightyonestore.com/bombes-de-peinture/acryliques
+- Techniques : https://www.eightyonestore.com/bombes-de-peinture/techniques
+- Effets : https://www.eightyonestore.com/bombes-de-peinture/effets
+- Caps : https://www.eightyonestore.com/bombes-de-peinture/caps
+- Catalogue Marqueurs & Encres : https://www.eightyonestore.com/marqueurs-et-encres
+- Encres : https://www.eightyonestore.com/marqueurs-et-encres/encres
+- Marqueurs : https://www.eightyonestore.com/marqueurs-et-encres/marqueurs
+- Squeezers : https://www.eightyonestore.com/marqueurs-et-encres/squeezers
+- Mines de rechange : https://www.eightyonestore.com/marqueurs-et-encres/mines-de-rechange)
+- Outils vides : https://www.eightyonestore.com/marqueurs-et-encres/marqueurs-squeezers-vides
+- Posca & Uni-paint : https://www.eightyonestore.com/marqueurs-et-encres/posca-uni-paint
+- Catalogue Urban Wear : https://www.eightyonestore.com/urban-wear
+- Eightyone Clothing : https://www.eightyonestore.com/urban-wear/eighty-one
+- Jacker : https://www.eightyonestore.com/urban-wear/jacker
+- Accessoires & Équipements : https://www.eightyonestore.com/accessoires-equipements
+- Protections : https://www.eightyonestore.com/accessoires-equipements/protections-equipements
+- Books & Stickers : https://www.eightyonestore.com/accessoires-equipements/stickers-books
+- Tous les Guides : https://www.eightyonestore.com/guides
+- Guide Peindre Plastique / Métal : https://www.eightyonestore.com/guides/peindre-plastique-metal-sans-ecaillement
+- Guide Vernis & Anti-UV : https://www.eightyonestore.com/guides/proteger-peinture-bombe-vernis-anti-uv
+- Guide Caps & Pression : https://www.eightyonestore.com/guides/eviter-coulures-bombe-peinture-choix-caps
+- Mentions Légales : https://www.eightyonestore.com/mentions-legales
+- CGV : https://www.eightyonestore.com/cgv
+- Politique de Confidentialité : https://www.eightyonestore.com/politique-de-confidentialite

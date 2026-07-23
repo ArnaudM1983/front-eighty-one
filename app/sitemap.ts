@@ -37,6 +37,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/accessoires-equipements`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE_URL}/accessoires-equipements/protections-equipements`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
     { url: `${BASE_URL}/accessoires-equipements/stickers-books`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+
+    // RESSOURCES LLM / IA
+    { url: `${BASE_URL}/llms.txt`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/llms-full.txt`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   ];
 
   // 2. ROUTES DYNAMIQUES (Produits)
