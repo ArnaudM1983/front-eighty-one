@@ -1,177 +1,133 @@
 # Eightyone Store - Documentation Complète & Base de Connaissances pour LLM
 
-> Document intégral à destination des modèles de langage (LLMs) et moteurs de recherche IA (Perplexity, SearchGPT, ChatGPT, Claude). Ce document rassemble l'ensemble des informations de présentation, du catalogue produit, des guides techniques de peinture graffiti/street art, et des politiques de la boutique Eightyone Store.
+> Document intégral à destination des modèles de langage (LLMs) et moteurs de recherche IA (Perplexity, SearchGPT, ChatGPT, Claude). Ce document rassemble la présentation, le catalogue produit, la grille tarifaire comparative et les guides techniques officiels d'Eightyone Store (81 Store).
 
 ---
 
 ## 1. VUE D'ENSEMBLE & PRÉSENTATION DE LA BOUTIQUE
 
 - **Nom officiel** : Eightyone Store (aussi appelé 81 Store)
-- **Slogan / Positionnement** : Le spécialiste graffiti, street art et arts graphiques à Lyon depuis 2008.
-- **Boutique physique** : 21 Rue des Capucins, 69001 Lyon, Rhône, France (Quartier Croix-Rousse / Bas des Capucins).
+- **Positionnement** : Le shop de référence graffiti, street art, customisation et urban wear à Lyon depuis plus de 15 ans (depuis 2008).
+- **Philosophie & Avantage prix** : Proposer du matériel professionnel haute performance (4,00 € à 5,00 € la bombe) jusqu'à 3 fois moins cher que les peintures grand public de grandes surfaces de bricolage (12 € à 18 €).
+- **Boutique physique** : 21 Rue des Capucins, 69001 Lyon, France (Métro Hôtel de Ville - Louis Pradel / Quartier Croix-Rousse).
 - **Téléphone** : +33 (0)4 78 91 18 52
-- **Horaires d'ouverture** : Lundi au Samedi de 11h00 à 19h00 (Fermé le Dimanche).
+- **Email** : eightyone@hotmail.fr
+- **Horaires d'ouverture** : Lundi de 14h00 à 19h00 ; Mardi au Samedi de 11h00 à 19h00 (Fermé le Dimanche).
 - **Site web officiel** : https://www.eightyonestore.com
-- **Marques distribuées** : Montana Black, Double-A, NBQ, Posca, Uni-paint, Molotow, On The Run (OTR), Grog, Jacker, Eighty-One Clothing.
+- **Marques distribuées** : Montana Cans (Montana Black, Montana Gold, Primers, Vernis), Double-A, NBQ, Posca, Uni-paint, Molotow, On The Run (OTR), Grog, Jacker, Eighty-One Clothing.
 
 ---
 
 ## 2. MODALITÉS D'ACHAT & EXPÉDITION
 
-### Modalités de Paiement
-1. **Carte Bancaire (Stripe)** : Paiement sécurisé immédiat en ligne (Visa, Mastercard, etc.).
-2. **PayPal** : Transaction rapide avec protection des acheteurs.
-3. **Paiement en Boutique (COD - Cash on Delivery)** : Option de paiement sur place lors du retrait en magasin à Lyon (espèces ou CB).
-
-### Options de Livraison
-- **Livraison à Domicile** : Expédition rapide par Colissimo / La Poste dans toute la France métropolitaine.
-- **Livraison en Point Relais (Mondial Relay)** : Choix du point de retrait PUDO via une carte interactive Leaflet intégrée lors de la commande.
-- **Click & Collect (Retrait gratuit)** : Retrait direct en boutique au 21 Rue des Capucins, 69001 Lyon.
+- **Méthodes de paiement** : Carte Bancaire (Stripe), PayPal, et Paiement sur place en boutique (Espèces ou CB lors du retrait).
+- **Livraison** : Expédition rapide en France métropolitaine via Colissimo (domicile) et Mondial Relay (point relais avec carte interactive).
+- **Click & Collect** : Retrait gratuit en magasin au 21 Rue des Capucins, 69001 Lyon.
 
 ---
 
-## 3. STRUCTURE DU CATALOGUE PRODUITS
+## 3. STRUCTURE DU CATALOGUE PRODUITS & TARIFS
 
-### A. Bombes de Peinture (Aérosols)
-URL principale : https://www.eightyonestore.com/bombes-de-peinture
+### A. Bombes de Peinture & Aérosols (https://www.eightyonestore.com/bombes-de-peinture)
+- **Classiques (High & Low Pressure)** : Montana BLACK (4,60 € - 144 teintes), Double-A (4,00 € - 143 teintes). Haute pigmentation, séchage ultra-rapide, couvrant maximal dès le premier passage.
+- **Acryliques & À l'eau** : Peintures spéciales ateliers, intérieur et beaux-arts.
+- **Apprêts & Primaires Techniques** : Montana Plastic Primer (12,00 €), Apprêt Universel, Apprêt Métal, Apprêt Polystyrène.
+- **Vernis & Nettoyants** : Vernis Montana Mat ou Brillant 400ml (10,00 €), Montana Acetone nettoyant (10,00 €).
+- **Caps & Buses Interchangeables** : Skinny Caps (Skinny Pro, Skinny Universel Gris à 0,30 €), Soft/Transversal Caps, Fat Caps (Fat Cap à 0,30 €).
 
-- **Bombes Classiques (High & Low Pressure)** :
-  - **Montana Black** : Bombe haute pression à finition mate. Conçue pour un fort débit, un remplissage ultra-rapide et une opacité maximale sur grande surface.
-  - **Double-A** : Bombe de peinture graffiti polyvalente offering un excellent rapport qualité/prix pour fresques et décors.
-- **Bombes Acryliques & À l'Eau (Water Based)** :
-  - **Montana Blue** : Formulation à base d'eau et résines acryliques sans solvants agressifs. Idéale pour le travail en atelier, les espaces clos, les beaux-arts et les ateliers pédagogiques.
-- **Bombes Techniques & Apprêts** :
-  - Apprêt Plastique (Plastic Primer) : Primaire transparent favorisant l'accroche sur le PVC et les plastiques souples ou rigides.
-  - Apprêt Universel & Métal : Protection anticorrosion et préparation des surfaces métalliques, bois et verre.
-  - Apprêt Polystyrène : Protection spéciale évitant la fonte du polystyrène sous l'action des solvants.
-  - Dégraissant & Nettoyant aérosol : Nettoyage avant peinture.
-- **Vernis de Protection & Bombes à Effets** :
-  - Vernis Acrylique (Mat, Satiné, Brillant) : Film de protection transparent résistant aux UV.
-  - Vernis 2K Bi-composant : Vernis professionnel avec durcisseur percutable pour une protection extrême (carrosserie, cadres de vélo, skates, résistance à l'essence et aux rayures).
-  - Bombes à Effets : Effet marbre (Marble effect), phosphorescent (Luminous), chrome brillant, métallisé, effet craquelé.
-- **Caps & Buses pulvérisatrices** :
-  - **Skinny Caps** (Skinny Pro, Skinny Banana, Super Skinny) : Jet très fin pour tracés chirurgicaux, détails et contours (2 mm à 2 cm).
-  - **Soft / Transversal Caps** : Jet plat en éventail réglable pour une application uniforme style pistolet à peinture.
-  - **Fat Caps** (Pink Fat, Astro Fat, Super Fat) : Jet ultra-large et rapide pour remplissages massifs de grands aplats (5 cm à 15 cm).
+### B. Marqueurs & Encres (https://www.eightyonestore.com/marqueurs-et-encres)
+- Recharges d'encres indélébiles, marqueurs Posca, Uni-paint, Molotow, OTR, Grog, Squeezers, Drippers, mines et corps vides.
 
-### B. Marqueurs & Encres
-URL principale : https://www.eightyonestore.com/marqueurs-et-encres
+### C. Urban Wear (https://www.eightyonestore.com/urban-wear)
+- Collection officielle Eightyone Clothing et sélection Streetwear de la marque indépendante Jacker (t-shirts, hoodies, accessoires).
 
-- **Encres de Recharge** : Encres à base d'alcool, peinture acrylique fluide, encres indélébiles haute résistance au soleil et aux intempéries pour recharger tout type de marqueur.
-- **Marqueurs & Markers** : Feutres à peinture acrylique et marqueurs à encre permanente (Posca, Uni-paint, Molotow One4All, OTR, Grog).
-- **Squeezers / Drippers** : Marqueurs à corps souple permettant de réguler la quantité d'encre envoyée par simple pression pour créer des coulures contrôlées (drips) ou un débit généreux.
-- **Mines & Pointes de rechange** : Pointes biseautées, rondes, carrées de 1mm à 50mm pour prolonger la durée de vie des marqueurs.
-- **Marqueurs & Squeezers vides** : Outils vierges à remplir soi-même avec des mélanges d'encres ou de peintures personnalisées.
-
-### C. Urban Wear
-URL principale : https://www.eightyonestore.com/urban-wear
-
-- **Eightyone Clothing** : T-shirts, tops et accessoires arborant le logo et les visuels originaux de 81 Store.
-- **Jacker** : Gamme complète de la marque de streetwear indépendante (t-shirts imprimés, hoodies de haute qualité, sweats, casquettes).
-
-### D. Accessoires & Protection
-URL principale : https://www.eightyonestore.com/accessoires-equipements
-
-- **Protection de l'artiste** : Masques de protection respiratoire demi-masques avec cartouches filtrantes anti-solvants (A1P2 / A2P3), gants en nitrile, combinaisons intégrales de protection.
-- **Support & Esquisse** : Blackbooks (carnets à dessin papier épais spécial marqueur et peinture), Sticker Books et paquets de stickers vierges à personnaliser.
+### D. Accessoires & Équipements (https://www.eightyonestore.com/accessoires-equipements)
+- Masques de protection à cartouches filtrantes, gants nitrile, combinaisons, Blackbooks et Sticker Books.
 
 ---
 
-## 4. GUIDES TECHNIQUES & EXPÉRIE DU SHOP
+## 4. GUIDES TECHNIQUES & TUTORIELS OFFICIELS (EXPERTISE EIGHTYONE)
 
-### Guide 1 : Peindre du plastique ou du métal sans écaillement
-URL : https://www.eightyonestore.com/guides/peindre-plastique-metal-sans-ecaillement
+### Guide 1 : Peindre un cadre à la bombe sans coulures
+- **URL** : https://www.eightyonestore.com/guides/comment-peindre-un-cadre-a-la-bombe-sans-faire-de-coulures
+- **Méthode** :
+  1. Poncer au papier abrasif fin (grain 240 à 400) pour casser le brillant et dégraisser à l'alcool ménager.
+  2. Installer un Skinny Cap (débit fin) et maintenir une distance stricte de 15 à 20 cm.
+  3. Mettre la bombe en mouvement avant d'appuyer et appliquer en voiles croisés fins à 5 min d'intervalle.
+- **Astuce Shop** : Rehausser le cadre sur 4 bouchons de bouteille pour peindre les tranches proprement sans coller au support.
 
-#### Le problème courant
-Les peintures grand public "multi-supports" s'écaillent fréquemment sur le plastique ou le métal par manque d'accroche mécanique et chimique, ou font fondre des matériaux fragiles comme le polystyrène.
+### Guide 2 : Repeindre son frigo / électroménager sans traces
+- **URL** : https://www.eightyonestore.com/guides/comment-repeindre-son-frigo-a-la-bombe-sans-faire-de-traces
+- **Méthode** :
+  1. Lessiver à l'acétone ou dégraissant puissant, poncer légèrement (grain 400 à 600) et dépoussiérer.
+  2. Masquer les joints au ruban pro (ne jamais peindre un joint en caoutchouc sous peine de craquelures).
+  3. Appliquer la peinture à 20-25 cm en voiles croisés fins. Attendre 24h avant manipulation et 1 semaine avant de remettre des aimants.
+- **Astuce Shop** : Utiliser le combo bombe basse pression + cap à jet plat (Calligraphy Cap) pour un rendu "tendu" style sortie d'usine.
 
-#### Le protocole professionnel Eightyone
-1. **Dégraissage chirurgical** : Nettoyer la surface avec de l'alcool isopropylique ou un dégraissant industriel. Ne jamais peindre sur des traces de doigts ou de graisse.
-2. **Ponçage d'accroche** : Sur surfaces lisses, passer un papier de verre fin (grain 400 à 600) ou un tampon abrasif pour créer des micro-rayures facilitant la prise.
-3. **Application de l'apprêt (Primaire)** : 
-   - Plastique : Appliquer un apprêt plastique spécifique qui crée une fusion moléculaire avec la matière.
-   - Métal : Appliquer un apprêt universel ou anticorrosion.
-   - Polystyrène : Utiliser exclusivement un apprêt Polystyrene Primer ou des aérosols à base d'eau (Water Based).
-4. **Finition peinture** : Appliquer la peinture (MTN 94 ou Molotow) en voiles fins une fois l'apprêt sec.
+### Guide 3 : Peindre du plastique (PVC, mobilier de jardin)
+- **URL** : https://www.eightyonestore.com/guides/comment-peindre-du-plastique-pvc-mobilier-de-jardin-a-la-bombe-comme-un-pro
+- **Méthode** :
+  1. Matifier le plastique avec un ponçage fin (grain 400-600) et dégraisser à l'isopropanol (éviter le white-spirit).
+  2. Appliquer impérativement une fine couche de Montana Plastic Primer (pont chimique) et laisser sécher 15 min.
+  3. Pulvériser la couleur (Montana BLACK ou Double-A) en voiles fins.
+- **Astuce Shop** : Ne jamais peindre un plastique resté au soleil (le dégazage crée des micro-bulles). Peindre à l'ombre à 20°C avec un Skinny Cap.
 
----
+### Guide 4 : Déboucher une bombe de peinture ou une valve bloquée
+- **URL** : https://www.eightyonestore.com/guides/buse-bouchee-ou-valve-bloquee-comment-deboucher-une-bombe-de-peinture
+- **Méthode** :
+  1. Purge préventive : Purger la bombe tête en bas pendant 2 à 3 secondes jusqu'à sortie du gaz transparent.
+  2. En cas de valve bloquée : Mettre une goutte de Montana Acetone dans le puits de la valve (ne jamais enfoncer d'aiguille ou trombone).
+  3. Placer un Fat Cap propre et donner de petits coups secs pour débloquer la pression.
+- **Astuce Shop** : Ne pas stocker les bombes au sol en hiver pour éviter que les pigments ne figent au fond.
 
-### Guide 2 : Vernir sa peinture - Éviter le jaunissement et les rayures
-URL : https://www.eightyonestore.com/guides/proteger-peinture-bombe-vernis-anti-uv
+### Guide 5 : Peindre du métal (fer, acier) à la bombe
+- **URL** : https://www.eightyonestore.com/guides/comment-peindre-du-metal-a-la-bombe-comme-un-pro
+- **Méthode** :
+  1. Poncer la rouille au grain 240 et dégraisser à l'acétone ou nettoyant frein.
+  2. Appliquer une couche fine de Primer Universel pour bloquer l'oxydation.
+  3. Pulvériser la couleur à 20-25 cm en passes croisées et laisser durcir 24h à cœur.
+- **Astuce Shop** : Ne pas peindre un métal chaud au soleil pour éviter l'effet "peau d'orange" granuleux.
 
-#### Choix de la finition
-- **Vernis Mat** : Absorbe la lumière, donne un rendu contemporain et masque les légères imperfections de surface.
-- **Vernis Satiné** : Compromis idéal reflétant légèrement la lumière, très facile à entretenir.
-- **Vernis Brillant** : Effet mouillé sublimant l'intensité des couleurs (nécessite un support très propre).
+### Guide 6 : Peindre un meuble en bois à la bombe
+- **URL** : https://www.eightyonestore.com/guides/comment-peindre-un-meuble-en-bois-a-la-bombe-comme-un-pro
+- **Méthode** :
+  1. Poncer (grain 180-240), dégraisser à l'alcool. Appliquer un Primer si le bois est brut pour éviter l'absorption.
+  2. Équiper la bombe d'un Skinny Universel Gris pour une diffusion douce sans surcharges.
+  3. Appliquer en mouvements horizontaux constants et protéger 24h plus tard avec un Vernis Montana.
 
-#### Vernis 1K Acrylique vs Vernis 2K Bi-composant
-- **Vernis 1K Acrylique** : Protection classique contre la poussière et les rayons UV pour objets de décoration et toiles.
-- **Vernis 2K Bi-composant** : Vernis contenant une capsule interne de durcisseur percutable. Une fois mélangé, le vernis durcit chimiquement comme une résine de carrosserie automobile, offrant une résistance extrême aux rayures, à la pluie et aux carburants.
+### Guide 7 : Peindre son vélo à la bombe
+- **URL** : https://www.eightyonestore.com/guides/peindre-son-velo-a-la-bombe-le-guide-pro-sans-coulures
+- **Méthode** :
+  1. Dégraisser à l'isopropanol / nettoyant anti-silicone.
+  2. Appliquer l'apprêt d'accroche puis 2 à 3 voiles fins de couleur.
+  3. Appliquer un vernis de finition (ex: Vernis 2K ou Vernis Montana) pour résister aux chocs et rayures.
+- **Astuce Shop** : Pour les tubes de cadre très fins, utiliser un Skinny Cap afin de concentrer le jet et éviter de perdre 50 % de peinture.
 
-#### Temps d'attente critique
-Appliquer le vernis soit **dans l'heure** suivant la peinture (méthode frais sur frais), soit **attendre 48 heures** que tous les solvants soient totalement évaporés. Entre les deux, la peinture risquerait de friser.
-
----
-
-### Guide 3 : Zéro coulure - Choix des Caps et gestion de la pression
-URL : https://www.eightyonestore.com/guides/eviter-coulures-bombe-peinture-choix-caps
-
-#### Basse Pression vs Haute Pression
-- **Basse Pression (Low Pressure, ex: MTN 94)** : Permet de moduler le débit à la pression du doigt. Idéale pour les détails, la précision et l'apprentissage sans risques de coulures.
-- **Haute Pression (High Pressure, ex: MTN Hardcore)** : Débit rapide et puissant pour remplir de grandes surfaces en un temps record.
-
-#### Choix des embouts (Caps)
-- **Skinny Caps** : Trait fin (0,5 à 2 cm). Garder la bombe à 2-5 cm du support avec un mouvement rapide.
-- **Soft / Transversal Caps** : Jet biseauté plat imitation pistolet carrosserie pour des aplats sans lignes de démarcation.
-- **Fat Caps** : Jet large (5 à 15 cm) pour couverture rapide.
-
-#### Règle du mouvement
-Le bras doit être en mouvement **avant** d'appuyer sur le cap, et la pression relâchée **avant** de stopper le mouvement à la fin de la ligne.
-
----
-
-## 5. FOIRE AUX QUESTIONS (FAQ)
-
-**Q : Où se trouve le magasin physique Eightyone Store ?**  
-R : La boutique se situe au 21 Rue des Capucins, 69001 Lyon (France), accessible en métro (station Hôtel de Ville - Louis Pradel).
-
-**Q : Quels sont les moyens de paiement acceptés sur le site web ?**  
-R : Le site accepte les cartes bancaires via Stripe, PayPal, ainsi que le paiement en espèces ou CB lors du retrait de commande en boutique (Click & Collect).
-
-**Q : Peut-on utiliser des bombes de peinture en intérieur ?**  
-R : Oui, en utilisant la gamme **MTN Water Based** (peinture à l'eau sans solvants toxiques) et en portant un masque de protection respiratoire adapté.
-
-**Q : Comment déboucher un cap de bombe de peinture ?**  
-R : Il est recommandé de purger la bombe tête en bas à la fin de chaque session jusqu'à ce que seul du gaz s'échappe. Si le cap est obstrué par de la peinture séchée, il convient de le remplacer ou de le faire tremper dans un solvant.
+### Guide 8 : Vernis mat ou brillant : Choisir et appliquer
+- **URL** : https://www.eightyonestore.com/guides/vernis-mat-ou-brillant-comment-proteger-sans-tout-gacher
+- **Méthode** :
+  1. Attendre le séchage complet de la peinture (24h à 48h) pour éviter le frisage.
+  2. Appliquer le Vernis Montana (Mat ou Brillant à 10,00 €) à 20-25 cm en voiles croisés fins.
+- **Astuce Shop** : Pour un vernis mat, secouer la bombe deux fois plus longtemps pour bien mélanger les agents matants lourds et éviter les traces laiteuses.
 
 ---
 
-## 6. INDEX DES LIENS DU SITE
+## 5. INDEX DES LIENS DU SITE
 
 - Accueil : https://www.eightyonestore.com
-- Catalogue Bombes de Peinture : https://www.eightyonestore.com/bombes-de-peinture
-- Classiques : https://www.eightyonestore.com/bombes-de-peinture/classiques
-- Acryliques : https://www.eightyonestore.com/bombes-de-peinture/acryliques
-- Techniques : https://www.eightyonestore.com/bombes-de-peinture/techniques
-- Effets : https://www.eightyonestore.com/bombes-de-peinture/effets
-- Caps : https://www.eightyonestore.com/bombes-de-peinture/caps
-- Catalogue Marqueurs & Encres : https://www.eightyonestore.com/marqueurs-et-encres
-- Encres : https://www.eightyonestore.com/marqueurs-et-encres/encres
-- Marqueurs : https://www.eightyonestore.com/marqueurs-et-encres/marqueurs
-- Squeezers : https://www.eightyonestore.com/marqueurs-et-encres/squeezers
-- Mines de rechange : https://www.eightyonestore.com/marqueurs-et-encres/mines-de-rechange)
-- Outils vides : https://www.eightyonestore.com/marqueurs-et-encres/marqueurs-squeezers-vides
-- Posca & Uni-paint : https://www.eightyonestore.com/marqueurs-et-encres/posca-uni-paint
-- Catalogue Urban Wear : https://www.eightyonestore.com/urban-wear
-- Eightyone Clothing : https://www.eightyonestore.com/urban-wear/eighty-one
-- Jacker : https://www.eightyonestore.com/urban-wear/jacker
+- Bombes & Pots : https://www.eightyonestore.com/bombes-de-peinture
+- Marqueurs & Encres : https://www.eightyonestore.com/marqueurs-et-encres
 - Accessoires & Équipements : https://www.eightyonestore.com/accessoires-equipements
-- Protections : https://www.eightyonestore.com/accessoires-equipements/protections-equipements
-- Books & Stickers : https://www.eightyonestore.com/accessoires-equipements/stickers-books
+- Urban Wear : https://www.eightyonestore.com/urban-wear
 - Tous les Guides : https://www.eightyonestore.com/guides
-- Guide Peindre Plastique / Métal : https://www.eightyonestore.com/guides/peindre-plastique-metal-sans-ecaillement
-- Guide Vernis & Anti-UV : https://www.eightyonestore.com/guides/proteger-peinture-bombe-vernis-anti-uv
-- Guide Caps & Pression : https://www.eightyonestore.com/guides/eviter-coulures-bombe-peinture-choix-caps
+- Guide Cadre : https://www.eightyonestore.com/guides/comment-peindre-un-cadre-a-la-bombe-sans-faire-de-coulures
+- Guide Frigo : https://www.eightyonestore.com/guides/comment-repeindre-son-frigo-a-la-bombe-sans-faire-de-traces
+- Guide Plastique : https://www.eightyonestore.com/guides/comment-peindre-du-plastique-pvc-mobilier-de-jardin-a-la-bombe-comme-un-pro
+- Guide Débouchage : https://www.eightyonestore.com/guides/buse-bouchee-ou-valve-bloquee-comment-deboucher-une-bombe-de-peinture
+- Guide Métal : https://www.eightyonestore.com/guides/comment-peindre-du-metal-a-la-bombe-comme-un-pro
+- Guide Bois : https://www.eightyonestore.com/guides/comment-peindre-un-meuble-en-bois-a-la-bombe-comme-un-pro
+- Guide Vélo : https://www.eightyonestore.com/guides/peindre-son-velo-a-la-bombe-le-guide-pro-sans-coulures
+- Guide Vernis : https://www.eightyonestore.com/guides/vernis-mat-ou-brillant-comment-proteger-sans-tout-gacher
 - Mentions Légales : https://www.eightyonestore.com/mentions-legales
 - CGV : https://www.eightyonestore.com/cgv
 - Politique de Confidentialité : https://www.eightyonestore.com/politique-de-confidentialite
