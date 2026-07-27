@@ -23,7 +23,7 @@ export default function SliderWrapper({
 }: Props) {
   const sliderRef = useRef<any>(null);
   const [mounted, setMounted] = useState(false);
-  
+
   // On stocke le nombre de slides calculé manuellement
   const [currentSlidesToShow, setCurrentSlidesToShow] = useState(slidesToShow);
 
@@ -60,10 +60,10 @@ export default function SliderWrapper({
     nextArrow: <SlickArrowFix />,
     prevArrow: <SlickArrowFix />,
     // IMPORTANT : On utilise NOTRE variable calculée
-    slidesToShow: currentSlidesToShow, 
+    slidesToShow: currentSlidesToShow,
     slidesToScroll: 1,
     // IMPORTANT : On supprime le tableau 'responsive' qui buggait
-    responsive: [], 
+    responsive: [],
   };
 
   // Squelette de chargement (Mobile First pour éviter l'écrasement)
