@@ -43,7 +43,7 @@ export const metadata = {
     description: "Séries limitées exclusives : Montana BLACK Artist Editions (Nawas, Insane 51, HotDog), Iconic Series Blade et Double A Limited (Damagers, Vim Moas)."
 };
 
-export default async function CollectorPage() { 
+export default async function CollectorPage() {
     const crumbs = [
         { label: "Accueil", href: "/" },
         { label: "Bombes de peinture", href: "/bombes-de-peinture" },
@@ -53,43 +53,43 @@ export default async function CollectorPage() {
     const products = await getProducts();
 
     const jsonLd = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "ItemList",
-          "name": metadata.title,
-          "description": metadata.description,
-          "url": "https://www.eightyone-store.fr/bombes-de-peinture/collector",
-          "numberOfItems": products.length,
-          "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "item": {
-              "@type": "Product",
-              "name": product.name,
-              "url": `https://www.eightyone-store.fr/produit/${product.slug}`,
-              "image": product.main_image || product.imageMain,
-              "offers": {
-                "@type": "Offer",
-                "price": product.price,
-                "priceCurrency": "EUR",
-                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-              }
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "ItemList",
+                "name": metadata.title,
+                "description": metadata.description,
+                "url": "https://www.eightyonestore.com/bombes-de-peinture/collector",
+                "numberOfItems": products.length,
+                "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "Product",
+                        "name": product.name,
+                        "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+                        "image": product.main_image || product.imageMain,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": product.price,
+                            "priceCurrency": "EUR",
+                            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                        }
+                    }
+                }))
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": FAQ_COLLECTOR.map(item => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer
+                    }
+                }))
             }
-          }))
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": FAQ_COLLECTOR.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": item.answer
-            }
-          }))
-        }
-      ]
+        ]
     };
 
     return (
@@ -113,9 +113,9 @@ export default async function CollectorPage() {
 
                 <ProductGrid products={products} title="Les Collectors - Editions limitées" />
 
-                <CategoryFAQ 
-                    items={FAQ_COLLECTOR} 
-                    subtitle="Art & Culture" 
+                <CategoryFAQ
+                    items={FAQ_COLLECTOR}
+                    subtitle="Art & Culture"
                     title="Le coin des collectionneurs"
                 />
             </main>

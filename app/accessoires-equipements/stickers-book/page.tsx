@@ -54,43 +54,43 @@ export default async function StickersPage() {
 
     // --- DONNÉES STRUCTURÉES (JSON-LD) ---
     const jsonLd = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "ItemList",
-          "name": metadata.title,
-          "description": metadata.description,
-          "url": "https://www.eightyone-store.fr/accessoires-equipements/stickers-book",
-          "numberOfItems": products.length,
-          "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "item": {
-              "@type": "Product",
-              "name": product.name,
-              "url": `https://www.eightyone-store.fr/produit/${product.slug}`,
-              "image": product.main_image || product.imageMain,
-              "offers": {
-                "@type": "Offer",
-                "price": product.price,
-                "priceCurrency": "EUR",
-                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-              }
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "ItemList",
+                "name": metadata.title,
+                "description": metadata.description,
+                "url": "https://www.eightyonestore.com/accessoires-equipements/stickers-book",
+                "numberOfItems": products.length,
+                "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "Product",
+                        "name": product.name,
+                        "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+                        "image": product.main_image || product.imageMain,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": product.price,
+                            "priceCurrency": "EUR",
+                            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                        }
+                    }
+                }))
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": STICKERS_FAQ.map(item => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer
+                    }
+                }))
             }
-          }))
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": STICKERS_FAQ.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": item.answer
-            }
-          }))
-        }
-      ]
+        ]
     };
 
     return (
@@ -115,8 +115,8 @@ export default async function StickersPage() {
                 <ProductGrid products={products} title="Les Stickers Graffiti" />
 
                 <CategoryFAQ
-                    items={STICKERS_FAQ} 
-                    subtitle="Culture & Support" 
+                    items={STICKERS_FAQ}
+                    subtitle="Culture & Support"
                     title="Tout savoir sur les stickers"
                 />
             </main>

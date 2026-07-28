@@ -57,7 +57,7 @@ export default async function ProtectionsPage() {
                 "@type": "ItemList",
                 "name": metadata.title,
                 "description": metadata.description,
-                "url": "https://www.eightyone-store.fr/accessoires-equipements/protections-equipements",
+                "url": "https://www.eightyonestore.com/accessoires-equipements/protections-equipements",
                 "numberOfItems": products.length,
                 "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
                     "@type": "ListItem",
@@ -114,7 +114,7 @@ export default async function ProtectionsPage() {
                     subtitle="FAQ Technique"
                     title="Les questions posées au shop de Lyon"
                 />
-                
+
             </main>
         </div>
     );

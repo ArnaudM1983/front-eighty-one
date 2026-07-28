@@ -53,43 +53,43 @@ export default async function TechniquesPage() {
     const products = await getProducts();
 
     const jsonLd = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "ItemList",
-          "name": metadata.title,
-          "description": metadata.description,
-          "url": "https://www.eightyone-store.fr/bombes-de-peinture/techniques",
-          "numberOfItems": products.length,
-          "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "item": {
-              "@type": "Product",
-              "name": product.name,
-              "url": `https://www.eightyone-store.fr/produit/${product.slug}`,
-              "image": product.main_image || product.imageMain,
-              "offers": {
-                "@type": "Offer",
-                "price": product.price,
-                "priceCurrency": "EUR",
-                "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-              }
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "ItemList",
+                "name": metadata.title,
+                "description": metadata.description,
+                "url": "https://www.eightyonestore.com/bombes-de-peinture/techniques",
+                "numberOfItems": products.length,
+                "itemListElement": products.slice(0, 20).map((product: any, index: number) => ({
+                    "@type": "ListItem",
+                    "position": index + 1,
+                    "item": {
+                        "@type": "Product",
+                        "name": product.name,
+                        "url": `https://www.eightyonestore.com/produit/${product.slug}`,
+                        "image": product.main_image || product.imageMain,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": product.price,
+                            "priceCurrency": "EUR",
+                            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+                        }
+                    }
+                }))
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": FAQ_TECHNIQUES.map(item => ({
+                    "@type": "Question",
+                    "name": item.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": item.answer
+                    }
+                }))
             }
-          }))
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": FAQ_TECHNIQUES.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": item.answer
-            }
-          }))
-        }
-      ]
+        ]
     };
 
     return (
@@ -113,9 +113,9 @@ export default async function TechniquesPage() {
 
                 <ProductGrid products={products} title="Préparation & Finition" />
 
-                <CategoryFAQ 
-                    items={FAQ_TECHNIQUES} 
-                    subtitle="Entretien & Protection" 
+                <CategoryFAQ
+                    items={FAQ_TECHNIQUES}
+                    subtitle="Entretien & Protection"
                     title="L'avis de l'expert technique"
                 />
             </main>
