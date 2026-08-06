@@ -39,7 +39,7 @@ const Hero = (props: Props) => {
         />
 
         {/* Marquee Announcement Overlay (Taller height with py-6 and larger font) */}
-        {/* <div className="group absolute w-screen left-1/2 -translate-x-1/2 overflow-hidden py-5 md:py-6 bg-[#FFF100] text-black font-black uppercase tracking-widest text-sm md:text-base border-y-2 border-black/15 rotate-[-2.5deg] shadow-2xl cursor-pointer select-none z-10 transition-transform hover:scale-105 duration-300">
+        <div className="group absolute w-screen left-1/2 -translate-x-1/2 overflow-hidden py-5 md:py-6 bg-[#FFF100] text-black font-black uppercase tracking-widest text-sm md:text-base border-y-2 border-black/15 rotate-[-2.5deg] shadow-2xl cursor-pointer select-none z-10 transition-transform hover:scale-105 duration-300">
           <div className="flex animate-marquee">
             <div className="flex shrink-0 items-center justify-around gap-12 px-6">
               <span>{text}</span>
@@ -48,7 +48,7 @@ const Hero = (props: Props) => {
               <span>{text}</span>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
