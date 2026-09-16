@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "@/components/ui/SearchBar";
 import QuantityStepperChart from "./QuantityStepperChart";
 import AddToCartButton from "./AddToCartButton";
@@ -34,8 +34,26 @@ const ColorChart = ({ productId, variants, title }: Props) => {
   const [quantities, setQuantities] = useState<{ [key: number]: number }>(
     () => Object.fromEntries(visibleVariants.map((v) => [v.id, 0]))
   );
+  const [realTimeStock, setRealTimeStock] = useState<Record<number, number> | null>(null);
 
   const { refreshCart } = useCart();
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_PROXY_URL || process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${productId}/stock`, {
+      credentials: "include"
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.variants) {
+        const stockMap: Record<number, number> = {};
+        data.variants.forEach((v: any) => {
+          stockMap[v.id] = v.stock;
+        });
+        setRealTimeStock(stockMap);
+      }
+    })
+    .catch(err => console.error("Erreur lors de la récupération du stock:", err));
+  }, [productId]);
 
   if (!visibleVariants || visibleVariants.length === 0) return null;
 
@@ -67,7 +85,7 @@ const ColorChart = ({ productId, variants, title }: Props) => {
 
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mb-12">
-          <AddToCartButton stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0} onAdd={handleAddAllToCart} />
+          <AddToCartButton stock={filteredVariants.some(v => (realTimeStock ? (realTimeStock[v.id] ?? v.stock) : v.stock) > 0) ? 1 : 0} onAdd={handleAddAllToCart} />
         </div>
       )}
 
@@ -110,7 +128,7 @@ const ColorChart = ({ productId, variants, title }: Props) => {
                 </div>
                 <div className="shrink-0">
                   <QuantityStepperChart
-                    stock={variant.stock}
+                    stock={realTimeStock ? (realTimeStock[variant.id] ?? variant.stock) : variant.stock}
                     quantity={quantities[variant.id] ?? 0}
                     onChange={(qty) => setQuantities((prev) => ({ ...prev, [variant.id]: qty }))}
                   />
@@ -122,7 +140,7 @@ const ColorChart = ({ productId, variants, title }: Props) => {
       )}
       {filteredVariants.length > 0 && (
         <div className="flex justify-center mb-12 mt-12">
-          <AddToCartButton stock={filteredVariants.some(v => v.stock > 0) ? 1 : 0} onAdd={handleAddAllToCart} />
+          <AddToCartButton stock={filteredVariants.some(v => (realTimeStock ? (realTimeStock[v.id] ?? v.stock) : v.stock) > 0) ? 1 : 0} onAdd={handleAddAllToCart} />
         </div>
       )}
     </div>
