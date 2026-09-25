@@ -9,6 +9,7 @@ type CartItemType = {
   price: number;
   quantity: number;
   image?: string;
+  stock?: number;
 };
 
 type Props = {
@@ -32,6 +33,7 @@ export default function CartItemsList({ cartItems, updateQuantity, removeItem }:
           price={item.price}
           quantity={item.quantity}
           image={item.image ? `${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/${item.image}` : undefined}
+          stock={item.stock}
           updateQuantity={updateQuantity}
           removeItem={removeItem}
         />
