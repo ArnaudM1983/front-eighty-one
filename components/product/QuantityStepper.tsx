@@ -12,9 +12,10 @@ type Props = {
 export default function QuantityStepper({
     productId,
     quantity,
+    stock: propStock,
     onChange,
 }: Props) {
-    const [stock, setStock] = useState<number | null>(null);
+    const [stock, setStock] = useState<number | null>(propStock !== undefined ? propStock : null);
 
     const commonClasses =
         "mt-2 rounded-3xl text-center text-sm font-medium flex items-center justify-center";
@@ -22,12 +23,16 @@ export default function QuantityStepper({
     const minWidth = "76px";
 
     useEffect(() => {
-        // Fetch le stock depuis l'API pour ce produit
+        if (propStock !== undefined) {
+            setStock(propStock);
+            return;
+        }
+        // Fetch le stock depuis l'API pour ce produit si non fourni
         fetch(`${process.env.NEXT_PUBLIC_SYMFONY_API_URL}/api/products/${productId}/stock`)
             .then(res => res.json())
             .then(data => setStock(data.stock))
             .catch(() => setStock(null));
-    }, [productId]);
+    }, [productId, propStock]);
 
     const disableIncrement = stock !== null && quantity >= stock;
     const disableDecrement = quantity <= 1;
